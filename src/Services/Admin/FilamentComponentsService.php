@@ -20,6 +20,9 @@ class FilamentComponentsService
                     ->schema($componentObject->blockSchema());
         }
 
-        return Builder::make('content')->blocks($blocks);
+        return Builder::make('content')
+            ->blocks($blocks)
+            ->blockNumbers(false)
+            ->addActionLabel(__('Add a component'));
     }
 }

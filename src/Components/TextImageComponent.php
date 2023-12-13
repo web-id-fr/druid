@@ -11,10 +11,10 @@ class TextImageComponent implements ComponentInterface
     {
         return [
             RichEditor::make('content')
-                ->label('Content')
+                ->label(__('Content'))
                 ->required(),
             FileUpload::make('image')
-                ->label('Image')
+                ->label(__('Image'))
                 ->required()
         ];
     }

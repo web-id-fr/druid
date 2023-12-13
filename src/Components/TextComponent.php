@@ -10,7 +10,7 @@ class TextComponent implements ComponentInterface
     {
         return [
             RichEditor::make('content')
-                ->label('Content')
+                ->label(__('Content'))
                 ->required()
         ];
     }
