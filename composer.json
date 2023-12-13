@@ -1,0 +1,30 @@
+{
+    "name": "webid/druid",
+    "version": "0.1",
+    "description": "Laravel Filament based CMS",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Webid\\Druid\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Web ID team",
+            "email": "team@web-id.fr"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^3.1",
+        "filament/forms": "^3.1",
+        "laravel/framework": "^10"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webid\\Druid\\DruidServiceProvider"
+            ]
+        }
+    }
+}
