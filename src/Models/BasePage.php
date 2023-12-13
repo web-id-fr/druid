@@ -6,6 +6,7 @@ use App\Models\Page;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Webid\Druid\Enums\PageStatus;
 
 abstract class BasePage extends Model
 {
@@ -35,6 +36,7 @@ abstract class BasePage extends Model
     protected $casts = [
         'publish_at' => 'datetime',
         'content' => 'array',
+        'status' => PageStatus::class,
     ];
 
     public function getParentKeyName(): string
