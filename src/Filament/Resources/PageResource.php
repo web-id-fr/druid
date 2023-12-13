@@ -35,7 +35,7 @@ class PageResource extends Resource
             ->schema(components: [
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make(__('Parameters'))
+                        Tabs\Tab::make(__('Content'))
                             ->schema([
                                 TextInput::make('title')
                                     ->label(__('Title'))
@@ -44,8 +44,12 @@ class PageResource extends Resource
                                         fn (string $operation, $state, Set $set) => $operation === 'create'
                                             ? $set('slug', Str::slug($state)) : null
                                     )
-                                    ->columnSpanFull()
                                     ->required(),
+                                $filamentComponentService->getFlexibleContentFields()
+                            ]),
+
+                        Tabs\Tab::make(__('Parameters'))
+                            ->schema([
                                 TextInput::make('slug')
                                     ->label('Slug'),
                                 Select::make('parent_page_id')
@@ -71,11 +75,6 @@ class PageResource extends Resource
                                     ->default(now())
                                     ->required(),
                             ])->columns(2),
-
-                        Tabs\Tab::make(__('Content'))
-                            ->schema([
-                                $filamentComponentService->getFlexibleContentFields()
-                            ]),
 
                         Tabs\Tab::make(__('SEO'))
                             ->schema([
@@ -108,29 +107,23 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title')),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->colors([
+                        'success' => PageStatus::PUBLISHED,
+                        'warning' => PageStatus::DRAFT,
+                        'danger' => PageStatus::ARCHIVED,
+                    ])
+                    ->label(__('Status')),
+                Tables\Columns\BooleanColumn::make('indexation')
+                    ->boolean()
+                    ->label(__('Indexation')),
                 Tables\Columns\TextColumn::make('parent_page_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('lang')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('indexation')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('opengraph_picture')
-                    ->searchable(),
+                    ->default('-')
+                    ->label(__('Parent page')),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label(__('Published at'))
             ])
             ->filters([
                 //

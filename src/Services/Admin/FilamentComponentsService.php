@@ -23,6 +23,7 @@ class FilamentComponentsService
         return Builder::make('content')
             ->blocks($blocks)
             ->blockNumbers(false)
-            ->addActionLabel(__('Add a component'));
+            ->addActionLabel(__('Add a component'))
+            ->columnSpanFull();
     }
 }
