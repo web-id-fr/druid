@@ -18,6 +18,7 @@ abstract class BasePage extends Model
         'slug',
         'lang',
         'status',
+        'content',
         'indexation',
         'follow',
         'meta_title',

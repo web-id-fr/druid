@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->longText('title');
             $table->string('lang')->nullable();
             $table->longText('slug')->nullable();
+            $table->longText('content')->nullable();
             $table->integer('status');
             $table->unsignedBigInteger('parent_page_id')->nullable();
             $table->foreign('parent_page_id')->references('id')->on('pages')->onDelete('set null');
