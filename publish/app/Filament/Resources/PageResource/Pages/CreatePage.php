@@ -2,11 +2,6 @@
 
 namespace App\Filament\Resources\PageResource\Pages;
 
-use App\Filament\Resources\PageResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
-
-class CreatePage extends CreateRecord
+class CreatePage extends \Webid\Druid\Filament\Resources\PageResource\Pages\CreatePage
 {
-    protected static string $resource = PageResource::class;
 }

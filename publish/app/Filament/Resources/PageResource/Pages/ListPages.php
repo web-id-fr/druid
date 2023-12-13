@@ -2,18 +2,7 @@
 
 namespace App\Filament\Resources\PageResource\Pages;
 
-use App\Filament\Resources\PageResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
-
-class ListPages extends ListRecords
+class ListPages extends \Webid\Druid\Filament\Resources\PageResource\Pages\ListPages
 {
-    protected static string $resource = PageResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 }
