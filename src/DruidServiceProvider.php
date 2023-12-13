@@ -8,8 +8,7 @@ class DruidServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->publishModels();
-        $this->publishFilamentResources();
+        $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
@@ -17,15 +16,16 @@ class DruidServiceProvider extends ServiceProvider
     {
     }
 
-    protected function publishModels(): void
+    protected function publishFiles(): void
     {
         $this->publishes([
             __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
         ], 'page-model');
-    }
 
-    protected function publishFilamentResources(): void
-    {
+        $this->publishes([
+            __DIR__ . '/../publish/config/cms.php' => base_path('/config/cms.php'),
+        ], 'config');
+
         $this->publishes([
             __DIR__ . '/../publish/app/Filament' => base_path('/app/Filament'),
         ], 'filament-resources');

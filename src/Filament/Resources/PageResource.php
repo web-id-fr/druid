@@ -3,11 +3,7 @@
 namespace Webid\Druid\Filament\Resources;
 
 use App\Models\Page;
-use Filament\Forms;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -18,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\Filament\Resources\PageResource\Pages;
+use Webid\Druid\Services\Admin\FilamentComponentsService;
 
 class PageResource extends Resource
 {
@@ -27,6 +24,9 @@ class PageResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /** @var FilamentComponentsService $filamentComponentService */
+        $filamentComponentService = app(FilamentComponentsService::class);
+
         return $form
             ->schema(components: [
                 Section::make(__('Parameters'))->schema(components: [
@@ -60,34 +60,7 @@ class PageResource extends Resource
                 ])->columns(2),
 
                 Section::make(__('Content'))
-                    ->schema(components: [Builder::make(__('Content'))->blocks([
-                        Block::make('Texte')
-                            ->schema([
-                                Forms\Components\RichEditor::make('text')
-                                    ->label('Texte')
-                                    ->required(),
-                            ]),
-                        Block::make('Texte et Image')
-                            ->schema([
-                                Forms\Components\RichEditor::make('text')
-                                    ->label('Texte')
-                                    ->required(),
-                                FileUpload::make('image')
-                                    ->label('Image')
-                                    ->image()
-                                    ->required(),
-                                TextInput::make('text_position')
-                                    ->label('Position du texte')
-                                    ->required(),
-                            ]),
-                        Block::make('Image')
-                            ->schema([
-                                FileUpload::make('image')
-                                    ->label('Image')
-                                    ->image()
-                                    ->required(),
-                            ]),
-                    ])]),
+                    ->schema([$filamentComponentService->getFlexibleContentFields()]),
 
                 Section::make(__('SEO'))->schema([
                     TextInput::make('meta_title')
