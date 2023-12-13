@@ -1,5 +1,7 @@
 <?php
 
+use Webid\Druid\Models\ReusableComponent;
+
 return [
     /*
      |--------------------------------------------------------------------------
@@ -28,13 +30,15 @@ return [
     'components' => [
         [
             'class' => \Webid\Druid\Components\TextComponent::class,
-            'enable_for_pages' => true,
-            'enable_for_posts' => true,
         ],
         [
             'class' => \Webid\Druid\Components\TextImageComponent::class,
-            'enable_for_pages' => true,
-            'enable_for_posts' => true,
+        ],
+        [
+            'class' => \Webid\Druid\Components\ReusableComponent::class,
+            'disabled_for' => [
+                ReusableComponent::class,
+            ],
         ],
     ],
 ];

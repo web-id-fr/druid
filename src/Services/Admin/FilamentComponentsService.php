@@ -7,13 +7,21 @@ use Webid\Druid\Components\ComponentInterface;
 
 class FilamentComponentsService
 {
-    public function getFlexibleContentFields(): Builder
+    public function getFlexibleContentFieldsForModel(string $modelClassName): Builder
     {
         $blocks = [];
 
         foreach (config('cms.components') as $component) {
             /** @var ComponentInterface $componentObject */
             $componentObject = new $component['class'];
+
+            if (
+                isset($component['disabled_for']) &&
+                is_array($component['disabled_for']) &&
+                in_array($modelClassName, $component['disabled_for'], true)
+            ) {
+                continue;
+            }
 
             $blocks[] =
                 Builder\Block::make($componentObject->fieldName())

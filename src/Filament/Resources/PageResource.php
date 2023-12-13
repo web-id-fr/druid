@@ -4,8 +4,8 @@ namespace Webid\Druid\Filament\Resources;
 
 use App\Models\Page;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -45,7 +45,7 @@ class PageResource extends Resource
                                             ? $set('slug', Str::slug($state)) : null
                                     )
                                     ->required(),
-                                $filamentComponentService->getFlexibleContentFields()
+                                $filamentComponentService->getFlexibleContentFieldsForModel(Page::class)
                             ]),
 
                         Tabs\Tab::make(__('Parameters'))
