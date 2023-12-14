@@ -26,6 +26,8 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Pages';
+
     public static function form(Form $form): Form
     {
         /** @var FilamentComponentsService $filamentComponentService */
@@ -51,7 +53,7 @@ class PageResource extends Resource
                         Tabs\Tab::make(__('Parameters'))
                             ->schema([
                                 TextInput::make('slug')
-                                    ->label('Slug'),
+                                    ->label(__('Slug')),
                                 Select::make('parent_page_id')
                                     ->label(__('Parent page'))
                                     ->placeholder(__('Select a parent page'))
