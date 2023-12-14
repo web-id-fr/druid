@@ -5,6 +5,7 @@ namespace Webid\Druid\Filament\Resources;
 use App\Models\Page;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
@@ -24,7 +25,7 @@ class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationGroup = 'Pages';
 
@@ -82,13 +83,13 @@ class PageResource extends Resource
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label(__('Meta title')),
-                                Textarea::make('meta_description')
+                                RichEditor::make('meta_description')
                                     ->label(__('Meta description')),
                                 TextInput::make('meta_keywords')
                                     ->label(__('Meta keywords')),
                                 TextInput::make('opengraph_title')
                                     ->label(__('Opengraph title')),
-                                Textarea::make('opengraph_description')
+                                RichEditor::make('opengraph_description')
                                     ->label(__('Opengraph description')),
                                 FileUpload::make('opengraph_picture')
                                     ->label(__('Opengraph picture')),
@@ -164,5 +165,10 @@ class PageResource extends Resource
             'view' => Pages\ViewPage::route('/{record}'),
             'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

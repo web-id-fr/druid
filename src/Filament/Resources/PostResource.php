@@ -28,11 +28,13 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $navigationGroup = 'Blog';
+
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {
@@ -43,7 +45,7 @@ class PostResource extends Resource
             ->schema([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make(__('Parameters'))
+                        Tabs\Tab::make(__('Content'))
                             ->schema([
                                 TextInput::make('title')
                                     ->label(__('Title'))
@@ -53,9 +55,13 @@ class PostResource extends Resource
                                             ? $set('slug', Str::slug($state)) : null
                                     )
                                     ->required(),
-                                TextInput::make('slug')
-                                    ->label(__('Slug'))
-                                    ->required(),
+                                RichEditor::make('extrait')
+                                    ->label(__('Extrait')),
+                                $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class)
+                            ]),
+
+                        Tabs\Tab::make(__('Parameters'))
+                            ->schema([
                                 FileUpload::make('post_image')
                                     ->label(__('Image'))
                                     ->image()
@@ -79,24 +85,20 @@ class PostResource extends Resource
                                     ->label(__('Published at'))
                                     ->default(now())
                                     ->required(),
+                                TextInput::make('slug')
+                                    ->label(__('Slug'))
+                                    ->required(),
                                 Toggle::make('is_top_article')
                                     ->label(__('Top article'))
                                     ->helperText(__('Display this article in the top article section')),
                             ])->columns(2),
-
-                        Tabs\Tab::make(__('Content'))
-                            ->schema([
-                                RichEditor::make('extrait')
-                                    ->label(__('Extrait')),
-                                $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class)
-                            ]),
 
                         Tabs\Tab::make(__('SEO'))
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label(__('Meta title'))
                                     ->columnSpanFull(),
-                                TextInput::make('meta_description')
+                                RichEditor::make('meta_description')
                                     ->label(__('Meta description'))
                                     ->columnSpanFull(),
                                 TextInput::make('meta_keywords')
@@ -105,7 +107,7 @@ class PostResource extends Resource
                                 TextInput::make('opengraph_title')
                                     ->label(__('Opengraph title'))
                                     ->columnSpanFull(),
-                                TextInput::make('opengraph_description')
+                                RichEditor::make('opengraph_description')
                                     ->label(__('Opengraph description'))
                                     ->columnSpanFull(),
                                 FileUpload::make('opengraph_picture')
@@ -194,5 +196,10 @@ class PostResource extends Resource
             'view' => PostResource\Pages\ViewPost::route('/{record}'),
             'edit' => PostResource\Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

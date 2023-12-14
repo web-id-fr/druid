@@ -14,7 +14,7 @@ class ReusableComponentResource extends Resource
 {
     protected static ?string $model = ReusableComponent::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
     protected static ?string $navigationGroup = 'Pages';
 
