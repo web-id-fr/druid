@@ -3,6 +3,7 @@
 namespace Webid\Druid\Components;
 
 use Filament\Forms\Components\Select;
+use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 
 class ReusableComponent implements ComponentInterface
 {
@@ -12,7 +13,7 @@ class ReusableComponent implements ComponentInterface
             Select::make('reusable_component')
                 ->label(__('Reusable component'))
                 ->placeholder(__('Select a component'))
-                ->options(\Webid\Druid\Models\ReusableComponent::all()->pluck('title', 'id'))
+                ->options(ReusableComponentModel::all()->pluck('title', 'id'))
                 ->searchable(),
         ];
     }
@@ -24,6 +25,9 @@ class ReusableComponent implements ComponentInterface
 
     public static function toHtml(array $data): string
     {
-        return '';
+        /** @var ReusableComponentModel $reusableComponent */
+        $reusableComponent = ReusableComponentModel::query()->findOrFail(intval($data['reusable_component']));
+
+        return $reusableComponent->html_content;
     }
 }
