@@ -19,12 +19,9 @@ class DruidServiceProvider extends ServiceProvider
     protected function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
-        ], 'page-model');
-
-        $this->publishes([
             __DIR__ . '/../publish/app/Models/Post.php' => base_path('/app/Models/Post.php'),
-        ], 'post-model');
+            __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
+        ], 'models');
 
         $this->publishes([
             __DIR__ . '/../publish/config/cms.php' => base_path('/config/cms.php'),

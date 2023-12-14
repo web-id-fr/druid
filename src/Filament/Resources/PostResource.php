@@ -63,17 +63,19 @@ class PostResource extends Resource
                                 TextInput::make('post_image_alt')
                                     ->label(__('Image alt'))
                                     ->columnSpanFull(),
-                                Select::make('categories')
-                                    ->label(__('Categories'))
-                                    ->options(Category::all()->pluck('name', 'id'))
-                                    ->multiple()
-                                    ->searchable(),
                                 Select::make('status')
                                     ->label(__('Status'))
                                     ->options(PostStatus::class)
                                     ->default(PostStatus::PUBLISHED)
                                     ->required(),
-                                DatePicker::make('published_at')
+                                Select::make('lang')
+                                    ->label(__('Language'))
+                                    ->options([
+                                        1 => __('French'),
+                                        0 => __('English'),
+                                    ])
+                                    ->placeholder(__('Select a language')),
+                                DatePicker::make('publish_at')
                                     ->label(__('Published at'))
                                     ->default(now())
                                     ->required(),

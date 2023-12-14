@@ -3,6 +3,7 @@
 namespace Webid\Druid\Filament\Resources;
 
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -30,7 +31,6 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Section::make(__('Parameters'))
-                    ->columns(2)
                     ->schema([
                         TextInput::make('name')
                             ->label(__('Title'))
@@ -43,7 +43,15 @@ class CategoryResource extends Resource
                         TextInput::make('slug')
                             ->label(__('Slug'))
                             ->required(),
-                    ]),
+                        Select::make('lang')
+                            ->label(__('Language'))
+                            ->options([
+                                1 => __('French'),
+                                0 => __('English'),
+                            ])
+                            ->placeholder(__('Select a language'))
+                            ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 

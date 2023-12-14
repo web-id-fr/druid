@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('post_image')->nullable();
+            $table->string('lang')->nullable();
             $table->string('status');
             $table->text('extrait')->nullable();
             $table->longText('content');
@@ -32,8 +33,6 @@ return new class extends Migration
             $table->string('opengraph_picture')->nullable();
             $table->longText('post_image_alt')->nullable();
             $table->longText('opengraph_picture_alt')->nullable();
-
-            $table->integer('order')->nullable();
 
             $table->dateTime('publish_at')->nullable();
             $table->timestamps();

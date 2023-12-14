@@ -14,6 +14,7 @@ use Webid\Druid\Enums\PostStatus;
  * @property string|null $post_image
  * @property string|null $post_image_alt
  * @property PostStatus $status
+ * @property string $lang
  * @property string|null $extrait
  * @property array $content
  * @property bool $is_top_article
@@ -45,6 +46,7 @@ class BasePost extends Model
         'post_image',
         'post_image_alt',
         'status',
+        'lang',
         'extrait',
         'content',
         'indexation',
