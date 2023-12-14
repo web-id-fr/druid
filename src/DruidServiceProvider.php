@@ -22,6 +22,7 @@ class DruidServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../publish/app/Models/Post.php' => base_path('/app/Models/Post.php'),
             __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
+            __DIR__ . '/../publish/app/Models/Category.php' => base_path('/app/Models/Category.php'),
         ], 'models');
 
         $this->publishes([
