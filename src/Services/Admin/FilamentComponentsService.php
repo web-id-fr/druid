@@ -12,8 +12,8 @@ class FilamentComponentsService
         $blocks = [];
 
         foreach (config('cms.components') as $component) {
-            /** @var ComponentInterface $componentObject */
-            $componentObject = new $component['class'];
+            /** @var ComponentInterface $componentClass */
+            $componentClass = $component['class'];
 
             if (
                 isset($component['disabled_for']) &&
@@ -24,8 +24,8 @@ class FilamentComponentsService
             }
 
             $blocks[] =
-                Builder\Block::make($componentObject->fieldName())
-                    ->schema($componentObject->blockSchema());
+                Builder\Block::make($componentClass::fieldName())
+                    ->schema($componentClass::blockSchema());
         }
 
         return Builder::make('content')

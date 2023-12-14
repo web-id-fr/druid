@@ -4,7 +4,9 @@ namespace Webid\Druid\Components;
 
 interface ComponentInterface
 {
-    function blockSchema(): array;
+    static function blockSchema(): array;
 
-    function fieldName(): string;
+    static function fieldName(): string;
+
+    static function toHtml(array $data): string;
 }

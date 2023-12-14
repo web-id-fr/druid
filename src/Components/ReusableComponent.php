@@ -6,7 +6,7 @@ use Filament\Forms\Components\Select;
 
 class ReusableComponent implements ComponentInterface
 {
-    public function blockSchema(): array
+    public static function blockSchema(): array
     {
         return [
             Select::make('reusable_component')
@@ -17,8 +17,13 @@ class ReusableComponent implements ComponentInterface
         ];
     }
 
-    function fieldName(): string
+    public static function fieldName(): string
     {
         return 'reusable-component';
+    }
+
+    public static function toHtml(array $data): string
+    {
+        return '';
     }
 }

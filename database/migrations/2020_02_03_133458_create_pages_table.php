@@ -12,8 +12,9 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->longText('title');
             $table->string('lang')->nullable();
-            $table->longText('slug')->nullable();
-            $table->longText('content')->nullable();
+            $table->longText('slug');
+            $table->longText('content');
+            $table->longText('html_content')->nullable();
             $table->string('status');
             $table->unsignedBigInteger('parent_page_id')->nullable();
             $table->foreign('parent_page_id')->references('id')->on('pages')->onDelete('set null');
@@ -29,6 +30,7 @@ return new class extends Migration {
             $table->longText('opengraph_picture_alt')->nullable();
 
             $table->dateTime('published_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

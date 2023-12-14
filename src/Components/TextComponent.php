@@ -6,7 +6,7 @@ use Filament\Forms\Components\RichEditor;
 
 class TextComponent implements ComponentInterface
 {
-    public function blockSchema(): array
+    public static function blockSchema(): array
     {
         return [
             RichEditor::make('content')
@@ -15,8 +15,13 @@ class TextComponent implements ComponentInterface
         ];
     }
 
-    function fieldName(): string
+    public static function fieldName(): string
     {
         return 'text';
+    }
+
+    public static function toHtml(array $data): string
+    {
+        return '<div class="text-component">' . $data['content'] . '</div>';
     }
 }
