@@ -10,6 +10,7 @@ class DruidServiceProvider extends ServiceProvider
     {
         $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
     }
 
     public function register(): void
@@ -21,6 +22,10 @@ class DruidServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
         ], 'page-model');
+
+        $this->publishes([
+            __DIR__ . '/../publish/app/Http/Controllers/PageController.php' => base_path('/app/Http/Controllers/PageController.php'),
+        ], 'page-controller');
 
         $this->publishes([
             __DIR__ . '/../publish/config/cms.php' => base_path('/config/cms.php'),
