@@ -64,7 +64,7 @@ abstract class BasePage extends Model
     ];
 
     protected $casts = [
-        'publish_at' => 'datetime',
+        'published_at' => 'datetime',
         'content' => 'array',
         'status' => PageStatus::class,
     ];

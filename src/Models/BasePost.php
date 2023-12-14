@@ -29,7 +29,7 @@ use Webid\Druid\Enums\PostStatus;
  * @property string|null $opengraph_picture
  * @property string|null $opengraph_picture_alt
  *
- * @property \Illuminate\Support\Carbon|null $publish_at
+ * @property \Illuminate\Support\Carbon|null $published_at
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
@@ -58,12 +58,12 @@ class BasePost extends Model
         'opengraph_description',
         'opengraph_picture',
         'opengraph_picture_alt',
-        'publish_at',
+        'published_at',
         'is_top_article',
     ];
 
     protected $casts = [
-        'publish_at' => 'datetime',
+        'published_at' => 'datetime',
         'content' => 'array',
         'status' => PostStatus::class,
     ];

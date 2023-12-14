@@ -34,7 +34,7 @@ return new class extends Migration
             $table->longText('post_image_alt')->nullable();
             $table->longText('opengraph_picture_alt')->nullable();
 
-            $table->dateTime('publish_at')->nullable();
+            $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });
     }

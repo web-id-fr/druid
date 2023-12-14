@@ -81,7 +81,7 @@ class PostResource extends Resource
                                         0 => __('English'),
                                     ])
                                     ->placeholder(__('Select a language')),
-                                DatePicker::make('publish_at')
+                                DatePicker::make('published_at')
                                     ->label(__('Published at'))
                                     ->default(now())
                                     ->required(),
@@ -154,7 +154,7 @@ class PostResource extends Resource
                 Tables\Columns\IconColumn::make('follow')
                     ->label(__('Follow'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('publish_at')
+                Tables\Columns\TextColumn::make('published_at')
                     ->label(__('Published at'))
                     ->dateTime()
                     ->sortable(),
