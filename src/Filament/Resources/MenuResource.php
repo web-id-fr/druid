@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use App\Filament\Resources\MenuResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
@@ -12,7 +11,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webid\Druid\Filament\Resources\MenuResource\RelationManagers\MenuItemsRelationManager;
 use Webid\Druid\Models\Menu;
 
 class MenuResource extends Resource

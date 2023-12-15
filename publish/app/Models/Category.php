@@ -6,5 +6,4 @@ use Webid\Druid\Models\BaseCategory;
 
 class Category extends BaseCategory
 {
-
 }

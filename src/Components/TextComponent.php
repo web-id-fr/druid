@@ -11,7 +11,7 @@ class TextComponent implements ComponentInterface
         return [
             RichEditor::make('content')
                 ->label(__('Content'))
-                ->required()
+                ->required(),
         ];
     }
 
@@ -22,6 +22,6 @@ class TextComponent implements ComponentInterface
 
     public static function toHtml(array $data): string
     {
-        return '<div class="text-component">' . $data['content'] . '</div>';
+        return '<div class="text-component">'.$data['content'].'</div>';
     }
 }

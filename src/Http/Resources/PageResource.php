@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PageResource extends JsonResource
 {
-    /** @var Page $resource */
+    /** @var Page */
     public $resource;
 
     public function toArray($request): array
