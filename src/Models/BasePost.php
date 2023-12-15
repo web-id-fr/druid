@@ -31,7 +31,7 @@ use Webid\Druid\Enums\PostStatus;
  *
  * @property \Illuminate\Support\Carbon|null $published_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\Category[] $categories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
 class BasePost extends Model
@@ -70,7 +70,7 @@ class BasePost extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
+        return $this->belongsToMany(BaseCategory::class, 'category_post', 'post_id', 'category_id');
     }
 
     public function users(): BelongsToMany

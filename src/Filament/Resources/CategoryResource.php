@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Filament\Resources;
 
+use App\Models\Category;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,7 +15,6 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\Filament\Resources\CategoryResource\Pages\EditCategory;
 use Webid\Druid\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
-use Webid\Druid\Models\Category;
 
 class CategoryResource extends Resource
 {
