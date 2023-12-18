@@ -3,6 +3,7 @@
 namespace Webid\Druid\Filament\Resources;
 
 use App\Models\Page;
+use App\Models\Post;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -58,7 +59,7 @@ class MenuResource extends Resource
                                             ->label(__('Post'))
                                             ->placeholder(__('Select a post'))
                                             ->options(
-                                                Page::query()
+                                                Post::query()
                                                     ->get()
                                                     ->pluck('title', 'id')
                                                     ->toArray()
