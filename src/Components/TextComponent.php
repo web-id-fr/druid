@@ -20,8 +20,10 @@ class TextComponent implements ComponentInterface
         return 'text';
     }
 
-    public static function toHtml(array $data): string
+    public static function toBlade(array $data): string
     {
-        return '<div class="text-component">' . $data['content'] . '</div>';
+        return view('druid::components.text', [
+            'content' => $data['content']
+        ]);
     }
 }

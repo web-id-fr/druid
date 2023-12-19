@@ -8,5 +8,5 @@ interface ComponentInterface
 
     static function fieldName(): string;
 
-    static function toHtml(array $data): string;
+    static function toBlade(array $data): string;
 }

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webid\Druid\Components\ComponentInterface;
 use Webid\Druid\Enums\PageStatus;
+use Webid\Druid\Models\Traits\CanRenderContent;
 use Webid\Druid\Services\ComponentContentHtmlFormatter;
 
 /**
@@ -41,6 +43,7 @@ abstract class BasePage extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use CanRenderContent;
 
     protected $table = 'pages';
 
@@ -60,7 +63,7 @@ abstract class BasePage extends Model
         'opengraph_picture',
         'opengraph_picture_alt',
         'published_at',
-        'parent_id',
+        'parent_page_id',
     ];
 
     protected $casts = [
@@ -79,14 +82,14 @@ abstract class BasePage extends Model
         return $this->belongsTo(Page::class, $this->getParentKeyName());
     }
 
-    protected static function boot(): void
+    public function getFullPathUrl(): string
     {
-        parent::boot();
-        static::saving(function (Page $model) {
-            /** @var ComponentContentHtmlFormatter $htmlFormatter */
-            $htmlFormatter = app(ComponentContentHtmlFormatter::class);
-
-            $model->html_content = $htmlFormatter->convertToHtml($model->content);
-        });
+        $url = $this->slug;
+        $parent = $this->parent;
+        while ($parent) {
+            $url = $parent->slug . '/' . $url;
+            $parent = $parent->parent;
+        }
+        return $url;
     }
 }

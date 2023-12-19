@@ -111,7 +111,13 @@ class PageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label(__('Title')),
+                    ->label(__('Title'))
+                    ->color('primary')
+                    ->url(
+                        url: fn (Page $record) => url($record->slug),
+                        shouldOpenInNewTab: true
+                    )
+                    ->searchable(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors([
                         'success' => PageStatus::PUBLISHED,
@@ -132,8 +138,8 @@ class PageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
