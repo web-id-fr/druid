@@ -76,13 +76,6 @@ class CategoryResource extends Resource
             ]);
     }
 
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        return $page->generateNavigationItems([
-            EditCategory::class,
-        ]);
-    }
-
     public static function getRelations(): array
     {
         return [

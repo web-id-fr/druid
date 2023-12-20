@@ -177,14 +177,6 @@ class PostResource extends Resource
             ]);
     }
 
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        return $page->generateNavigationItems([
-            ViewPost::class,
-            EditPost::class,
-        ]);
-    }
-
     public static function getRelations(): array
     {
         return [

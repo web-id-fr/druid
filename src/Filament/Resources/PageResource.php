@@ -148,14 +148,6 @@ class PageResource extends Resource
             ]);
     }
 
-    public static function getRecordSubNavigation(\Filament\Resources\Pages\Page $page): array
-    {
-        return $page->generateNavigationItems([
-            Pages\ViewPage::class,
-            Pages\EditPage::class,
-        ]);
-    }
-
     public static function getRelations(): array
     {
         return [
