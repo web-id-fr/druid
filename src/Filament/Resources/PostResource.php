@@ -21,6 +21,8 @@ use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Filament\Resources\PostResource\Pages\EditPost;
 use Webid\Druid\Filament\Resources\PostResource\Pages\ViewPost;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
+use Webid\Druid\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
+use Webid\Druid\Models\Category;
 use Webid\Druid\Services\Admin\FilamentComponentsService;
 
 class PostResource extends Resource
@@ -184,6 +186,7 @@ class PostResource extends Resource
     {
         return [
             CategoriesRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 
