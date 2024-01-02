@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Webid\Druid\Enums\PostStatus;
+use Webid\Druid\Models\Traits\CanRenderContent;
 
 /**
  * @property string $title
@@ -34,6 +35,7 @@ use Webid\Druid\Enums\PostStatus;
 class BasePost extends Model
 {
     use HasFactory;
+    use CanRenderContent;
 
     protected $table = 'posts';
 
@@ -73,5 +75,10 @@ class BasePost extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getFullPathUrl(): string
+    {
+        return config('cms.blog.prefix') . '/' . $this->categories->first()->slug . '/' . $this->slug;
     }
 }

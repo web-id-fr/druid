@@ -2,12 +2,17 @@
 
 namespace Webid\Druid;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Webid\Druid\Providers\RouteServiceProvider;
 
 class DruidServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function boot(Router $router): void
     {
+        $router->aliasMiddleware('redirection-parent-child', \Webid\Druid\Http\Middleware\RedirectionParentChild::class);
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'druid');
         $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
@@ -15,6 +20,7 @@ class DruidServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->app->register(RouteServiceProvider::class);
     }
 
     protected function publishFiles(): void

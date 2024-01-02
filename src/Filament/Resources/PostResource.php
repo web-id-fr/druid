@@ -137,6 +137,11 @@ class PostResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('Title'))
+                    ->color('primary')
+                    ->url(
+                        url: fn (Post $record) => url($record->getFullPathUrl()),
+                        shouldOpenInNewTab: true
+                    )
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('post_image'),
                 Tables\Columns\BadgeColumn::make('status')
@@ -164,22 +169,14 @@ class PostResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        return $page->generateNavigationItems([
-            ViewPost::class,
-            EditPost::class,
-        ]);
     }
 
     public static function getRelations(): array

@@ -23,7 +23,7 @@ class ReusableComponent implements ComponentInterface
         return 'reusable-component';
     }
 
-    public static function toHtml(array $data): string
+    public static function toBlade(array $data): string
     {
         /** @var ReusableComponentModel $reusableComponent */
         $reusableComponent = ReusableComponentModel::query()->findOrFail(intval($data['reusable_component']));
