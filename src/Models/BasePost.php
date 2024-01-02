@@ -18,7 +18,6 @@ use Webid\Druid\Enums\PostStatus;
  * @property string|null $extrait
  * @property array $content
  * @property bool $is_top_article
- *
  * @property bool $indexation
  * @property bool $follow
  * @property string|null $meta_title
@@ -28,10 +27,8 @@ use Webid\Druid\Enums\PostStatus;
  * @property string|null $opengraph_description
  * @property string|null $opengraph_picture
  * @property string|null $opengraph_picture_alt
- *
  * @property \Illuminate\Support\Carbon|null $published_at
- *
- * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\Category[] $categories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
 class BasePost extends Model
@@ -70,7 +67,7 @@ class BasePost extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
+        return $this->belongsToMany(BaseCategory::class, 'category_post', 'post_id', 'category_id');
     }
 
     public function users(): BelongsToMany

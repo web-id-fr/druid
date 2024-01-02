@@ -58,7 +58,7 @@ class PostResource extends Resource
                                     ->required(),
                                 RichEditor::make('extrait')
                                     ->label(__('Extrait')),
-                                $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class)
+                                $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class),
                             ]),
 
                         Tabs\Tab::make(__('Parameters'))

@@ -10,6 +10,7 @@ class ComponentConfigManager
 {
     /**
      * @return Collection<ComponentConfiguration>
+     *
      * @throws ClassNotFoundException
      */
     public function getComponentsConfiguration(): Collection

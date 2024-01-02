@@ -6,5 +6,4 @@ use Webid\Druid\Models\BasePost;
 
 class Post extends BasePost
 {
-
 }

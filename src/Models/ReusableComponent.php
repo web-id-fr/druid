@@ -11,11 +11,9 @@ use Webid\Druid\Services\ComponentContentHtmlFormatter;
  * @property string      $title
  * @property array       $content
  * @property string|null $html_content
- *
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- *
  */
 class ReusableComponent extends Model
 {

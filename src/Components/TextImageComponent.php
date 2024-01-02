@@ -15,7 +15,7 @@ class TextImageComponent implements ComponentInterface
                 ->required(),
             FileUpload::make('image')
                 ->label(__('Image'))
-                ->required()
+                ->required(),
         ];
     }
 
@@ -27,8 +27,8 @@ class TextImageComponent implements ComponentInterface
     public static function toHtml(array $data): string
     {
         return '<div class="text-image-component">
-            <div class="text">' . $data['content'] . '</div>
-            <div class="image"><img src="' . $data['image'] . '"></div>
+            <div class="text">'.$data['content'].'</div>
+            <div class="image"><img src="'.$data['image'].'"></div>
             </div>';
     }
 }

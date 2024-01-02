@@ -6,5 +6,4 @@ use Webid\Druid\Models\BasePage;
 
 class Page extends BasePage
 {
-
 }

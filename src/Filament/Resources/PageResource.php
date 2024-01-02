@@ -8,7 +8,6 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -48,7 +47,7 @@ class PageResource extends Resource
                                             ? $set('slug', Str::slug($state)) : null
                                     )
                                     ->required(),
-                                $filamentComponentService->getFlexibleContentFieldsForModel(Page::class)
+                                $filamentComponentService->getFlexibleContentFieldsForModel(Page::class),
                             ]),
 
                         Tabs\Tab::make(__('Parameters'))
@@ -126,7 +125,7 @@ class PageResource extends Resource
                     ->default('-')
                     ->label(__('Parent page')),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->label(__('Published at'))
+                    ->label(__('Published at')),
             ])
             ->filters([
                 //
