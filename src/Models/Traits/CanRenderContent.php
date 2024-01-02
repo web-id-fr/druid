@@ -11,6 +11,10 @@ trait CanRenderContent
         $components = $this->content;
         $html = '';
 
+        if (! $components) {
+            return $html;
+        }
+
         foreach ($components as $component) {
             $componentType = $component['type'];
             $componentData = $component['data'];
