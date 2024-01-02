@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->string('post_image')->nullable();
             $table->string('lang')->nullable();
             $table->string('status');
-            $table->text('extrait')->nullable();
+            $table->text('excerpt')->nullable();
             $table->longText('content');
             $table->boolean('is_top_article')->default(false);
 

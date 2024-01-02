@@ -16,7 +16,7 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property string|null $post_image_alt
  * @property PostStatus $status
  * @property string $lang
- * @property string|null $extrait
+ * @property string|null $excerpt
  * @property array $content
  * @property bool $is_top_article
  * @property bool $indexation
@@ -30,7 +30,7 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property string|null $opengraph_picture_alt
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                 $users
  */
 class BasePost extends Model
 {
@@ -46,7 +46,7 @@ class BasePost extends Model
         'post_image_alt',
         'status',
         'lang',
-        'extrait',
+        'excerpt',
         'content',
         'indexation',
         'follow',
