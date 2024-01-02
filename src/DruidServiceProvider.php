@@ -14,7 +14,8 @@ class DruidServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'druid');
         $this->publishFiles();
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
     }
 
     public function register(): void
@@ -25,21 +26,21 @@ class DruidServiceProvider extends ServiceProvider
     protected function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . '/../publish/app/Models/Post.php' => base_path('/app/Models/Post.php'),
-            __DIR__ . '/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
-            __DIR__ . '/../publish/app/Models/Category.php' => base_path('/app/Models/Category.php'),
+            __DIR__.'/../publish/app/Models/Post.php' => base_path('/app/Models/Post.php'),
+            __DIR__.'/../publish/app/Models/Page.php' => base_path('/app/Models/Page.php'),
+            __DIR__.'/../publish/app/Models/Category.php' => base_path('/app/Models/Category.php'),
         ], 'models');
 
         $this->publishes([
-            __DIR__ . '/../publish/app/Http/Controllers/PageController.php' => base_path('/app/Http/Controllers/PageController.php'),
+            __DIR__.'/../publish/app/Http/Controllers/PageController.php' => base_path('/app/Http/Controllers/PageController.php'),
         ], 'page-controller');
 
         $this->publishes([
-            __DIR__ . '/../publish/config/cms.php' => base_path('/config/cms.php'),
+            __DIR__.'/../publish/config/cms.php' => base_path('/config/cms.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../publish/app/Filament' => base_path('/app/Filament'),
+            __DIR__.'/../publish/app/Filament' => base_path('/app/Filament'),
         ], 'filament-resources');
     }
 }

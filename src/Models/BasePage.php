@@ -21,7 +21,6 @@ use Webid\Druid\Services\ComponentContentHtmlFormatter;
  * @property PageStatus     $status
  * @property string|null    $lang
  * @property int|null       $parent_page_id
- *
  * @property bool           $indexation
  * @property string|null    $meta_title
  * @property string|null    $meta_description
@@ -30,14 +29,11 @@ use Webid\Druid\Services\ComponentContentHtmlFormatter;
  * @property string|null    $opengraph_description
  * @property string|null    $opengraph_picture
  * @property string|null    $opengraph_picture_alt
- *
  * @property Carbon|null    $published_at
  * @property Carbon|null    $created_at
  * @property Carbon|null    $updated_at
  * @property Carbon|null    $deleted_at
- *
  * @property-read Page|null $parent
- *
  */
 abstract class BasePage extends Model
 {

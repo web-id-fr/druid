@@ -15,7 +15,7 @@ class TextImageComponent implements ComponentInterface
                 ->required(),
             FileUpload::make('image')
                 ->label(__('Image'))
-                ->required()
+                ->required(),
         ];
     }
 
