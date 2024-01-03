@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $title
- * @property array $content
+ * @property string $slug
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\MenuItem[] $items
  */
 class Menu extends Model
@@ -18,10 +18,6 @@ class Menu extends Model
 
     protected $fillable = [
         'title',
-        'content',
-    ];
-
-    protected $casts = [
-        'content' => 'array',
+        'slug',
     ];
 }
