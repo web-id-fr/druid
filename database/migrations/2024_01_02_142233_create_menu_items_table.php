@@ -18,7 +18,7 @@ return new class extends Migration {
                 ->nullOnDelete();
             $table->string('label')->nullable();
             $table->string('custom_url')->nullable();
-            $table->morphs('model');
+            $table->nullableMorphs('model');
             $table->string('target');
             $table->timestamps();
         });

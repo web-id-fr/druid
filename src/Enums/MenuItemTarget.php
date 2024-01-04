@@ -16,4 +16,12 @@ enum MenuItemTarget: string implements HasLabel
             self::BLANK => __('New window'),
         };
     }
+
+    public function getHtmlProperty(): string
+    {
+        return match ($this) {
+            self::SELF => '_self',
+            self::BLANK => '_blank',
+        };
+    }
 }

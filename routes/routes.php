@@ -14,7 +14,7 @@ Route::group([
         ->name('show')
         ->missing(function (Request $request) {
             abort(404);
-    });
+        });
 });
 
 Route::fallback([\Webid\Druid\Http\Controllers\FallbackController::class, 'show'])->middleware('redirection-parent-child');
