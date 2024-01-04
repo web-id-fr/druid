@@ -64,7 +64,7 @@ class NavigationMenuManagerTest extends TestCase
         $this->addPageItemToMenu($menu, ['parent_item_id' => $menuItem->getKey()]);
 
         $menuResource = $this->navigationMenuManager->getBySlug('footer');
-        $this->assertEquals($menuResource->items->first()->label, $menu->items->first()->model->title);
+        $this->assertEquals($menuResource->items->first()->label, $menu->level0Items->first()->model->title);
     }
 
     /** @test */

@@ -23,9 +23,9 @@ trait CanRenderContent
             $customComponentClass = "App\\CustomComponents\\" . ucfirst($componentType) . "Component";
 
             if (class_exists($componentClass) && is_subclass_of($componentClass, ComponentInterface::class)) {
-                $html .= $componentClass::toBlade($componentData);
+                $html .= $componentClass::toBlade($componentData)->toHtml();
             } elseif (class_exists($customComponentClass) && is_subclass_of($customComponentClass, ComponentInterface::class)) {
-                $html .= $customComponentClass::toBlade($componentData);
+                $html .= $customComponentClass::toBlade($componentData)->toHtml();
             }
         }
 
