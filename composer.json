@@ -20,11 +20,23 @@
         "filament/forms": "^3.1",
         "laravel/framework": "^10"
     },
+    "scripts": {
+        "phpcs": "phpcs",
+        "pint": "pint",
+        "phpstan": "phpstan --memory-limit=4G",
+        "phpcbf": "phpcbf || true"
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Webid\\Druid\\DruidServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "nunomaduro/larastan": "^2.8",
+        "squizlabs/php_codesniffer": "^3.8",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.19"
     }
 }
