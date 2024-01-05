@@ -5,7 +5,12 @@ parameters:
     paths:
         - src
         - routes
+    excludePaths:
+        - src/Tests
     level: max
 
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false
+
+    scanDirectories:
+        - publish

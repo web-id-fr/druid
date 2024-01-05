@@ -1,2 +1,4 @@
 vendor
+workbench
 .idea
+.phpunit.result.cache
