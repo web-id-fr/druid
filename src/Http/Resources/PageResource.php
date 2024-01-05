@@ -10,6 +10,9 @@ class PageResource extends JsonResource
     /** @var Page */
     public $resource;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray($request): array
     {
         return [

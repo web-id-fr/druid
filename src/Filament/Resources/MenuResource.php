@@ -20,7 +20,6 @@ class MenuResource extends Resource
 
     protected static ?string $navigationGroup = 'Menus';
 
-
     public static function form(Form $form): Form
     {
         return $form

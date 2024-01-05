@@ -30,12 +30,12 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property string|null $opengraph_picture_alt
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                 $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
 class BasePost extends Model
 {
-    use HasFactory;
     use CanRenderContent;
+    use HasFactory;
 
     protected $table = 'posts';
 
@@ -79,6 +79,6 @@ class BasePost extends Model
 
     public function getFullPathUrl(): string
     {
-        return config('cms.blog.prefix') . '/' . $this->categories->first()->slug . '/' . $this->slug;
+        return config('cms.blog.prefix').'/'.$this->categories->first()?->slug.'/'.$this->slug;
     }
 }

@@ -37,7 +37,6 @@ class MenuItem extends Model
         'target',
     ];
 
-
     public function model(): MorphTo
     {
         return $this->morphTo();

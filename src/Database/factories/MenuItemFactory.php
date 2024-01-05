@@ -18,7 +18,7 @@ class MenuItemFactory extends Factory
             'label' => $this->faker->name,
             'order' => $this->faker->numberBetween(0, 30),
             'parent_item_id' => null,
-            'target' => MenuItemTarget::SELF->value
+            'target' => MenuItemTarget::SELF->value,
         ];
     }
 
@@ -36,7 +36,7 @@ class MenuItemFactory extends Factory
         return $this->state(function () {
             return [
                 'custom_url' => $this->faker->url,
-                'target' => MenuItemTarget::BLANK->value
+                'target' => MenuItemTarget::BLANK->value,
             ];
         });
     }
@@ -45,6 +45,7 @@ class MenuItemFactory extends Factory
     {
         return $this->state(function () {
             $page = PageFactory::new()->create();
+
             return [
                 'model_id' => $page->getKey(),
                 'model_type' => $page->getMorphClass(),

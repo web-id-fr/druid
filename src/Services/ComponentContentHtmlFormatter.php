@@ -9,6 +9,9 @@ class ComponentContentHtmlFormatter
 
     }
 
+    /**
+     * @param  array[]  $contentBlocks
+     */
     public function convertToHtml(array $contentBlocks): string
     {
         $html = '';

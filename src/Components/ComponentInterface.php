@@ -10,5 +10,5 @@ interface ComponentInterface
 
     public static function fieldName(): string;
 
-    static function toBlade(array $data): View;
+    public static function toBlade(array $data): View;
 }

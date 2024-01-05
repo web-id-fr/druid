@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => config('cms.blog.prefix'),
-    'as' => config('cms.blog.prefix') . '.',
+    'as' => config('cms.blog.prefix').'.',
 ], function () {
     Route::get('/', [\Webid\Druid\Http\Controllers\BlogController::class, 'index'])
         ->name('index');

@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webid\Druid\Components\ComponentInterface;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Traits\CanRenderContent;
-use Webid\Druid\Services\ComponentContentHtmlFormatter;
 
 /**
  * @property string         $title
@@ -37,9 +35,9 @@ use Webid\Druid\Services\ComponentContentHtmlFormatter;
  */
 abstract class BasePage extends Model
 {
+    use CanRenderContent;
     use HasFactory;
     use SoftDeletes;
-    use CanRenderContent;
 
     protected $table = 'pages';
 
@@ -83,9 +81,10 @@ abstract class BasePage extends Model
         $url = $this->slug;
         $parent = $this->parent;
         while ($parent) {
-            $url = $parent->slug . '/' . $url;
+            $url = $parent->slug.'/'.$url;
             $parent = $parent->parent;
         }
+
         return $url;
     }
 }

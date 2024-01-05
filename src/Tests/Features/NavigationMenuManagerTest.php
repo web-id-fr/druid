@@ -3,10 +3,10 @@
 namespace Webid\Druid\Tests\Features;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Tests\TestCase;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webid\Druid\Tests\Helpers\MenuCreator;
+use Webid\Druid\Tests\TestCase;
 
 class NavigationMenuManagerTest extends TestCase
 {
@@ -30,10 +30,11 @@ class NavigationMenuManagerTest extends TestCase
             $this->navigationMenuManager->getBySlug('inexisting-slug');
         } catch (ModelNotFoundException $e) {
             $this->assertTrue(true);
+
             return;
         }
 
-        $this->fail("No Model not found exception raised");
+        $this->fail('No Model not found exception raised');
     }
 
     /** @test */
@@ -96,7 +97,4 @@ class NavigationMenuManagerTest extends TestCase
         $this->assertEquals($menuResource->items->get(1)->children->get(1)->children->get(1)->id, $subMenuItemLevel2Order5->getKey());
         $this->assertEquals($menuResource->items->get(1)->children->get(1)->children->get(2)->id, $subMenuItemLevel2Order20->getKey());
     }
-
-
 }
-

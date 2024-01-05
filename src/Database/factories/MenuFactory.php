@@ -21,8 +21,8 @@ class MenuFactory extends Factory
     {
         return $this->afterCreating(function (Menu $menu) {
             MenuItemFactory::new()->forMenu($menu)->withCustomUrl()->create();
-            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();;
-            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();;
+            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
+            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
             MenuItemFactory::new()->forMenu($menu)->withPageItem()->create();
         });
     }

@@ -4,6 +4,7 @@ namespace Webid\Druid\Services\Admin;
 
 use Filament\Forms\Components\Builder;
 use Webid\Druid\Components\ComponentInterface;
+use Webmozart\Assert\Assert;
 
 class FilamentComponentsService
 {
@@ -11,7 +12,10 @@ class FilamentComponentsService
     {
         $blocks = [];
 
-        foreach (config('cms.components') as $component) {
+        $componentsConfig = config('cms.components');
+        Assert::isArray($componentsConfig);
+
+        foreach ($componentsConfig as $component) {
             /** @var ComponentInterface $componentClass */
             $componentClass = $component['class'];
 

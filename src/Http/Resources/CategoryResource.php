@@ -7,9 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource
 {
-    /** @var Category $resource */
+    /** @var Category */
     public $resource;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray($request): array
     {
         return [

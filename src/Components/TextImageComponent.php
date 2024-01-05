@@ -28,7 +28,7 @@ class TextImageComponent implements ComponentInterface
     {
         return view('druid::components.text-image', [
             'content' => $data['content'],
-            'image' => $data['image']
+            'image' => $data['image'],
         ]);
     }
 }

@@ -55,7 +55,7 @@ class MenuItemResource extends Resource
                             ->get()
                             ->pluck('label', 'id')
                             ->map(function ($label, $id) {
-                                return $label ?? 'Item ID #' . $id;
+                                return $label ?? 'Item ID #'.$id;
                             })
                             ->toArray()
                     ),
@@ -96,7 +96,7 @@ class MenuItemResource extends Resource
                                     ->titleAttribute('title'),
                             ]),
 
-                    ])
+                    ]),
             ]);
     }
 

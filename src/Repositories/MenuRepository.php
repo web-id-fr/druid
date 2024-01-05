@@ -32,7 +32,7 @@ class MenuRepository
                 'level0Items.model.parent',
                 'level0Items.children.model.parent',
                 'level0Items.children.children.model.parent',
-                'level0Items.children.children.children.model.parent'
+                'level0Items.children.children.children.model.parent',
             ])
             ->where('slug', $slug)
             ->firstOrFail();

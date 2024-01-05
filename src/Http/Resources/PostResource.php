@@ -7,9 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
 {
-    /** @var Post $resource */
+    /** @var Post */
     public $resource;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray($request): array
     {
         return [
@@ -35,5 +38,4 @@ class PostResource extends JsonResource
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
-
 }

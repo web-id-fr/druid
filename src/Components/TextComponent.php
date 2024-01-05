@@ -23,7 +23,7 @@ class TextComponent implements ComponentInterface
     public static function toBlade(array $data): string
     {
         return view('druid::components.text', [
-            'content' => $data['content']
+            'content' => $data['content'],
         ]);
     }
 }
