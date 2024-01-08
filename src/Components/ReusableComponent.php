@@ -2,11 +2,17 @@
 
 namespace Webid\Druid\Components;
 
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Select;
+use Illuminate\Contracts\View\View;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
+use Webmozart\Assert\Assert;
 
 class ReusableComponent implements ComponentInterface
 {
+    /**
+     * @return array<int, Field>
+     */
     public static function blockSchema(): array
     {
         return [
@@ -23,11 +29,17 @@ class ReusableComponent implements ComponentInterface
         return 'reusable-component';
     }
 
-    public static function toBlade(array $data): string
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function toBlade(array $data): View
     {
-        /** @var ReusableComponentModel $reusableComponent */
-        $reusableComponent = ReusableComponentModel::query()->findOrFail(intval($data['reusable_component']));
+        $componentID = $data['reusable_component'];
+        Assert::integer($componentID);
 
-        return $reusableComponent->html_content;
+        /** @var ReusableComponentModel $reusableComponent */
+        $reusableComponent = ReusableComponentModel::query()->findOrFail($componentID);
+
+        return view($reusableComponent->html_content);
     }
 }

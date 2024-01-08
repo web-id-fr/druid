@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\MenuItemTarget;
+use Webid\Druid\Models\Contracts\IsMenuable;
 
 /**
+ * @property int $id
  * @property string|null $label
  * @property string|null $custom_url
  * @property MenuItemTarget $target
  * @property-read Menu $menu
- * @property-read Model|null $model
- * @property-read Collection $children
+ * @property-read IsMenuable|null $model
+ * @property-read Collection<int, MenuItem> $children
  */
 class MenuItem extends Model
 {

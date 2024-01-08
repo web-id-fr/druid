@@ -21,6 +21,9 @@ class PageFactory extends Factory
         ];
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     private function fakeContent(): array
     {
         return [

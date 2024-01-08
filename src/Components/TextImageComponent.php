@@ -2,11 +2,16 @@
 
 namespace Webid\Druid\Components;
 
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Illuminate\Contracts\View\View;
 
 class TextImageComponent implements ComponentInterface
 {
+    /**
+     * @return array<int, Field>
+     */
     public static function blockSchema(): array
     {
         return [
@@ -24,7 +29,10 @@ class TextImageComponent implements ComponentInterface
         return 'textImage';
     }
 
-    public static function toBlade(array $data): string
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function toBlade(array $data): View
     {
         return view('druid::components.text-image', [
             'content' => $data['content'],

@@ -2,13 +2,21 @@
 
 namespace Webid\Druid\Components;
 
-use Illuminate\View\View;
+
+use Filament\Forms\Components\Field;
+use Illuminate\Contracts\View\View;
 
 interface ComponentInterface
 {
+    /**
+     * @return array<int, Field>
+     */
     public static function blockSchema(): array;
 
     public static function fieldName(): string;
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function toBlade(array $data): View;
 }

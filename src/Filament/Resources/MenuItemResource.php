@@ -15,8 +15,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\Enums\MenuItemTarget;
-use Webid\Druid\Models\Menu;
 use Webid\Druid\Models\MenuItem;
+use Webid\Druid\Repositories\MenuItemRepository;
+use Webid\Druid\Repositories\MenuRepository;
 
 class MenuItemResource extends Resource
 {
@@ -30,6 +31,12 @@ class MenuItemResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /** @var MenuRepository $menuRepository */
+        $menuRepository = app()->make(MenuRepository::class);
+
+        /** @var MenuItemRepository $menuItemRepository */
+        $menuItemRepository = app()->make(MenuItemRepository::class);
+
         $targetOptions = [];
         foreach (MenuItemTarget::cases() as $target) {
             $targetOptions[$target->value] = $target->getLabel();
@@ -40,24 +47,12 @@ class MenuItemResource extends Resource
                 Select::make('menu_id')
                     ->label(__('Menu'))
                     ->placeholder(__('Select a menu'))
-                    ->options(
-                        Menu::query()
-                            ->get()
-                            ->pluck('title', 'id')
-                            ->toArray()
-                    )
+                    ->options($menuRepository->allPluckedByIdAndTitle())
                     ->required(),
                 Select::make('parent_item_id')
                     ->label(__('Parent'))
                     ->placeholder(__('Select a parent item'))
-                    ->options(
-                        MenuItem::query()
-                            ->get()
-                            ->pluck('label', 'id')
-                            ->map(function ($label, $id) {
-                                return $label ?? 'Item ID #'.$id;
-                            })
-                            ->toArray()
+                    ->options($menuItemRepository->allPluckedByIdAndLabel()
                     ),
                 TextInput::make('order')
                     ->label(__('Order'))
@@ -134,8 +129,11 @@ class MenuItemResource extends Resource
     public static function getPages(): array
     {
         return [
+            // @phpstan-ignore-next-line
             'index' => Pages\ListMenuItems::route('/'),
+            // @phpstan-ignore-next-line
             'create' => Pages\CreateMenuItem::route('/create'),
+            // @phpstan-ignore-next-line
             'edit' => Pages\EditMenuItem::route('/{record}/edit'),
         ];
     }

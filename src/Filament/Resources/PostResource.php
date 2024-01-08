@@ -195,6 +195,7 @@ class PostResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
+        // @phpstan-ignore-next-line
         return static::$model::count();
     }
 }

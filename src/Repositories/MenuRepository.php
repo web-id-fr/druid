@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webid\Druid\Models\Menu;
@@ -38,5 +39,24 @@ class MenuRepository
             ->firstOrFail();
 
         return $model;
+    }
+
+    public function all(): Collection
+    {
+        return $this->model->newQuery()
+            ->get();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function allPluckedByIdAndTitle(): array
+    {
+        /** @var array<int, string> $menus */
+        $menus = $this->all()
+            ->pluck('title', 'id')
+            ->toArray();
+
+        return $menus;
     }
 }

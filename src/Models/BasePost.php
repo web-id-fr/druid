@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Webid\Druid\Enums\PostStatus;
+use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
 
 /**
@@ -32,7 +33,7 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
-class BasePost extends Model
+abstract class BasePost extends Model implements IsMenuable
 {
     use CanRenderContent;
     use HasFactory;
@@ -79,6 +80,11 @@ class BasePost extends Model
 
     public function getFullPathUrl(): string
     {
-        return config('cms.blog.prefix').'/'.$this->categories->first()?->slug.'/'.$this->slug;
+        return config('cms.blog.prefix') . '/' . $this->categories->first()?->slug . '/' . $this->slug;
+    }
+
+    public function getMenuLabel(): string
+    {
+        return $this->title;
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Webid\Druid\Http\Resources\PageResource;
 use Webid\Druid\Repositories\PageRepository;
+use Webmozart\Assert\Assert;
 
 class FallbackController extends Controller
 {
@@ -23,8 +24,11 @@ class FallbackController extends Controller
     {
         $type = config('cms.views.type');
 
+        $lastSegment = last($request->segments());
+        Assert::string($lastSegment);
+
         try {
-            $page = $this->pageRepository->findOrFailBySlug(last($request->segments()));
+            $page = $this->pageRepository->findOrFailBySlug($lastSegment);
         } catch (ModelNotFoundException $exception) {
             abort(404);
         }

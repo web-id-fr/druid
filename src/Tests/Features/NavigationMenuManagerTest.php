@@ -3,10 +3,10 @@
 namespace Webid\Druid\Tests\Features;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webid\Druid\Tests\Helpers\MenuCreator;
-use Webid\Druid\Tests\TestCase;
 
 class NavigationMenuManagerTest extends TestCase
 {

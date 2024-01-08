@@ -7,6 +7,9 @@ use Webid\Druid\Exceptions\ClassNotFoundException;
 
 class ComponentConfiguration
 {
+    /**
+     * @param array<int, string> $disabledFor
+     */
     private function __construct(
         readonly public string $type,
         readonly public string $class,
@@ -14,6 +17,10 @@ class ComponentConfiguration
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $array
+     * @throws ClassNotFoundException
+     */
     public static function fromArray(array $array): self
     {
         if (! isset($array['class'])) {

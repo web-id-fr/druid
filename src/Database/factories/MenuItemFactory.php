@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
+use App\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Webid\Druid\Enums\MenuItemTarget;
 use Webid\Druid\Models\Menu;
@@ -44,6 +45,7 @@ class MenuItemFactory extends Factory
     public function withPageItem(): self
     {
         return $this->state(function () {
+            /** @var Page $page */
             $page = PageFactory::new()->create();
 
             return [
@@ -55,8 +57,12 @@ class MenuItemFactory extends Factory
 
     public function withParentItem(): self
     {
-        return $this->afterCreating(function (MenuItem $menuItem) {
-            $menuItem->update(['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]);
-        });
+        return $this->afterCreating(
+        // @phpstan-ignore-next-line
+            fn (MenuItem $menuItem) => $menuItem->update(
+            // @phpstan-ignore-next-line
+                ['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]
+            )
+        );
     }
 }

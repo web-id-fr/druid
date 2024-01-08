@@ -30,7 +30,7 @@ class MenuResource extends Resource
                         TextInput::make('title')
                             ->label(__('Title'))
                             ->live()
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug(strval($state))))
                             ->required(),
                         TextInput::make('slug')
                             ->label(__('Slug'))

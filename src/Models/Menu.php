@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $title
  * @property string $slug
  * @property-read Collection $items
- * @property-read Collection $level0Items
+ * @property-read Collection<string, MenuItem> $level0Items
  */
 class Menu extends Model
 {

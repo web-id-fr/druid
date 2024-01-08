@@ -19,8 +19,8 @@ class MenuItem
     public static function fromMenuItem(\Webid\Druid\Models\MenuItem $menuItem): self
     {
         return new self(
-            $menuItem->getKey(),
-            $menuItem->label ?? $menuItem->model?->title,
+            $menuItem->id,
+            strval($menuItem->label ?? $menuItem->model?->getMenuLabel()),
             $menuItem->custom_url ?? strval($menuItem->model?->getFullPathUrl()),
             $menuItem->target,
             $menuItem->children->map(fn (\Webid\Druid\Models\MenuItem $item) => MenuItem::fromMenuItem($item))

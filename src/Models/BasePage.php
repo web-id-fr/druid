@@ -9,31 +9,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webid\Druid\Enums\PageStatus;
+use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
 
 /**
- * @property string         $title
- * @property string         $slug
- * @property array          $content
- * @property string|null    $html_content
- * @property PageStatus     $status
- * @property string|null    $lang
- * @property int|null       $parent_page_id
- * @property bool           $indexation
- * @property string|null    $meta_title
- * @property string|null    $meta_description
- * @property string|null    $meta_keywords
- * @property string|null    $opengraph_title
- * @property string|null    $opengraph_description
- * @property string|null    $opengraph_picture
- * @property string|null    $opengraph_picture_alt
- * @property Carbon|null    $published_at
- * @property Carbon|null    $created_at
- * @property Carbon|null    $updated_at
- * @property Carbon|null    $deleted_at
+ * @property string $title
+ * @property string $slug
+ * @property array $content
+ * @property string|null $html_content
+ * @property PageStatus $status
+ * @property string|null $lang
+ * @property int|null $parent_page_id
+ * @property bool $indexation
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property string|null $meta_keywords
+ * @property string|null $opengraph_title
+ * @property string|null $opengraph_description
+ * @property string|null $opengraph_picture
+ * @property string|null $opengraph_picture_alt
+ * @property Carbon|null $published_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
  */
-abstract class BasePage extends Model
+abstract class BasePage extends Model implements IsMenuable
 {
     use CanRenderContent;
     use HasFactory;
@@ -81,10 +82,15 @@ abstract class BasePage extends Model
         $url = $this->slug;
         $parent = $this->parent;
         while ($parent) {
-            $url = $parent->slug.'/'.$url;
+            $url = $parent->slug . '/' . $url;
             $parent = $parent->parent;
         }
 
         return $url;
+    }
+
+    public function getMenuLabel(): string
+    {
+        return $this->title;
     }
 }
