@@ -30,7 +30,20 @@ class PageFactory extends Factory
             [
                 'type' => 'text',
                 'data' => [
-                    'content' => $this->faker->text(300),
+                    'content' => '<p>' . $this->faker->text(300) . '</p>',
+                ],
+            ],
+            [
+                'type' => 'textImage',
+                'data' => [
+                    'content' => '<p>' . $this->faker->text(900) . '</p>',
+                    'image' => 'placeholder-image.png'
+                ],
+            ],
+            [
+                'type' => 'text',
+                'data' => [
+                    'content' => '<h2>' . $this->faker->text(30) . '</h2><p>' . $this->faker->text(900) . '</p>',
                 ],
             ],
         ];

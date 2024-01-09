@@ -42,11 +42,11 @@ class MenuItemFactory extends Factory
         });
     }
 
-    public function withPageItem(): self
+    public function withPageItem(array $params = []): self
     {
-        return $this->state(function () {
+        return $this->state(function () use ($params) {
             /** @var Page $page */
-            $page = PageFactory::new()->create();
+            $page = PageFactory::new()->create($params);
 
             return [
                 'model_id' => $page->getKey(),
@@ -58,9 +58,9 @@ class MenuItemFactory extends Factory
     public function withParentItem(): self
     {
         return $this->afterCreating(
-            // @phpstan-ignore-next-line
+        // @phpstan-ignore-next-line
             fn (MenuItem $menuItem) => $menuItem->update(
-                // @phpstan-ignore-next-line
+            // @phpstan-ignore-next-line
                 ['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]
             )
         );
