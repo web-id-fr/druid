@@ -26,7 +26,7 @@ class MenuItemRepository
         $menus = $this->all()
             ->pluck('label', 'id')
             ->map(function ($label, $id) {
-                return $label ?? 'Item ID #' . $id;
+                return $label ?? 'Item ID #'.$id;
             })
             ->toArray();
 

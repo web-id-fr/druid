@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
+use Webid\Druid\Services\ComponentSearchContentExtractor;
 
 /**
  * @property string $title
  * @property string $slug
  * @property array $content
- * @property string|null $html_content
+ * @property string|null $searchable_content
  * @property PageStatus $status
  * @property string|null $lang
  * @property int|null $parent_page_id
@@ -82,7 +83,7 @@ abstract class BasePage extends Model implements IsMenuable
         $url = $this->slug;
         $parent = $this->parent;
         while ($parent) {
-            $url = $parent->slug . '/' . $url;
+            $url = $parent->slug.'/'.$url;
             $parent = $parent->parent;
         }
 
@@ -92,5 +93,16 @@ abstract class BasePage extends Model implements IsMenuable
     public function getMenuLabel(): string
     {
         return $this->title;
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::saving(function (BasePage $model) {
+            /** @var ComponentSearchContentExtractor $searchableContentExtractor */
+            $searchableContentExtractor = app(ComponentSearchContentExtractor::class);
+
+            $model->searchable_content = $searchableContentExtractor->extractSearchableContentFromBlocks($model->content);
+        });
     }
 }

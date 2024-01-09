@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('status');
             $table->text('excerpt')->nullable();
             $table->longText('content');
+            $table->longText('searchable_content')->nullable();
             $table->boolean('is_top_article')->default(false);
 
             $table->boolean('indexation')->default(false);

@@ -3,6 +3,7 @@
 namespace Webid\Druid\Models;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,6 +20,7 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property string $lang
  * @property string|null $excerpt
  * @property array $content
+ * @property string|null $searchable_content
  * @property bool $is_top_article
  * @property bool $indexation
  * @property bool $follow
@@ -30,6 +32,9 @@ use Webid\Druid\Models\Traits\CanRenderContent;
  * @property string|null $opengraph_picture
  * @property string|null $opengraph_picture_alt
  * @property \Illuminate\Support\Carbon|null $published_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
@@ -80,7 +85,7 @@ abstract class BasePost extends Model implements IsMenuable
 
     public function getFullPathUrl(): string
     {
-        return config('cms.blog.prefix') . '/' . $this->categories->first()?->slug . '/' . $this->slug;
+        return config('cms.blog.prefix').'/'.$this->categories->first()?->slug.'/'.$this->slug;
     }
 
     public function getMenuLabel(): string
