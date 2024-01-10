@@ -12,11 +12,11 @@ class ComponentSearchContentExtractor
     }
 
     /**
-     * @param  array<int, array<mixed>>  $contentBlocks
+     * @param array<int, array<mixed>> $contentBlocks
      */
     public function extractSearchableContentFromBlocks(array $contentBlocks): string
     {
-        $html = '';
+        $content = '';
         foreach ($contentBlocks as $contentBlock) {
             $blockType = $contentBlock['type'];
             Assert::string($blockType);
@@ -24,10 +24,10 @@ class ComponentSearchContentExtractor
             $componentConfiguration = $this->componentConfigManager->getComponentsConfigurationFor($blockType);
 
             // @phpstan-ignore-next-line
-            $html .= call_user_func([$componentConfiguration->class, 'toSearchableContent'], $contentBlock['data']);
-            $html .= PHP_EOL;
+            $content .= call_user_func([$componentConfiguration->class, 'toSearchableContent'], $contentBlock['data']);
+            $content .= PHP_EOL;
         }
 
-        return $html;
+        return strip_tags($content);
     }
 }
