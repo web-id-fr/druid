@@ -2,10 +2,16 @@
 
 namespace Webid\Druid\Components;
 
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\RichEditor;
+use Illuminate\Contracts\View\View;
+use Illuminate\Testing\Assert;
 
 class TextComponent implements ComponentInterface
 {
+    /**
+     * @return array<int, Field>
+     */
     public static function blockSchema(): array
     {
         return [
@@ -20,10 +26,24 @@ class TextComponent implements ComponentInterface
         return 'text';
     }
 
-    public static function toBlade(array $data): string
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public static function toBlade(array $data): View
     {
         return view('druid::components.text', [
-            'content' => $data['content']
+            'content' => $data['content'],
         ]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public static function toSearchableContent(array $data): string
+    {
+        $content = $data['content'] ?? '';
+        Assert::assertIsString($content);
+
+        return strip_tags($content);
     }
 }

@@ -1,0 +1,17 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+        - routes
+    excludePaths:
+        - src/Tests
+    level: max
+
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: false
+
+    scanDirectories:
+        - publish
+        - phpstan-stubs

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('lang')->nullable();
             $table->longText('slug');
             $table->longText('content');
-            $table->longText('html_content')->nullable();
+            $table->longText('searchable_content')->nullable();
             $table->string('status');
             $table->unsignedBigInteger('parent_page_id')->nullable();
             $table->foreign('parent_page_id')->references('id')->on('pages')->onDelete('set null');

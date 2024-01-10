@@ -2,23 +2,23 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use App\Models\Page;
-use App\Models\Post;
-use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Webid\Druid\Models\Menu;
 
 class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Menus';
 
     public static function form(Form $form): Form
     {
@@ -29,43 +29,12 @@ class MenuResource extends Resource
                     ->schema([
                         TextInput::make('title')
                             ->label(__('Title'))
+                            ->live()
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug(strval($state))))
                             ->required(),
-
-                        Builder::make('content')
-                            ->blocks([
-                                Builder\Block::make(__('external_url'))
-                                    ->schema([
-                                        TextInput::make('content')
-                                            ->label(__('Extarnal Url'))
-                                            ->required(),
-                                    ]),
-
-                                Builder\Block::make(__('page'))
-                                    ->schema([
-                                        Select::make('content')
-                                            ->label(__('Page'))
-                                            ->placeholder(__('Select a page'))
-                                            ->options(
-                                                Page::query()
-                                                    ->get()
-                                                    ->pluck('title', 'id')
-                                                    ->toArray()
-                                            ),
-                                    ]),
-
-                                Builder\Block::make(__('post'))
-                                    ->schema([
-                                        Select::make('content')
-                                            ->label(__('Post'))
-                                            ->placeholder(__('Select a post'))
-                                            ->options(
-                                                Post::query()
-                                                    ->get()
-                                                    ->pluck('title', 'id')
-                                                    ->toArray()
-                                            ),
-                                    ]),
-                            ])->blockNumbers(false),
+                        TextInput::make('slug')
+                            ->label(__('Slug'))
+                            ->required(),
                     ]),
             ])->columns(1);
     }

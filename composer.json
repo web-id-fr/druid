@@ -18,7 +18,19 @@
         "php": "^8.2",
         "filament/filament": "^3.1",
         "filament/forms": "^3.1",
-        "laravel/framework": "^10"
+        "laravel/framework": "^10",
+        "webmozart/assert": "^1.11"
+    },
+    "scripts": {
+        "pint": "pint",
+        "phpstan": "phpstan --memory-limit=4G",
+        "lint": [
+            "@php vendor/bin/pint",
+            "@php vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "@php vendor/bin/phpunit"
+        ]
     },
     "extra": {
         "laravel": {
@@ -26,5 +38,10 @@
                 "Webid\\Druid\\DruidServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "nunomaduro/larastan": "^2.8",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.20"
     }
 }

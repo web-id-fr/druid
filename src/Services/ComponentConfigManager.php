@@ -5,6 +5,7 @@ namespace Webid\Druid\Services;
 use Illuminate\Support\Collection;
 use Webid\Druid\Dto\ComponentConfiguration;
 use Webid\Druid\Exceptions\ClassNotFoundException;
+use Webmozart\Assert\Assert;
 
 class ComponentConfigManager
 {
@@ -33,6 +34,10 @@ class ComponentConfigManager
     {
         $componentsConfiguration = $this->getComponentsConfiguration();
 
-        return $componentsConfiguration->where('type', $componentType)->firstOrFail();
+        $configuration = $componentsConfiguration->where('type', $componentType)->firstOrFail();
+
+        Assert::isInstanceOf($configuration, ComponentConfiguration::class);
+
+        return $configuration;
     }
 }

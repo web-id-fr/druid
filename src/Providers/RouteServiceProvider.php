@@ -33,7 +33,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(): void
     {
         Route::middleware('web')
-            ->group(base_path('/druid/routes/routes.php'))
-        ;
+            ->group(__DIR__.'/../../routes/routes.php');
     }
 }

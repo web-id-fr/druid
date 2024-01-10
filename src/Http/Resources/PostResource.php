@@ -7,9 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
 {
-    /** @var Post $resource */
+    /** @var Post */
     public $resource;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray($request): array
     {
         return [
@@ -18,9 +21,8 @@ class PostResource extends JsonResource
             'slug' => $this->resource->slug,
             'lang' => $this->resource->lang,
             'content' => $this->resource->content,
-            'html_content' => $this->resource->html_content,
+            'searchable_content' => $this->resource->searchable_content,
             'status' => $this->resource->status->value,
-            'parent_page_id' => $this->resource->parent_page_id,
             'indexation' => $this->resource->indexation,
             'meta_title' => $this->resource->meta_title,
             'meta_description' => $this->resource->meta_description,
@@ -35,5 +37,4 @@ class PostResource extends JsonResource
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
-
 }

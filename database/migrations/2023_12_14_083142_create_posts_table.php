@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('post_image')->nullable();
             $table->string('lang')->nullable();
             $table->string('status');
-            $table->text('extrait')->nullable();
+            $table->text('excerpt')->nullable();
             $table->longText('content');
+            $table->longText('searchable_content')->nullable();
             $table->boolean('is_top_article')->default(false);
 
             $table->boolean('indexation')->default(false);

@@ -12,17 +12,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
-use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\PostStatus;
-use Webid\Druid\Filament\Resources\PostResource\Pages\EditPost;
-use Webid\Druid\Filament\Resources\PostResource\Pages\ViewPost;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
-use Webid\Druid\Models\Category;
 use Webid\Druid\Services\Admin\FilamentComponentsService;
 
 class PostResource extends Resource
@@ -56,8 +52,8 @@ class PostResource extends Resource
                                             ? $set('slug', Str::slug($state)) : null
                                     )
                                     ->required(),
-                                RichEditor::make('extrait')
-                                    ->label(__('Extrait')),
+                                RichEditor::make('excerpt')
+                                    ->label(__('excerpt')),
                                 $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class),
                             ]),
 
@@ -199,6 +195,7 @@ class PostResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
+        // @phpstan-ignore-next-line
         return static::$model::count();
     }
 }

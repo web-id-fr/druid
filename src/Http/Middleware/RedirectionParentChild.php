@@ -2,7 +2,11 @@
 
 namespace Webid\Druid\Http\Middleware;
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Symfony\Component\HttpFoundation\Response;
 use Webid\Druid\Repositories\PageRepository;
+use Webmozart\Assert\Assert;
 
 class RedirectionParentChild
 {
@@ -11,9 +15,12 @@ class RedirectionParentChild
     ) {
     }
 
-    public function handle($request, $next)
+    public function handle(Request $request, \Closure $next): Response|Redirector
     {
-        $page = $this->pageRepository->findOrFailBySlug(last($request->segments()));
+        $lastSegment = last($request->segments());
+        Assert::string($lastSegment);
+
+        $page = $this->pageRepository->findOrFailBySlug($lastSegment);
 
         $path = $request->path();
         $fullPath = $page->getFullPathUrl();
