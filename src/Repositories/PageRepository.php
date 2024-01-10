@@ -32,4 +32,19 @@ class PageRepository
 
         return $model;
     }
+
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function findOrFailBySlugAndLang(string $slug, string $langCode): Page
+    {
+        /** @var Page $model */
+        $model = $this->model->newQuery()
+            ->where([
+                'slug' => $slug,
+                'lang' => $langCode,
+            ])->firstOrFail();
+
+        return $model;
+    }
 }

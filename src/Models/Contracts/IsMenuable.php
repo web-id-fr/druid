@@ -11,5 +11,5 @@ interface IsMenuable
 {
     public function getMenuLabel(): string;
 
-    public function getFullPathUrl(): string;
+    public function fullUrlPath(): string;
 }

@@ -135,7 +135,7 @@ class PostResource extends Resource
                     ->label(__('Title'))
                     ->color('primary')
                     ->url(
-                        url: fn (Post $record) => url($record->getFullPathUrl()),
+                        url: fn (Post $record) => url($record->fullUrlPath()),
                         shouldOpenInNewTab: true
                     )
                     ->searchable(),

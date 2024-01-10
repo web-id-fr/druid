@@ -2,12 +2,15 @@
 
 namespace Webid\Druid\Models;
 
+use App\Enums\Langs;
 use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
@@ -19,8 +22,9 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property array $content
  * @property string|null $searchable_content
  * @property PageStatus $status
- * @property string|null $lang
+ * @property Langs|null $lang
  * @property int|null $parent_page_id
+ * @property int|null $translation_origin_page_id
  * @property bool $indexation
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -34,6 +38,8 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
+ * @property-read Page $translationOriginPage
+ * @property-read Collection<int, Page> $translations
  */
 abstract class BasePage extends Model implements IsMenuable
 {
@@ -66,28 +72,48 @@ abstract class BasePage extends Model implements IsMenuable
         'published_at' => 'datetime',
         'content' => 'array',
         'status' => PageStatus::class,
+        'lang' => Langs::class,
     ];
-
-    public function getParentKeyName(): string
-    {
-        return 'parent_page_id';
-    }
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Page::class, $this->getParentKeyName());
+        return $this->belongsTo(Page::class, 'parent_page_id');
     }
 
-    public function getFullPathUrl(): string
+    public function translationOriginPage(): BelongsTo
     {
-        $url = $this->slug;
+        return $this->belongsTo(Page::class, 'translation_origin_page_id');
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(Page::class, 'translation_origin_page_id')
+            ->whereKeyNot($this->getKey());
+    }
+
+    public function fullUrlPath(): string
+    {
+        $path = '';
+
+        if (config('cms.enable_multilingual_feature')) {
+            $path .= $this->lang ? $this->lang->value : config('cms.default_language');
+            $path .= '/';
+        }
+
+        $path .= $this->slug;
+
         $parent = $this->parent;
         while ($parent) {
-            $url = $parent->slug.'/'.$url;
+            $path = $parent->slug . '/' . $path;
             $parent = $parent->parent;
         }
 
-        return $url;
+        return $path;
+    }
+
+    public function url(): string
+    {
+        return url($this->fullUrlPath());
     }
 
     public function getMenuLabel(): string

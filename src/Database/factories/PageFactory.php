@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
+use App\Enums\Langs;
 use App\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Webid\Druid\Enums\PageStatus;
@@ -18,7 +19,29 @@ class PageFactory extends Factory
             'status' => PageStatus::PUBLISHED->value,
             'content' => $this->fakeContent(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'lang' => Langs::EN,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Page $page) {
+            if ($page->translation_origin_page_id) {
+                return;
+            }
+
+            $page->update(['translation_origin_page_id' => $page->getKey()]);
+        });
+    }
+
+    public function asATranslationFrom(Page $page, Langs $lang): static
+    {
+        return $this->state(function (array $attributes) use ($lang, $page) {
+            return [
+                'lang' => $lang,
+                'translation_origin_page_id' => $page->getKey(),
+            ];
+        });
     }
 
     /**

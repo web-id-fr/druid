@@ -83,7 +83,7 @@ abstract class BasePost extends Model implements IsMenuable
         return $this->belongsToMany(User::class);
     }
 
-    public function getFullPathUrl(): string
+    public function fullUrlPath(): string
     {
         return config('cms.blog.prefix').'/'.$this->categories->first()?->slug.'/'.$this->slug;
     }

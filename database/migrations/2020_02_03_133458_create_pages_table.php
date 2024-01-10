@@ -4,20 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('title');
-            $table->string('lang')->nullable();
-            $table->longText('slug');
+            $table->string('lang', 20)->nullable();
+            $table->foreignId('translation_origin_page_id')
+                ->nullable()
+                ->constrained('pages')
+                ->cascadeOnDelete();
+            $table->string('slug', 255);
             $table->longText('content');
             $table->longText('searchable_content')->nullable();
             $table->string('status');
-            $table->unsignedBigInteger('parent_page_id')->nullable();
-            $table->foreign('parent_page_id')->references('id')->on('pages')->onDelete('set null');
+            $table->foreignId('parent_page_id')
+                ->nullable()
+                ->constrained('pages')
+                ->nullOnDelete();
 
             // SEO
             $table->boolean('indexation')->default(0);
@@ -32,6 +37,8 @@ return new class extends Migration
             $table->dateTime('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['lang', 'slug']);
         });
     }
 

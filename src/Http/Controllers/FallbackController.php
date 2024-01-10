@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Webid\Druid\Enums\RenderType;
 use Webid\Druid\Http\Resources\PageResource;
 use Webid\Druid\Repositories\PageRepository;
 use Webmozart\Assert\Assert;
@@ -24,16 +25,23 @@ class FallbackController extends Controller
     {
         $type = config('cms.views.type');
 
-        $lastSegment = last($request->segments());
+        $requestSegments = $request->segments();
+        $firstSegment = head($requestSegments);
+        $lastSegment = last($requestSegments);
+        Assert::string($firstSegment);
         Assert::string($lastSegment);
 
         try {
-            $page = $this->pageRepository->findOrFailBySlug($lastSegment);
-        } catch (ModelNotFoundException $exception) {
+            if (config('cms.enable_multilingual_feature')) {
+                $page = $this->pageRepository->findOrFailBySlugAndLang($lastSegment, $firstSegment);
+            } else {
+                $page = $this->pageRepository->findOrFailBySlug($lastSegment);
+            }
+        } catch (ModelNotFoundException $e) {
             abort(404);
         }
 
-        if ($type === 'api') {
+        if ($type === RenderType::API->value) {
             return $this->pageController->showApi($page);
         }
 

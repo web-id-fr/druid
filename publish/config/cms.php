@@ -12,8 +12,12 @@ return [
      */
     'enable_multilingual_feature' => false,
     'locales' => [
-        'en' => 'English',
-        'fr' => 'Français',
+        'en' => [
+            'label' => 'English',
+        ],
+        'fr' => [
+            'label' => 'Français',
+        ],
     ],
     'default_language' => 'en',
 
