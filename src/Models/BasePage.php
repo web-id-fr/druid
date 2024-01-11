@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Models;
 
-use App\Enums\Langs;
 use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
@@ -88,15 +88,15 @@ abstract class BasePage extends Model implements IsMenuable
     public function translations(): HasMany
     {
         return $this->hasMany(Page::class, 'translation_origin_page_id')
-            ->whereKeyNot($this->getKey());
+            ->whereNot('translation_origin_page_id', $this->getKey());
     }
 
     public function fullUrlPath(): string
     {
         $path = '';
 
-        if (config('cms.enable_multilingual_feature')) {
-            $path .= $this->lang ? $this->lang->value : config('cms.default_language');
+        if (isMultilingualEnabled()) {
+            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
             $path .= '/';
         }
 

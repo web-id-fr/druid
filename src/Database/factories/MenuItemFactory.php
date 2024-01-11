@@ -42,6 +42,9 @@ class MenuItemFactory extends Factory
         });
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function withPageItem(array $params = []): self
     {
         return $this->state(function () use ($params) {

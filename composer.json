@@ -4,6 +4,9 @@
     "description": "Laravel Filament based CMS",
     "type": "library",
     "autoload": {
+        "files": [
+            "src/Helpers/Multilingual.php"
+        ],
         "psr-4": {
             "Webid\\Druid\\": "src/"
         }

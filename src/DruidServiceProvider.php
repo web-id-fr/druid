@@ -3,6 +3,7 @@
 namespace Webid\Druid;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
 use Webid\Druid\Providers\RouteServiceProvider;
 
@@ -14,6 +15,8 @@ class DruidServiceProvider extends ServiceProvider
         $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+
+        ViewFacade::addLocation(__DIR__ . '/../resources/');
     }
 
     public function register(): void

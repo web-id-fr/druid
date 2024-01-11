@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Components;
 
-use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Select;
 use Illuminate\Contracts\View\View;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
@@ -11,9 +10,6 @@ use Webmozart\Assert\Assert;
 
 class ReusableComponent implements ComponentInterface
 {
-    /**
-     * @return array<int, Field>
-     */
     public static function blockSchema(): array
     {
         return [
@@ -31,7 +27,7 @@ class ReusableComponent implements ComponentInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      */
     public static function toBlade(array $data): View
     {
@@ -45,7 +41,7 @@ class ReusableComponent implements ComponentInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      */
     public static function toSearchableContent(array $data): string
     {
@@ -59,7 +55,7 @@ class ReusableComponent implements ComponentInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      */
     private static function getComponentFromData(array $data): ReusableComponentModel
     {

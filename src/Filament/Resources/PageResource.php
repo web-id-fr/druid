@@ -11,14 +11,19 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Filament\Resources\PageResource\Pages;
+use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Services\Admin\FilamentComponentsService;
+use Webmozart\Assert\Assert;
 
 class PageResource extends Resource
 {
@@ -33,72 +38,99 @@ class PageResource extends Resource
         /** @var FilamentComponentsService $filamentComponentService */
         $filamentComponentService = app(FilamentComponentsService::class);
 
+        /** @var PageRepository $pageRepository */
+        $pageRepository = app(PageRepository::class);
+
+        $contentTab = [
+            TextInput::make('title')
+                ->label(__('Title'))
+                ->live(onBlur: true)
+                ->afterStateUpdated(
+                    fn (string $operation, $state, Set $set) => $operation === 'create'
+                        ? $set('slug', Str::slug($state)) : null
+                )
+                ->required(),
+            $filamentComponentService->getFlexibleContentFieldsForModel(Page::class),
+        ];
+
+        $parametersTab = [
+            TextInput::make('slug')
+                ->label(__('Slug')),
+            Select::make('parent_page_id')
+                ->label(__('Parent page'))
+                ->placeholder(__('Select a parent page'))
+                // @phpstan-ignore-next-line
+                ->options(fn (?Model $record): Collection => $pageRepository->allExceptForPageId($record?->getKey())->pluck('title', 'id'))
+                ->searchable(),
+            Select::make('status')
+                ->label(__('Status'))
+                ->placeholder(__('Select a status'))
+                ->options(PageStatus::class)
+                ->default(PageStatus::PUBLISHED)
+                ->required(),
+            DatePicker::make('published_at')
+                ->label(__('Published at'))
+                ->default(now())
+                ->required(),
+        ];
+
+        if (isMultilingualEnabled()) {
+            $parametersTab = array_merge(
+                $parametersTab,
+                [
+                    Select::make('lang')
+                        ->label(__('Language'))
+                        ->options(
+                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                        )
+                        ->live()
+                        ->placeholder(__('Select a language')),
+                    Select::make('translation_origin_page_id')
+                        ->label(__('Translation origin page'))
+                        ->placeholder(__('Is a translation of...'))
+                        ->options(function (Get $get) use ($pageRepository) {
+                            $lang = $get('lang');
+                            Assert::string($lang);
+
+                            return $pageRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                                // @phpstan-ignore-next-line
+                                ->mapWithKeys(fn (Page $page) => [$page->getKey() => $page->title]);
+                        })
+                        ->searchable()
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->live(),
+                ]
+            );
+        }
+
+        $seoTab = [
+            TextInput::make('meta_title')
+                ->label(__('Meta title')),
+            RichEditor::make('meta_description')
+                ->label(__('Meta description')),
+            TextInput::make('meta_keywords')
+                ->label(__('Meta keywords')),
+            TextInput::make('opengraph_title')
+                ->label(__('Opengraph title')),
+            RichEditor::make('opengraph_description')
+                ->label(__('Opengraph description')),
+            FileUpload::make('opengraph_picture')
+                ->label(__('Opengraph picture')),
+            TextInput::make('opengraph_picture_alt')
+                ->label(__('Opengraph picture alt')),
+            Toggle::make('indexation')
+                ->label(__('Indexation'))
+                ->helperText(__('Allow search engines to index this page'))
+                ->required(),
+        ];
+
         return $form
             ->schema(components: [
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make(__('Content'))
-                            ->schema([
-                                TextInput::make('title')
-                                    ->label(__('Title'))
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(
-                                        fn (string $operation, $state, Set $set) => $operation === 'create'
-                                            ? $set('slug', Str::slug($state)) : null
-                                    )
-                                    ->required(),
-                                $filamentComponentService->getFlexibleContentFieldsForModel(Page::class),
-                            ]),
-
-                        Tabs\Tab::make(__('Parameters'))
-                            ->schema([
-                                TextInput::make('slug')
-                                    ->label(__('Slug')),
-                                Select::make('parent_page_id')
-                                    ->label(__('Parent page'))
-                                    ->placeholder(__('Select a parent page'))
-                                    ->options(Page::all()->pluck('title', 'id'))
-                                    ->searchable(),
-                                Select::make('status')
-                                    ->label(__('Status'))
-                                    ->placeholder(__('Select a status'))
-                                    ->options(PageStatus::class)
-                                    ->default(PageStatus::PUBLISHED)
-                                    ->required(),
-                                Select::make('lang')
-                                    ->label(__('Language'))
-                                    ->options([
-                                        1 => __('French'),
-                                        0 => __('English'),
-                                    ])
-                                    ->placeholder(__('Select a language')),
-                                DatePicker::make('published_at')
-                                    ->label(__('Published at'))
-                                    ->default(now())
-                                    ->required(),
-                            ])->columns(2),
-
-                        Tabs\Tab::make(__('SEO'))
-                            ->schema([
-                                TextInput::make('meta_title')
-                                    ->label(__('Meta title')),
-                                RichEditor::make('meta_description')
-                                    ->label(__('Meta description')),
-                                TextInput::make('meta_keywords')
-                                    ->label(__('Meta keywords')),
-                                TextInput::make('opengraph_title')
-                                    ->label(__('Opengraph title')),
-                                RichEditor::make('opengraph_description')
-                                    ->label(__('Opengraph description')),
-                                FileUpload::make('opengraph_picture')
-                                    ->label(__('Opengraph picture')),
-                                TextInput::make('opengraph_picture_alt')
-                                    ->label(__('Opengraph picture alt')),
-                                Toggle::make('indexation')
-                                    ->label(__('Indexation'))
-                                    ->helperText(__('Allow search engines to index this page'))
-                                    ->required(),
-                            ])->columns(2),
+                        Tabs\Tab::make(__('Content'))->schema($contentTab),
+                        Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2),
+                        Tabs\Tab::make(__('SEO'))->schema($seoTab)->columns(2),
                     ])
                     ->activeTab(1)
                     ->columnSpanFull(),
@@ -113,18 +145,19 @@ class PageResource extends Resource
                     ->label(__('Title'))
                     ->color('primary')
                     ->url(
-                        url: fn (Page $record) => url($record->slug),
+                        url: fn (Page $record) => $record->loadMissing('parent')->url(),
                         shouldOpenInNewTab: true
                     )
                     ->searchable(),
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->colors([
                         'success' => PageStatus::PUBLISHED,
                         'warning' => PageStatus::DRAFT,
                         'danger' => PageStatus::ARCHIVED,
                     ])
                     ->label(__('Status')),
-                Tables\Columns\BooleanColumn::make('indexation')
+                Tables\Columns\IconColumn::make('indexation')
                     ->boolean()
                     ->label(__('Indexation')),
                 Tables\Columns\TextColumn::make('parent_page_id')
@@ -132,6 +165,8 @@ class PageResource extends Resource
                     ->label(__('Parent page')),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label(__('Published at')),
+                Tables\Columns\ViewColumn::make('translations')->view('admin.translations'),
+
             ])
             ->filters([
                 //

@@ -2,9 +2,9 @@
 
 namespace Webid\Druid\Tests\Helpers;
 
-use App\Enums\Langs;
 use App\Models\Page;
 use Webid\Druid\Database\Factories\PageFactory;
+use Webid\Druid\Enums\Langs;
 
 trait PageCreator
 {

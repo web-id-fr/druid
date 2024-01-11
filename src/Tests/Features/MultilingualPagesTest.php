@@ -2,9 +2,9 @@
 
 namespace Webid\Druid\Tests\Features;
 
-use App\Enums\Langs;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Tests\TestCase;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Tests\Helpers\ApiHelpers;
 use Webid\Druid\Tests\Helpers\MultilingualHelpers;
 use Webid\Druid\Tests\Helpers\PageCreator;
@@ -23,11 +23,28 @@ class MultilingualPagesTest extends TestCase
     }
 
     /** @test */
+    public function multilingual_feature_can_be_enabled_and_disabled_using_config(): void
+    {
+        $this->assertFalse(isMultilingualEnabled());
+        $this->enableMultilingualFeature();
+        $this->assertTrue(isMultilingualEnabled());
+    }
+
+    /** @test */
+    public function default_locale_can_be_set_using_config(): void
+    {
+        $this->setDefaultLanguageKey('fr');
+        $this->assertEquals(getDefaultLocaleKey(), 'fr');
+        $this->setDefaultLanguageKey('de');
+        $this->assertEquals(getDefaultLocale(), Langs::DE);
+    }
+
+    /** @test */
     public function current_language_shows_up_in_url_when_multilingual_feature_is_enabled(): void
     {
         $page = $this->createPageInEnglish();
 
-        $this->assertFalse(config('cms.enable_multilingual_feature'));
+        $this->assertFalse(isMultilingualEnabled());
         $this->assertEquals($page->url(), url($page->slug));
 
         $this->enableMultilingualFeature();

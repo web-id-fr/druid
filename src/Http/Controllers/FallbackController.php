@@ -32,7 +32,7 @@ class FallbackController extends Controller
         Assert::string($lastSegment);
 
         try {
-            if (config('cms.enable_multilingual_feature')) {
+            if (isMultilingualEnabled()) {
                 $page = $this->pageRepository->findOrFailBySlugAndLang($lastSegment, $firstSegment);
             } else {
                 $page = $this->pageRepository->findOrFailBySlug($lastSegment);
