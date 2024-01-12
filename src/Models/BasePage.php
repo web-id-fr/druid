@@ -104,7 +104,7 @@ abstract class BasePage extends Model implements IsMenuable
 
         $parent = $this->parent;
         while ($parent) {
-            $path = $parent->slug . '/' . $path;
+            $path = $parent->slug.'/'.$path;
             $parent = $parent->parent;
         }
 

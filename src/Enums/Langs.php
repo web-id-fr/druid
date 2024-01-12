@@ -4,7 +4,6 @@ namespace Webid\Druid\Enums;
 
 enum Langs: string
 {
-
     case AF_NA = 'af_NA';
     case AF_ZA = 'af_ZA';
     case AF = 'af';
@@ -442,8 +441,7 @@ enum Langs: string
     case ZU_ZA = 'zu_ZA';
     case ZU = 'zu';
 
-
-    function getName(): string
+    public function getName(): string
     {
         return match ($this) {
 

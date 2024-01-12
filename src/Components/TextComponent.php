@@ -23,7 +23,7 @@ class TextComponent implements ComponentInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toBlade(array $data): View
     {
@@ -33,7 +33,7 @@ class TextComponent implements ComponentInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toSearchableContent(array $data): string
     {

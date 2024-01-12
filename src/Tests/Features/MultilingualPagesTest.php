@@ -11,9 +11,9 @@ use Webid\Druid\Tests\Helpers\PageCreator;
 
 class MultilingualPagesTest extends TestCase
 {
-    use PageCreator;
-    use MultilingualHelpers;
     use ApiHelpers;
+    use MultilingualHelpers;
+    use PageCreator;
 
     protected function setUp(): void
     {
@@ -49,7 +49,7 @@ class MultilingualPagesTest extends TestCase
 
         $this->enableMultilingualFeature();
 
-        $this->assertEquals($page->url(), url('/en/' . $page->slug));
+        $this->assertEquals($page->url(), url('/en/'.$page->slug));
     }
 
     /** @test */
@@ -58,7 +58,7 @@ class MultilingualPagesTest extends TestCase
         $this->enableMultilingualFeature();
         $page = $this->createFrenchTranslationPage();
 
-        $this->assertEquals($page->url(), url('/fr/' . $page->slug));
+        $this->assertEquals($page->url(), url('/fr/'.$page->slug));
 
         $this->get($page->url())
             ->assertOk();
