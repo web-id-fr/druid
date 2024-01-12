@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->string('post_image')->nullable();
             $table->string('lang', 20)->nullable();
+            $table->foreignId('translation_origin_model_id')
+                ->nullable()
+                ->constrained('posts')
+                ->cascadeOnDelete();
             $table->string('status');
             $table->text('excerpt')->nullable();
             $table->longText('content');

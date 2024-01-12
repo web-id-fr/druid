@@ -12,7 +12,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->longText('title');
             $table->string('lang', 20)->nullable();
-            $table->foreignId('translation_origin_page_id')
+            $table->foreignId('translation_origin_model_id')
                 ->nullable()
                 ->constrained('pages')
                 ->cascadeOnDelete();

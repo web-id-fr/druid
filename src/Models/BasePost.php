@@ -7,9 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
+use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
  * @property string $title
@@ -42,6 +44,7 @@ abstract class BasePost extends Model implements IsMenuable
 {
     use CanRenderContent;
     use HasFactory;
+    use IsTranslatable;
 
     protected $table = 'posts';
 
@@ -71,6 +74,7 @@ abstract class BasePost extends Model implements IsMenuable
         'published_at' => 'datetime',
         'content' => 'array',
         'status' => PostStatus::class,
+        'lang' => Langs::class,
     ];
 
     public function categories(): BelongsToMany

@@ -7,13 +7,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
+use Webid\Druid\Models\Traits\IsTranslatable;
 use Webid\Druid\Services\ComponentSearchContentExtractor;
 
 /**
@@ -24,7 +24,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property PageStatus $status
  * @property Langs|null $lang
  * @property int|null $parent_page_id
- * @property int|null $translation_origin_page_id
+ * @property int|null $translation_origin_model_id
  * @property bool $indexation
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -45,6 +45,7 @@ abstract class BasePage extends Model implements IsMenuable
 {
     use CanRenderContent;
     use HasFactory;
+    use IsTranslatable;
     use SoftDeletes;
 
     protected $table = 'pages';
@@ -78,17 +79,6 @@ abstract class BasePage extends Model implements IsMenuable
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Page::class, 'parent_page_id');
-    }
-
-    public function translationOriginPage(): BelongsTo
-    {
-        return $this->belongsTo(Page::class, 'translation_origin_page_id');
-    }
-
-    public function translations(): HasMany
-    {
-        return $this->hasMany(Page::class, 'translation_origin_page_id')
-            ->whereNot('translation_origin_page_id', $this->getKey());
     }
 
     public function fullUrlPath(): string

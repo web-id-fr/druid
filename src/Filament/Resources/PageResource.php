@@ -4,12 +4,9 @@ namespace Webid\Druid\Filament\Resources;
 
 use App\Models\Page;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -85,7 +82,7 @@ class PageResource extends Resource
                         )
                         ->live()
                         ->placeholder(__('Select a language')),
-                    Select::make('translation_origin_page_id')
+                    Select::make('translation_origin_model_id')
                         ->label(__('Translation origin page'))
                         ->placeholder(__('Is a translation of...'))
                         ->options(function (Get $get) use ($pageRepository) {
@@ -103,34 +100,13 @@ class PageResource extends Resource
             );
         }
 
-        $seoTab = [
-            TextInput::make('meta_title')
-                ->label(__('Meta title')),
-            RichEditor::make('meta_description')
-                ->label(__('Meta description')),
-            TextInput::make('meta_keywords')
-                ->label(__('Meta keywords')),
-            TextInput::make('opengraph_title')
-                ->label(__('Opengraph title')),
-            RichEditor::make('opengraph_description')
-                ->label(__('Opengraph description')),
-            FileUpload::make('opengraph_picture')
-                ->label(__('Opengraph picture')),
-            TextInput::make('opengraph_picture_alt')
-                ->label(__('Opengraph picture alt')),
-            Toggle::make('indexation')
-                ->label(__('Indexation'))
-                ->helperText(__('Allow search engines to index this page'))
-                ->required(),
-        ];
-
         return $form
             ->schema(components: [
                 Tabs::make('Tabs')
                     ->tabs([
                         Tabs\Tab::make(__('Content'))->schema($contentTab),
                         Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2),
-                        Tabs\Tab::make(__('SEO'))->schema($seoTab)->columns(2),
+                        Tabs\Tab::make(__('SEO'))->schema(CommonFields::getCommonSeoFields())->columns(2),
                     ])
                     ->activeTab(1)
                     ->columnSpanFull(),
@@ -139,35 +115,39 @@ class PageResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label(__('Title'))
-                    ->color('primary')
-                    ->url(
-                        url: fn (Page $record) => $record->loadMissing('parent')->url(),
-                        shouldOpenInNewTab: true
-                    )
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->colors([
-                        'success' => PageStatus::PUBLISHED,
-                        'warning' => PageStatus::DRAFT,
-                        'danger' => PageStatus::ARCHIVED,
-                    ])
-                    ->label(__('Status')),
-                Tables\Columns\IconColumn::make('indexation')
-                    ->boolean()
-                    ->label(__('Indexation')),
-                Tables\Columns\TextColumn::make('parent_page_id')
-                    ->default('-')
-                    ->label(__('Parent page')),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label(__('Published at')),
-                Tables\Columns\ViewColumn::make('translations')->view('admin.translations'),
+        $columns = [
+            Tables\Columns\TextColumn::make('title')
+                ->label(__('Title'))
+                ->color('primary')
+                ->url(
+                    url: fn (Page $record) => $record->loadMissing(['parent'])->url(),
+                    shouldOpenInNewTab: true
+                )
+                ->searchable(),
+            Tables\Columns\TextColumn::make('status')
+                ->badge()
+                ->colors([
+                    'success' => PageStatus::PUBLISHED,
+                    'warning' => PageStatus::DRAFT,
+                    'danger' => PageStatus::ARCHIVED,
+                ])
+                ->label(__('Status')),
+            Tables\Columns\IconColumn::make('indexation')
+                ->boolean()
+                ->label(__('Indexation')),
+            Tables\Columns\TextColumn::make('parent_page_id')
+                ->default('-')
+                ->label(__('Parent page')),
+            Tables\Columns\TextColumn::make('published_at')
+                ->label(__('Published at')),
+        ];
 
-            ])
+        if (isMultilingualEnabled()) {
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+        }
+
+        return $table
+            ->columns($columns)
             ->filters([
                 //
             ])

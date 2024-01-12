@@ -29,6 +29,7 @@ class FilamentComponentsService
 
             $blocks[] =
                 Builder\Block::make($componentClass::fieldName())
+                    // @phpstan-ignore-next-line
                     ->schema($componentClass::blockSchema());
         }
 

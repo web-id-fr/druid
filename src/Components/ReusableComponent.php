@@ -3,8 +3,11 @@
 namespace Webid\Druid\Components;
 
 use Filament\Forms\Components\Select;
+use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
+use Webid\Druid\Repositories\ReusableComponentsRepository;
 use Webid\Druid\Services\ComponentDisplayContentExtractor;
 use Webmozart\Assert\Assert;
 
@@ -12,11 +15,23 @@ class ReusableComponent implements ComponentInterface
 {
     public static function blockSchema(): array
     {
+        /** @var ReusableComponentsRepository $reusableComponentsRepository */
+        $reusableComponentsRepository = app(ReusableComponentsRepository::class);
+
         return [
             Select::make('reusable_component')
                 ->label(__('Reusable component'))
                 ->placeholder(__('Select a component'))
-                ->options(ReusableComponentModel::all()->pluck('title', 'id'))
+                ->options(function (Get $get) use ($reusableComponentsRepository) {
+                    $lang = $get('../../../lang') ?? getDefaultLocaleKey();
+                    Assert::string($lang);
+
+                    return $reusableComponentsRepository->allForLang(Langs::from($lang))
+                        // @phpstan-ignore-next-line
+                        ->mapWithKeys(fn (\Webid\Druid\Models\ReusableComponent $reusableComponent) => [
+                            $reusableComponent->getKey() => $reusableComponent->title,
+                        ]);
+                })
                 ->searchable(),
         ];
     }

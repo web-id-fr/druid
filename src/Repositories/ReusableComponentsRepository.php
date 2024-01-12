@@ -2,14 +2,14 @@
 
 namespace Webid\Druid\Repositories;
 
-use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Models\ReusableComponent;
 
-class PostRepository
+class ReusableComponentsRepository
 {
-    public function __construct(private readonly Post $model)
+    public function __construct(private readonly ReusableComponent $model)
     {
     }
 
@@ -19,21 +19,6 @@ class PostRepository
     public function all(array $relations = []): Collection
     {
         return $this->model->all()->load($relations);
-    }
-
-    /**
-     * @throws ModelNotFoundException
-     */
-    public function findOrFailBySlugAndLang(string $slug, string $langCode): Post
-    {
-        /** @var Post $model */
-        $model = $this->model->newQuery()
-            ->where([
-                'slug' => $slug,
-                'lang' => $langCode,
-            ])->firstOrFail();
-
-        return $model;
     }
 
     public function countAll(): int
@@ -62,5 +47,10 @@ class PostRepository
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();
+    }
+
+    public function allForLang(Langs $lang): Collection
+    {
+        return $this->model->newQuery()->where('lang', $lang)->get();
     }
 }

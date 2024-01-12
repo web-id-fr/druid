@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Tests\Features;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Tests\TestCase;
 use Webid\Druid\Enums\Langs;
@@ -129,5 +130,24 @@ class MultilingualPagesTest extends TestCase
         $originPage->refresh();
 
         $this->assertCount(2, $originPage->translations);
+    }
+
+    /** @test */
+    public function multilingual_items_show_up_in_admin_pages_list_when_multilingual_feature_is_enabled(): void
+    {
+        $user = UserFactory::new()->create();
+        $this->disableMultilingualFeature();
+        $this->createPageInEnglish();
+
+        $this->actingAs($user)
+            ->get(route('filament.admin.resources.pages.index'))
+            ->assertDontSee('Translations')
+            ->assertDontSee('English');
+        $this->enableMultilingualFeature();
+
+        $this->actingAs($user)
+            ->get(route('filament.admin.resources.pages.index'))
+            ->assertSee('Translations')
+            ->assertSee('English');
     }
 }

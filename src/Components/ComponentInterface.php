@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 interface ComponentInterface
 {
     /**
-     * @return array<int, string>
+     * @return array<int, mixed>
      */
     public static function blockSchema(): array;
 
