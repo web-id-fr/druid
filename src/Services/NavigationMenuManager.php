@@ -3,6 +3,7 @@
 namespace Webid\Druid\Services;
 
 use Webid\Druid\Dto\Menu;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Repositories\MenuRepository;
 
 class NavigationMenuManager
@@ -12,9 +13,9 @@ class NavigationMenuManager
 
     }
 
-    public function getBySlug(string $menuSlug): Menu
+    public function getBySlugAndLang(string $menuSlug, Langs $lang): Menu
     {
-        $menu = $this->menuRepository->findOrFailBySlug($menuSlug);
+        $menu = $this->menuRepository->findOrFailBySlugAndLang($menuSlug, $lang);
 
         return Menu::fromMenu($menu);
     }

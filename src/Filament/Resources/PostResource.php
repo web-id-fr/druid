@@ -97,13 +97,23 @@ class PostResource extends Resource
                     Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
                         ->placeholder(__('Is a translation of...'))
-                        ->options(function (Get $get) use ($postsRepository) {
+                        ->options(function (Get $get, ?Post $post) use ($postsRepository) {
                             $lang = $get('lang');
                             Assert::string($lang);
 
-                            return $postsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                            $allDefaultLanguagePosts = $postsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
                                 // @phpstan-ignore-next-line
-                                ->mapWithKeys(fn (Post $post) => [$post->getKey() => $post->title]);
+                                ->mapWithKeys(fn (Post $mapPost) => [$mapPost->getKey() => $mapPost->title]);
+
+                            if ($post) {
+                                $allDefaultLanguagePosts->put($post->id, __('#No origin model'));
+                            }
+
+                            if ($post?->translationOriginModel->isNot($post)) {
+                                $allDefaultLanguagePosts->put($post->translationOriginModel->id, $post->translationOriginModel->title);
+                            }
+
+                            return $allDefaultLanguagePosts;
                         })
                         ->searchable()
                         ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
@@ -134,7 +144,6 @@ class PostResource extends Resource
                     shouldOpenInNewTab: true
                 )
                 ->searchable(),
-            Tables\Columns\ImageColumn::make('post_image'),
             Tables\Columns\TextColumn::make('status')
                 ->badge()
                 ->colors([

@@ -4,10 +4,14 @@ namespace Webid\Druid\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Webid\Druid\Enums\Langs;
 
+/**
+ * @property Langs $lang
+ */
 trait IsTranslatable
 {
-    public function translationOriginPage(): BelongsTo
+    public function translationOriginModel(): BelongsTo
     {
         return $this->belongsTo($this, 'translation_origin_model_id');
     }

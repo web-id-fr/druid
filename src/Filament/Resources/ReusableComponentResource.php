@@ -53,13 +53,23 @@ class ReusableComponentResource extends Resource
                     Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
                         ->placeholder(__('Is a translation of...'))
-                        ->options(function (Get $get) use ($reusableComponentsRepository) {
+                        ->options(function (Get $get, ?ReusableComponent $reusableComponent) use ($reusableComponentsRepository) {
                             $lang = $get('lang');
                             Assert::string($lang);
 
-                            return $reusableComponentsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                            $allDefaultLanguageComponents = $reusableComponentsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
                                 // @phpstan-ignore-next-line
-                                ->mapWithKeys(fn (ReusableComponent $reusableComponent) => [$reusableComponent->getKey() => $reusableComponent->title]);
+                                ->mapWithKeys(fn (ReusableComponent $mapReusableComponent) => [$mapReusableComponent->getKey() => $mapReusableComponent->title]);
+
+                            if ($reusableComponent) {
+                                $allDefaultLanguageComponents->put($reusableComponent->id, __('#No origin model'));
+                            }
+
+                            if ($reusableComponent?->translationOriginModel->isNot($reusableComponent)) {
+                                $allDefaultLanguageComponents->put($reusableComponent->translationOriginModel->id, $reusableComponent->translationOriginModel->title);
+                            }
+
+                            return $allDefaultLanguageComponents;
                         })
                         ->searchable()
                         ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())

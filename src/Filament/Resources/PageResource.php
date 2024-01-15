@@ -83,15 +83,25 @@ class PageResource extends Resource
                         ->live()
                         ->placeholder(__('Select a language')),
                     Select::make('translation_origin_model_id')
-                        ->label(__('Translation origin page'))
+                        ->label(__('Translation origin model'))
                         ->placeholder(__('Is a translation of...'))
-                        ->options(function (Get $get) use ($pageRepository) {
+                        ->options(function (Get $get, ?Page $page) use ($pageRepository) {
                             $lang = $get('lang');
                             Assert::string($lang);
 
-                            return $pageRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                            $allDefaultLanguagePages = $pageRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
                                 // @phpstan-ignore-next-line
-                                ->mapWithKeys(fn (Page $page) => [$page->getKey() => $page->title]);
+                                ->mapWithKeys(fn (Page $mapPage) => [$mapPage->getKey() => $mapPage->title]);
+
+                            if ($page) {
+                                $allDefaultLanguagePages->put($page->id, __('#No origin model'));
+                            }
+
+                            if ($page?->translationOriginModel->isNot($page)) {
+                                $allDefaultLanguagePages->put($page->translationOriginModel->id, $page->translationOriginModel->title);
+                            }
+
+                            return $allDefaultLanguagePages;
                         })
                         ->searchable()
                         ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())

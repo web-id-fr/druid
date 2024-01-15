@@ -17,6 +17,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
 use Webid\Druid\Services\ComponentSearchContentExtractor;
 
 /**
+ * @property int $id
  * @property string $title
  * @property string $slug
  * @property array $content
@@ -38,7 +39,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
- * @property-read Page $translationOriginPage
+ * @property-read Page $translationOriginModel
  * @property-read Collection<int, Page> $translations
  */
 abstract class BasePage extends Model implements IsMenuable

@@ -37,4 +37,16 @@ class PostFactory extends Factory
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Model $post): void {
+            /** @var Page $post */
+            if ($post->translation_origin_model_id) {
+                return;
+            }
+
+            $post->update(['translation_origin_model_id' => $post->getKey()]);
+        });
+    }
 }

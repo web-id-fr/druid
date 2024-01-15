@@ -5,6 +5,7 @@ namespace Webid\Druid\Tests\Features;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 use Webid\Druid\Dto\Menu;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webid\Druid\Tests\Helpers\MenuCreator;
 
@@ -27,7 +28,7 @@ class NavigationMenuManagerTest extends TestCase
     public function a_wrong_menu_slug_throws_an_exception(): void
     {
         try {
-            $this->navigationMenuManager->getBySlug('inexisting-slug');
+            $this->navigationMenuManager->getBySlugAndLang('inexisting-slug', Langs::FR);
         } catch (ModelNotFoundException $e) {
             $this->assertTrue(true);
 
@@ -41,7 +42,7 @@ class NavigationMenuManagerTest extends TestCase
     public function a_menu_dto_is_returned_when_menu_slug_exists(): void
     {
         $this->createMenuWithSlug('footer');
-        $menuResource = $this->navigationMenuManager->getBySlug('footer');
+        $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
 
         $this->assertNotEmpty($menuResource);
         $this->assertInstanceOf(Menu::class, $menuResource);
@@ -53,7 +54,7 @@ class NavigationMenuManagerTest extends TestCase
         $menu = $this->createMenuWithSlug('footer');
         $this->addPageItemToMenu($menu, ['label' => 'Custom Label']);
 
-        $menuResource = $this->navigationMenuManager->getBySlug('footer');
+        $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
         $this->assertEquals($menuResource->items->first()->label, 'Custom Label');
     }
 
@@ -64,7 +65,7 @@ class NavigationMenuManagerTest extends TestCase
         $menuItem = $this->addPageItemToMenu($menu, ['label' => null]);
         $this->addPageItemToMenu($menu, ['parent_item_id' => $menuItem->getKey()]);
 
-        $menuResource = $this->navigationMenuManager->getBySlug('footer');
+        $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
         $this->assertEquals($menuResource->items->first()->label, $menu->level0Items->first()->model->title);
     }
 
@@ -84,7 +85,7 @@ class NavigationMenuManagerTest extends TestCase
         $subMenuItemLevel2NoOrder = $this->addPageItemToMenu($menu, ['parent_item_id' => $subMenuItemOrder5->getKey(), 'order' => null]);
         $subMenuItemLevel2Order20 = $this->addPageItemToMenu($menu, ['parent_item_id' => $subMenuItemOrder5->getKey(), 'order' => 20]);
 
-        $menuResource = $this->navigationMenuManager->getBySlug('footer');
+        $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
         $this->assertEquals($menuResource->items->first()->id, $menuItemNoOrder->getKey());
         $this->assertEquals($menuResource->items->get(1)->id, $menuItemOrder5->getKey());
         $this->assertEquals($menuResource->items->get(2)->id, $menuItemOrder20->getKey());
