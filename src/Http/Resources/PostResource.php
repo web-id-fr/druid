@@ -4,6 +4,7 @@ namespace Webid\Druid\Http\Resources;
 
 use App\Models\Post;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webid\Druid\Services\ComponentDisplayContentExtractor;
 
 class PostResource extends JsonResource
 {
@@ -15,12 +16,23 @@ class PostResource extends JsonResource
      */
     public function toArray($request): array
     {
+        return $this->toArrayWithoutRequestContext();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArrayWithoutRequestContext(): array
+    {
+        /** @var ComponentDisplayContentExtractor $componentDisplayContentExtractor */
+        $componentDisplayContentExtractor = app()->make(ComponentDisplayContentExtractor::class);
+
         return [
             'id' => $this->resource->getKey(),
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,
             'lang' => $this->resource->lang,
-            'content' => $this->resource->content,
+            'content' => $componentDisplayContentExtractor->getContentFromBlocks($this->resource->content),
             'searchable_content' => $this->resource->searchable_content,
             'status' => $this->resource->status->value,
             'indexation' => $this->resource->indexation,
@@ -36,5 +48,10 @@ class PostResource extends JsonResource
             'updated_at' => $this->resource->updated_at,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
+    }
+
+    public function toObject(): object
+    {
+        return (object) $this->toArrayWithoutRequestContext();
     }
 }

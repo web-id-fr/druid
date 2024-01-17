@@ -22,7 +22,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property string|null $post_image
  * @property string|null $post_image_alt
  * @property PostStatus $status
- * @property string $lang
+ * @property ?Langs $lang
  * @property string|null $excerpt
  * @property array $content
  * @property string|null $searchable_content
@@ -83,6 +83,27 @@ abstract class BasePost extends Model implements IsMenuable
         'lang' => Langs::class,
     ];
 
+    public function fullUrlPath(): string
+    {
+        $path = '';
+
+        if (isMultilingualEnabled()) {
+            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
+            $path .= '/';
+        }
+
+        $path .= config('cms.blog.prefix') . '/';
+
+        $path .= $this->slug;
+
+        return $path;
+    }
+
+    public function url(): string
+    {
+        return url($this->fullUrlPath());
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(BaseCategory::class, 'category_post', 'post_id', 'category_id');
@@ -91,11 +112,6 @@ abstract class BasePost extends Model implements IsMenuable
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
-    }
-
-    public function fullUrlPath(): string
-    {
-        return config('cms.blog.prefix').'/'.$this->categories->first()?->slug.'/'.$this->slug;
     }
 
     public function getMenuLabel(): string

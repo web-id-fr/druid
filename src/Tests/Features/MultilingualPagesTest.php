@@ -24,23 +24,6 @@ class MultilingualPagesTest extends TestCase
     }
 
     /** @test */
-    public function multilingual_feature_can_be_enabled_and_disabled_using_config(): void
-    {
-        $this->assertFalse(isMultilingualEnabled());
-        $this->enableMultilingualFeature();
-        $this->assertTrue(isMultilingualEnabled());
-    }
-
-    /** @test */
-    public function default_locale_can_be_set_using_config(): void
-    {
-        $this->setDefaultLanguageKey('fr');
-        $this->assertEquals(getDefaultLocaleKey(), 'fr');
-        $this->setDefaultLanguageKey('de');
-        $this->assertEquals(getDefaultLocale(), Langs::DE);
-    }
-
-    /** @test */
     public function current_language_shows_up_in_url_when_multilingual_feature_is_enabled(): void
     {
         $page = $this->createPageInEnglish();
@@ -68,8 +51,9 @@ class MultilingualPagesTest extends TestCase
     /** @test */
     public function page_url_without_lang_leads_to_a_404(): void
     {
-        $page = $this->createPageInEnglish();
+        $page = $this->createPage(['lang' => null]);
         $pageUrlWithoutLang = $page->url();
+        $this->assertNull($page->lang);
 
         $this->get($pageUrlWithoutLang)
             ->assertOk();

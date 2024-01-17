@@ -3,9 +3,11 @@
 namespace Webid\Druid;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
-use Webid\Druid\Providers\RouteServiceProvider;
+use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
+use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 
 class DruidServiceProvider extends ServiceProvider
 {
@@ -21,7 +23,14 @@ class DruidServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->register(RouteServiceProvider::class);
+        app('router')->aliasMiddleware('multilingual-required', MultilingualFeatureRequired::class);
+        app('router')->aliasMiddleware('multilingual-forbidden', MultilingualFeatureForbidden::class);
+    }
+
+    public function map(): void
+    {
+        Route::middleware('web')
+            ->group(__DIR__.'/../../routes/routes.php');
     }
 
     protected function publishFiles(): void

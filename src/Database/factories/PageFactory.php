@@ -28,11 +28,11 @@ class PageFactory extends Factory
     {
         return $this->afterCreating(function (Model $page): void {
             /** @var Page $page */
-            if ($page->translation_origin_page_id) {
+            if ($page->translation_origin_model_id) {
                 return;
             }
 
-            $page->update(['translation_origin_page_id' => $page->getKey()]);
+            $page->update(['translation_origin_model_id' => $page->getKey()]);
         });
     }
 
@@ -41,7 +41,7 @@ class PageFactory extends Factory
         return $this->state(function (array $attributes) use ($lang, $page) {
             return [
                 'lang' => $lang,
-                'translation_origin_page_id' => $page->getKey(),
+                'translation_origin_model_id' => $page->getKey(),
             ];
         });
     }

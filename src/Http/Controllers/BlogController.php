@@ -2,11 +2,11 @@
 
 namespace Webid\Druid\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Http\Resources\PostResource;
-use Webid\Druid\Models\BasePost as Post;
 use Webid\Druid\Repositories\PostRepository;
 
 class BlogController
@@ -29,7 +29,7 @@ class BlogController
         ]);
     }
 
-    public function show(Category $category, Post $post): View|PostResource
+    public function show(Post $post): View|PostResource
     {
         $type = config('cms.views.type');
 
@@ -37,7 +37,18 @@ class BlogController
             return $this->showApi($post);
         }
 
-        return $this->showBlade($category, $post);
+        return $this->showBlade($post);
+    }
+
+    public function showMultilingual(Langs $lang, Post $post): View|PostResource
+    {
+        $type = config('cms.views.type');
+
+        if ($type === 'api') {
+            return $this->showApi($post);
+        }
+
+        return $this->showBlade($post);
     }
 
     public function showApi(Post $post): PostResource
@@ -45,11 +56,10 @@ class BlogController
         return PostResource::make($post->load('categories'));
     }
 
-    public function showBlade(Category $category, Post $post): View
+    public function showBlade(Post $post): View
     {
         return view('druid::blog.show', [
-            'post' => $post,
-            'category' => $category,
+            'post' => PostResource::make($post->load('categories'))->toObject(),
         ]);
     }
 }
