@@ -15,7 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('lang')->nullable();
+            $table->string('lang', 20)->nullable();
+            $table->foreignId('translation_origin_model_id')
+                ->nullable()
+                ->constrained('categories')
+                ->cascadeOnDelete();
+
+            $table->unique(['lang', 'slug']);
         });
     }
 

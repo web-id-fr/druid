@@ -4,6 +4,7 @@ namespace Webid\Druid\Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryFactory extends Factory
 {
@@ -16,5 +17,17 @@ class CategoryFactory extends Factory
             'slug' => fake()->slug,
             'lang' => fake()->randomElement(['fr', 'en']),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Model $category): void {
+            /** @var Category $category */
+            if ($category->translation_origin_model_id) {
+                return;
+            }
+
+            $category->update(['translation_origin_model_id' => $category->getKey()]);
+        });
     }
 }
