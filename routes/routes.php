@@ -32,6 +32,7 @@ Route::prefix('{lang}/' . config('cms.blog.prefix'))
             });
     });
 
+// @phpstan-ignore-next-line
 Route::prefix(config('cms.blog.prefix'))
     ->name('posts.')
     ->middleware(['multilingual-forbidden', 'web'])

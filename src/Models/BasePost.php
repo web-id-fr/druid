@@ -92,7 +92,7 @@ abstract class BasePost extends Model implements IsMenuable
             $path .= '/';
         }
 
-        $path .= config('cms.blog.prefix') . '/';
+        $path .= config('cms.blog.prefix').'/';
 
         $path .= $this->slug;
 

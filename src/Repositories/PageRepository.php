@@ -72,7 +72,7 @@ class PageRepository
 
     public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
     {
-        return $this->model->newQuery()->where(['lang' => getDefaultLocaleKey()])
+        return $this->model->newQuery()->where(['lang' => getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();

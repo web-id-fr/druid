@@ -12,6 +12,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property string $name
  * @property string $slug
  * @property string $lang
+ * @property int|null $translation_origin_model_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BasePost[] $posts
  */
 class BaseCategory extends Model

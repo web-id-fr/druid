@@ -37,4 +37,11 @@ class MultilingualBaseTest extends TestCase
         $this->setDefaultLanguageKey('de');
         $this->assertEquals(getDefaultLocale(), Langs::DE);
     }
+
+    /** @test */
+    public function current_locale_can_be_found_anytime_with_a_fallback_value(): void
+    {
+        $this->setDefaultLanguageKey('fr');
+        $this->assertEquals(getCurrentLocale(), Langs::FR);
+    }
 }

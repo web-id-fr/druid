@@ -63,4 +63,43 @@ class MultilingualMenusTest extends TestCase
 
         $this->assertCount(1, $originMenu->translations);
     }
+
+    /** @test */
+    public function a_menu_is_automatically_loaded_with_the_current_language(): void
+    {
+        $this->enableMultilingualFeature();
+
+        $menuSlug = 'menu-slug';
+        $originMenu = $this->createMenuWithSlug($menuSlug, lang: Langs::EN);
+
+        $this->assertEmpty($originMenu->translations);
+
+        $frenchTranslation = $this->createFrenchTranslationMenu(fromMenu: $originMenu);
+        $originMenu->refresh();
+
+        $this->assertCount(1, $originMenu->translations);
+        $this->assertTrue($originMenu->translations->first()->is($frenchTranslation));
+
+        $this->assertCount(1, $originMenu->translations);
+    }
+
+    /** @test */
+    public function the_are_helpers_to_get_menus(): void
+    {
+        $this->enableMultilingualFeature();
+
+        $menuSlug = 'menu-slug';
+        $originMenu = $this->createMenuWithSlug($menuSlug, lang: Langs::EN);
+        $frenchTranslation = $this->createFrenchTranslationMenu(fromMenu: $originMenu);
+
+        $menu = getNavigationMenuBySlug($menuSlug);
+        $this->assertEquals($menu->slug, $menuSlug);
+        $this->assertEquals($menu->title, $originMenu->title);
+        $this->assertEquals($menu->items->count(), $originMenu->items->count());
+
+        $menu = getNavigationMenuBySlugAndLang($menuSlug, Langs::FR);
+        $this->assertEquals($menu->slug, $menuSlug);
+        $this->assertEquals($menu->title, $frenchTranslation->title);
+        $this->assertEquals($menu->items->count(), $frenchTranslation->items->count());
+    }
 }

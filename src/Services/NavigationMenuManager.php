@@ -19,4 +19,9 @@ class NavigationMenuManager
 
         return Menu::fromMenu($menu);
     }
+
+    public function getBySlug(string $menuSlug): Menu
+    {
+        return $this->getBySlugAndLang($menuSlug, getCurrentLocale());
+    }
 }
