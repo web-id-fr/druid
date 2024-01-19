@@ -8,19 +8,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Contracts\IsMenuable;
 use Webid\Druid\Models\Traits\CanRenderContent;
+use Webid\Druid\Models\Traits\IsTranslatable;
 use Webid\Druid\Services\ComponentSearchContentExtractor;
 
 /**
+ * @property int $id
  * @property string $title
  * @property string $slug
  * @property array $content
  * @property string|null $searchable_content
  * @property PageStatus $status
- * @property string|null $lang
+ * @property Langs|null $lang
  * @property int|null $parent_page_id
+ * @property int|null $translation_origin_model_id
  * @property bool $indexation
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -34,11 +39,14 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
+ * @property-read Page $translationOriginModel
+ * @property-read Collection<int, Page> $translations
  */
 abstract class BasePage extends Model implements IsMenuable
 {
     use CanRenderContent;
     use HasFactory;
+    use IsTranslatable;
     use SoftDeletes;
 
     protected $table = 'pages';
@@ -66,28 +74,37 @@ abstract class BasePage extends Model implements IsMenuable
         'published_at' => 'datetime',
         'content' => 'array',
         'status' => PageStatus::class,
+        'lang' => Langs::class,
     ];
-
-    public function getParentKeyName(): string
-    {
-        return 'parent_page_id';
-    }
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Page::class, $this->getParentKeyName());
+        return $this->belongsTo(Page::class, 'parent_page_id');
     }
 
-    public function getFullPathUrl(): string
+    public function fullUrlPath(): string
     {
-        $url = $this->slug;
+        $path = '';
+
+        if (isMultilingualEnabled()) {
+            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
+            $path .= '/';
+        }
+
+        $path .= $this->slug;
+
         $parent = $this->parent;
         while ($parent) {
-            $url = $parent->slug.'/'.$url;
+            $path = $parent->slug.'/'.$path;
             $parent = $parent->parent;
         }
 
-        return $url;
+        return $path;
+    }
+
+    public function url(): string
+    {
+        return url($this->fullUrlPath());
     }
 
     public function getMenuLabel(): string

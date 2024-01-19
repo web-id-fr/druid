@@ -3,14 +3,19 @@
 namespace Webid\Druid\Filament\Resources;
 
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\Menu;
+use Webid\Druid\Repositories\MenuRepository;
+use Webmozart\Assert\Assert;
 
 class MenuResource extends Resource
 {
@@ -22,30 +27,80 @@ class MenuResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /** @var MenuRepository $menuRepository */
+        $menuRepository = app(MenuRepository::class);
+
+        $parametersTab = [
+            TextInput::make('title')
+                ->label(__('Title'))
+                ->live()
+                ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug(strval($state))))
+                ->required(),
+            TextInput::make('slug')
+                ->label(__('Slug'))
+                ->required(),
+        ];
+
+        if (isMultilingualEnabled()) {
+            $parametersTab = array_merge(
+                $parametersTab,
+                [
+                    Select::make('lang')
+                        ->label(__('Language'))
+                        ->options(
+                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                        )
+                        ->live()
+                        ->placeholder(__('Select a language')),
+                    Select::make('translation_origin_model_id')
+                        ->label(__('Translation origin model'))
+                        ->placeholder(__('Is a translation of...'))
+                        ->options(function (Get $get, ?Menu $menu) use ($menuRepository) {
+                            $lang = $get('lang');
+                            Assert::string($lang);
+
+                            $allDefaultLanguageMenus = $menuRepository->allFromDefaultLanguageWithoutTranslationForLang(Langs::from($lang))
+                                // @phpstan-ignore-next-line
+                                ->mapWithKeys(fn (Menu $mapMenu) => [$mapMenu->getKey() => $mapMenu->title]);
+
+                            if ($menu) {
+                                $allDefaultLanguageMenus->put($menu->id, __('#No origin model'));
+                            }
+
+                            if ($menu?->translationOriginModel->isNot($menu)) {
+                                $allDefaultLanguageMenus->put($menu->translationOriginModel->id, $menu->translationOriginModel->title);
+                            }
+
+                            return $allDefaultLanguageMenus;
+                        })
+                        ->searchable()
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->live(),
+                ]
+            );
+        }
+
         return $form
             ->schema([
                 Section::make(__('Menu'))
                     ->columns(1)
-                    ->schema([
-                        TextInput::make('title')
-                            ->label(__('Title'))
-                            ->live()
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug(strval($state))))
-                            ->required(),
-                        TextInput::make('slug')
-                            ->label(__('Slug'))
-                            ->required(),
-                    ]),
+                    ->schema($parametersTab),
             ])->columns(1);
     }
 
     public static function table(Table $table): Table
     {
+        $columns = [
+            Tables\Columns\TextColumn::make('title')
+                ->label(__('Title')),
+        ];
+
+        if (isMultilingualEnabled()) {
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+        }
+
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label(__('Title')),
-            ])
+            ->columns($columns)
             ->filters([
                 //
             ])

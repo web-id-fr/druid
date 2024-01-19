@@ -42,6 +42,9 @@ class MenuItemFactory extends Factory
         });
     }
 
+    /**
+     * @param  array<string, mixed>  $params
+     */
     public function withPageItem(array $params = []): self
     {
         return $this->state(function () use ($params) {
@@ -58,9 +61,9 @@ class MenuItemFactory extends Factory
     public function withParentItem(): self
     {
         return $this->afterCreating(
-        // @phpstan-ignore-next-line
-            fn (MenuItem $menuItem) => $menuItem->update(
             // @phpstan-ignore-next-line
+            fn (MenuItem $menuItem) => $menuItem->update(
+                // @phpstan-ignore-next-line
                 ['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]
             )
         );

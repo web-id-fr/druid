@@ -21,7 +21,7 @@ class MenuItem
         return new self(
             $menuItem->id,
             strval($menuItem->label ?? $menuItem->model?->getMenuLabel()),
-            $menuItem->custom_url ?? strval($menuItem->model?->getFullPathUrl()),
+            $menuItem->custom_url ?? strval($menuItem->model?->fullUrlPath()),
             $menuItem->target,
             $menuItem->children->map(fn (\Webid\Druid\Models\MenuItem $item) => MenuItem::fromMenuItem($item))
         );

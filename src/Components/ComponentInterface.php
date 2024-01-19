@@ -2,13 +2,12 @@
 
 namespace Webid\Druid\Components;
 
-use Filament\Forms\Components\Field;
 use Illuminate\Contracts\View\View;
 
 interface ComponentInterface
 {
     /**
-     * @return array<int, Field>
+     * @return array<int, mixed>
      */
     public static function blockSchema(): array;
 

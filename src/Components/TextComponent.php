@@ -2,16 +2,12 @@
 
 namespace Webid\Druid\Components;
 
-use Filament\Forms\Components\Field;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
 use Illuminate\Testing\Assert;
 
 class TextComponent implements ComponentInterface
 {
-    /**
-     * @return array<int, Field>
-     */
     public static function blockSchema(): array
     {
         return [

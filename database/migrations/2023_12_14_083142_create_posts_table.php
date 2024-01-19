@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->string('slug');
+            $table->string('slug', 255);
             $table->string('post_image')->nullable();
-            $table->string('lang')->nullable();
+            $table->string('lang', 20)->nullable();
+            $table->foreignId('translation_origin_model_id')
+                ->nullable()
+                ->constrained('posts')
+                ->cascadeOnDelete();
             $table->string('status');
             $table->text('excerpt')->nullable();
             $table->longText('content');
@@ -36,6 +40,8 @@ return new class extends Migration
 
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
+
+            $table->unique(['lang', 'slug']);
         });
     }
 

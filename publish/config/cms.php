@@ -12,10 +12,17 @@ return [
      */
     'enable_multilingual_feature' => false,
     'locales' => [
-        'en' => 'English',
-        'fr' => 'Français',
+        \Webid\Druid\Enums\Langs::EN->value => [
+            'label' => 'English',
+        ],
+        \Webid\Druid\Enums\Langs::FR->value => [
+            'label' => 'Français',
+        ],
+        \Webid\Druid\Enums\Langs::DE->value => [
+            'label' => 'German',
+        ],
     ],
-    'default_language' => 'en',
+    'default_locale' => \Webid\Druid\Enums\Langs::EN->value,
 
     /*
      |--------------------------------------------------------------------------
@@ -50,7 +57,7 @@ return [
      |--------------------------------------------------------------------------
      */
     'views' => [
-        'type' => 'blade',
+        'type' => \Webid\Druid\Enums\RenderType::BLADE->value,
     ],
 
     /*

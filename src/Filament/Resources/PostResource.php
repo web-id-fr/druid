@@ -11,6 +11,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,7 +20,9 @@ use Illuminate\Support\Str;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
+use Webid\Druid\Repositories\PostRepository;
 use Webid\Druid\Services\Admin\FilamentComponentsService;
+use Webmozart\Assert\Assert;
 
 class PostResource extends Resource
 {
@@ -38,129 +41,138 @@ class PostResource extends Resource
         /** @var FilamentComponentsService $filamentComponentService */
         $filamentComponentService = app(FilamentComponentsService::class);
 
+        /** @var PostRepository $postsRepository */
+        $postsRepository = app(PostRepository::class);
+
+        $contentTab = [
+            TextInput::make('title')
+                ->label(__('Title'))
+                ->live(onBlur: true)
+                ->afterStateUpdated(
+                    fn (string $operation, $state, Set $set) => $operation === 'create'
+                        ? $set('slug', Str::slug($state)) : null
+                )
+                ->required(),
+            RichEditor::make('excerpt')
+                ->label(__('excerpt')),
+            $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Post::class),
+        ];
+
+        $parametersTab = [
+            FileUpload::make('post_image')
+                ->label(__('Image'))
+                ->image()
+                ->columnSpanFull(),
+            TextInput::make('post_image_alt')
+                ->label(__('Image alt'))
+                ->columnSpanFull(),
+            Select::make('status')
+                ->label(__('Status'))
+                ->options(PostStatus::class)
+                ->default(PostStatus::PUBLISHED)
+                ->required(),
+            DatePicker::make('published_at')
+                ->label(__('Published at'))
+                ->default(now())
+                ->required(),
+            TextInput::make('slug')
+                ->label(__('Slug'))
+                ->required(),
+            Toggle::make('is_top_article')
+                ->label(__('Top article'))
+                ->helperText(__('Display this article in the top article section')),
+        ];
+
+        if (isMultilingualEnabled()) {
+            $parametersTab = array_merge(
+                $parametersTab,
+                [
+                    Select::make('lang')
+                        ->label(__('Language'))
+                        ->options(
+                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                        )
+                        ->live()
+                        ->placeholder(__('Select a language')),
+                    Select::make('translation_origin_model_id')
+                        ->label(__('Translation origin model'))
+                        ->placeholder(__('Is a translation of...'))
+                        ->options(function (Get $get, ?Post $post) use ($postsRepository) {
+                            $lang = $get('lang');
+                            Assert::string($lang);
+
+                            $allDefaultLanguagePosts = $postsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                                // @phpstan-ignore-next-line
+                                ->mapWithKeys(fn (Post $mapPost) => [$mapPost->getKey() => $mapPost->title]);
+
+                            if ($post) {
+                                $allDefaultLanguagePosts->put($post->id, __('#No origin model'));
+                            }
+
+                            if ($post?->translationOriginModel->isNot($post)) {
+                                $allDefaultLanguagePosts->put($post->translationOriginModel->id, $post->translationOriginModel->title);
+                            }
+
+                            return $allDefaultLanguagePosts;
+                        })
+                        ->searchable()
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->live(),
+                ]
+            );
+        }
+
         return $form
             ->schema([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make(__('Content'))
-                            ->schema([
-                                TextInput::make('title')
-                                    ->label(__('Title'))
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(
-                                        fn (string $operation, $state, Set $set) => $operation === 'create'
-                                            ? $set('slug', Str::slug($state)) : null
-                                    )
-                                    ->required(),
-                                RichEditor::make('excerpt')
-                                    ->label(__('excerpt')),
-                                $filamentComponentService->getFlexibleContentFieldsForModel(\App\Models\Page::class),
-                            ]),
-
-                        Tabs\Tab::make(__('Parameters'))
-                            ->schema([
-                                FileUpload::make('post_image')
-                                    ->label(__('Image'))
-                                    ->image()
-                                    ->columnSpanFull(),
-                                TextInput::make('post_image_alt')
-                                    ->label(__('Image alt'))
-                                    ->columnSpanFull(),
-                                Select::make('status')
-                                    ->label(__('Status'))
-                                    ->options(PostStatus::class)
-                                    ->default(PostStatus::PUBLISHED)
-                                    ->required(),
-                                Select::make('lang')
-                                    ->label(__('Language'))
-                                    ->options([
-                                        1 => __('French'),
-                                        0 => __('English'),
-                                    ])
-                                    ->placeholder(__('Select a language')),
-                                DatePicker::make('published_at')
-                                    ->label(__('Published at'))
-                                    ->default(now())
-                                    ->required(),
-                                TextInput::make('slug')
-                                    ->label(__('Slug'))
-                                    ->required(),
-                                Toggle::make('is_top_article')
-                                    ->label(__('Top article'))
-                                    ->helperText(__('Display this article in the top article section')),
-                            ])->columns(2),
-
-                        Tabs\Tab::make(__('SEO'))
-                            ->schema([
-                                TextInput::make('meta_title')
-                                    ->label(__('Meta title'))
-                                    ->columnSpanFull(),
-                                RichEditor::make('meta_description')
-                                    ->label(__('Meta description'))
-                                    ->columnSpanFull(),
-                                TextInput::make('meta_keywords')
-                                    ->label(__('Meta keywords'))
-                                    ->columnSpanFull(),
-                                TextInput::make('opengraph_title')
-                                    ->label(__('Opengraph title'))
-                                    ->columnSpanFull(),
-                                RichEditor::make('opengraph_description')
-                                    ->label(__('Opengraph description'))
-                                    ->columnSpanFull(),
-                                FileUpload::make('opengraph_picture')
-                                    ->label(__('Opengraph picture'))
-                                    ->image()
-                                    ->columnSpanFull(),
-                                TextInput::make('opengraph_picture_alt')
-                                    ->label(__('Opengraph picture alt'))
-                                    ->columnSpanFull(),
-                                Toggle::make('indexation')
-                                    ->label(__('Indexation'))
-                                    ->helperText(__('Allow search engines to index this page'))
-                                    ->required(),
-                                Toggle::make('follow')
-                                    ->label(__('Follow'))
-                                    ->helperText(__('Allow search engines to follow links on this page'))
-                                    ->required(),
-                            ])->columns(2),
+                        Tabs\Tab::make(__('Content'))->schema($contentTab),
+                        Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2),
+                        Tabs\Tab::make(__('SEO'))->schema(CommonFields::getCommonSeoFields())->columns(2),
                     ])->columnSpanFull(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $columns = [
+            Tables\Columns\TextColumn::make('title')
+                ->label(__('Title'))
+                ->color('primary')
+                ->url(
+                    url: fn (Post $record) => url($record->loadMissing('categories')->fullUrlPath()),
+                    shouldOpenInNewTab: true
+                )
+                ->searchable(),
+            Tables\Columns\TextColumn::make('status')
+                ->badge()
+                ->colors([
+                    'success' => PostStatus::PUBLISHED,
+                    'warning' => PostStatus::DRAFT,
+                    'danger' => PostStatus::ARCHIVED,
+                ])
+                ->label(__('Status')),
+            Tables\Columns\IconColumn::make('is_top_article')
+                ->label(__('Top article'))
+                ->boolean(),
+            Tables\Columns\IconColumn::make('indexation')
+                ->label(__('Indexation'))
+                ->boolean(),
+            Tables\Columns\IconColumn::make('follow')
+                ->label(__('Follow'))
+                ->boolean(),
+            Tables\Columns\TextColumn::make('published_at')
+                ->label(__('Published at'))
+                ->dateTime()
+                ->sortable(),
+        ];
+
+        if (isMultilingualEnabled()) {
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+        }
+
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label(__('Title'))
-                    ->color('primary')
-                    ->url(
-                        url: fn (Post $record) => url($record->getFullPathUrl()),
-                        shouldOpenInNewTab: true
-                    )
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('post_image'),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'success' => PostStatus::PUBLISHED,
-                        'warning' => PostStatus::DRAFT,
-                        'danger' => PostStatus::ARCHIVED,
-                    ])
-                    ->label(__('Status')),
-                Tables\Columns\IconColumn::make('is_top_article')
-                    ->label(__('Top article'))
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('indexation')
-                    ->label(__('Indexation'))
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('follow')
-                    ->label(__('Follow'))
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label(__('Published at'))
-                    ->dateTime()
-                    ->sortable(),
-            ])
+            ->columns($columns)
             ->filters([
                 //
             ])

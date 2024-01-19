@@ -12,7 +12,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
-
+            $table->string('lang', 20)->nullable();
+            $table->foreignId('translation_origin_model_id')
+                ->nullable()
+                ->constrained('reusable_components')
+                ->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

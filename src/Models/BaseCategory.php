@@ -2,19 +2,23 @@
 
 namespace Webid\Druid\Models;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
  * @property string $name
  * @property string $slug
  * @property string $lang
+ * @property int|null $translation_origin_model_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BasePost[] $posts
  */
 class BaseCategory extends Model
 {
     use HasFactory;
+    use IsTranslatable;
 
     protected $table = 'categories';
 
@@ -28,6 +32,6 @@ class BaseCategory extends Model
 
     public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(BasePost::class, 'category_post', 'category_id', 'post_id');
+        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
     }
 }

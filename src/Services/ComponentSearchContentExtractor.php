@@ -12,7 +12,7 @@ class ComponentSearchContentExtractor
     }
 
     /**
-     * @param array<int, array<mixed>> $contentBlocks
+     * @param  array<int, array<mixed>>  $contentBlocks
      */
     public function extractSearchableContentFromBlocks(array $contentBlocks): string
     {
