@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Model;
 
-use Webid\Druid\Models\BaseCategory;
+use Webid\Druid\App\Models\BaseCategory;
 
 class Category extends BaseCategory
 {

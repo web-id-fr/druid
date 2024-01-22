@@ -6,23 +6,32 @@
 >
     <testsuites>
         <testsuite name="DruidFeature">
-            <directory suffix="Test.php">src/Tests/Features</directory>
+            <directory suffix="Test.php">./tests/Features</directory>
         </testsuite>
     </testsuites>
-    <source>
-        <include>
-            <directory>app</directory>
-        </include>
-    </source>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>./src/database</directory>
+                <directory>./src/routes</directory>
+            </exclude>
+        </whitelist>
+    </filter>
     <php>
-        <env name="APP_ENV" value="testing"/>
+        <server name="APP_KEY" value="base64:dFppajNLeU1qcGZ1RzJKQ1JEclhwcmp5VkdmU2U4d2k="/>
+        <server name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <env name="DB_DATABASE" value=":memory:"/> -->
-        <env name="MAIL_MAILER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="TELESCOPE_ENABLED" value="false"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="MAIL_DRIVER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="DB_FOREIGN_KEYS" value="true"/>
+        <server name="DB_CONNECTION" value="mysql"/>
+        <server name="DB_HOST" value="127.0.0.1"/>
+        <server name="DB_DATABASE" value="druid_test"/>
+        <server name="DB_USERNAME" value="druid_test"/>
+        <server name="DB_PASSWORD" value="secret"/>
+        <server name="MAIL_MAILER" value="log"/>
     </php>
 </phpunit>

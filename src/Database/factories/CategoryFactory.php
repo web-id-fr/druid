@@ -2,9 +2,9 @@
 
 namespace Webid\Druid\Database\Factories;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Webid\Druid\App\Models\Dummy\DummyCategory as Category;
 
 class CategoryFactory extends Factory
 {

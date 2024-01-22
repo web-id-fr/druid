@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-class PostResource extends \Webid\Druid\Filament\Resources\PostResource
+use Webid\Druid\App\Filament\Resources\PostResource as PostResourceBase;
+
+class PostResource extends PostResourceBase
 {
 }

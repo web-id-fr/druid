@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\CategoryResource\Pages;
 
-class EditCategory extends \Webid\Druid\Filament\Resources\CategoryResource\Pages\EditCategory
+use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\EditCategory as EditCategoryBase;
+
+class EditCategory extends EditCategoryBase
 {
 }

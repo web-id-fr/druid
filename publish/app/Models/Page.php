@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Model;
 
-use Webid\Druid\Models\BasePage;
+use Webid\Druid\App\Models\BasePage;
 
 class Page extends BasePage
 {

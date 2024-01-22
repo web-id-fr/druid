@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
-use Webid\Druid\Models\ReusableComponent;
+use Webid\Druid\App\Components\ReusableComponent;
+use Webid\Druid\App\Components\TextComponent;
+use Webid\Druid\App\Components\TextImageComponent;
+use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Enums\RenderType;
+use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 
 return [
     /*
@@ -12,17 +17,17 @@ return [
      */
     'enable_multilingual_feature' => false,
     'locales' => [
-        \Webid\Druid\Enums\Langs::EN->value => [
+        Langs::EN->value => [
             'label' => 'English',
         ],
-        \Webid\Druid\Enums\Langs::FR->value => [
+        Langs::FR->value => [
             'label' => 'Français',
         ],
-        \Webid\Druid\Enums\Langs::DE->value => [
+        Langs::DE->value => [
             'label' => 'German',
         ],
     ],
-    'default_locale' => \Webid\Druid\Enums\Langs::EN->value,
+    'default_locale' => Langs::EN->value,
 
     /*
      |--------------------------------------------------------------------------
@@ -38,15 +43,15 @@ return [
      */
     'components' => [
         [
-            'class' => \Webid\Druid\Components\TextComponent::class,
+            'class' => TextComponent::class,
         ],
         [
-            'class' => \Webid\Druid\Components\TextImageComponent::class,
+            'class' => TextImageComponent::class,
         ],
         [
-            'class' => \Webid\Druid\Components\ReusableComponent::class,
+            'class' => ReusableComponent::class,
             'disabled_for' => [
-                ReusableComponent::class,
+                ReusableComponentModel::class,
             ],
         ],
     ],
@@ -57,7 +62,7 @@ return [
      |--------------------------------------------------------------------------
      */
     'views' => [
-        'type' => \Webid\Druid\Enums\RenderType::BLADE->value,
+        'type' => RenderType::BLADE->value,
     ],
 
     /*

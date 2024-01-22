@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-class ReusableComponentResource extends \Webid\Druid\Filament\Resources\ReusableComponentResource
+use Webid\Druid\App\Filament\Resources\ReusableComponentResource as ReusableComponentResourceBase;
+
+class ReusableComponentResource extends ReusableComponentResourceBase
 {
 }

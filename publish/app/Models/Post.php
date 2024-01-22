@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Model;
 
-use Webid\Druid\Models\BasePost;
+use Webid\Druid\App\Models\BasePost;
 
 class Post extends BasePost
 {
