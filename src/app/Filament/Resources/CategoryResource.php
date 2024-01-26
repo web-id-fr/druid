@@ -12,7 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
-use Webid\Druid\App\Models\Dummy\DummyCategory as Category;
+use App\Model\Category;
 
 class CategoryResource extends Resource
 {

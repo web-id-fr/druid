@@ -3,7 +3,7 @@
 namespace Webid\Druid\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Webid\Druid\App\Models\Dummy\DummyCategory as Category;
+use App\Model\Category;
 
 class CategoryResource extends JsonResource
 {
