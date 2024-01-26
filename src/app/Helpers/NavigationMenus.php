@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Dto\Menu;
+use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Services\NavigationMenuManager;
 
 if (! function_exists('getNavigationMenuBySlug')) {

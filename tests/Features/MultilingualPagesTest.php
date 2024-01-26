@@ -13,9 +13,9 @@ use Webid\Druid\Tests\TestCase;
 class MultilingualPagesTest extends TestCase
 {
     use ApiHelpers;
+    use DummyUserCreator;
     use MultilingualHelpers;
     use PageCreator;
-    use DummyUserCreator;
 
     public function setUp(): void
     {

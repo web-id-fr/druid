@@ -2,9 +2,9 @@
 
 namespace Webid\Druid\App\Dto;
 
-use Webid\Druid\App\Models\MenuItem as MenuItemModel;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\MenuItemTarget;
+use Webid\Druid\App\Models\MenuItem as MenuItemModel;
 
 class MenuItem
 {

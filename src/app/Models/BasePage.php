@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\App\Models;
 
+use App\Model\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,6 @@ use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PageStatus;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
-use App\Model\Page;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 use Webid\Druid\App\Services\ComponentSearchContentExtractor;

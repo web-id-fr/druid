@@ -2,8 +2,8 @@
 
 namespace Webid\Druid\App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Model\Category;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource
 {

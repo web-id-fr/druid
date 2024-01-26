@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Dto\LangLink;
-use Webid\Druid\App\Services\LanguageSwitcher;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Services\LanguageSwitcher;
 use Webmozart\Assert\Assert;
 
 if (! function_exists('isMultilingualEnabled')) {

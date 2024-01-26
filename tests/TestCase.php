@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Webid\Druid\App\Components\ReusableComponent;
 use Webid\Druid\App\Components\TextComponent;
 use Webid\Druid\App\Components\TextImageComponent;
 use Webid\Druid\App\Enums\Langs;
@@ -14,7 +15,6 @@ use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\App\Providers\ComposerServiceProvider;
 use Webid\Druid\App\Providers\TestServiceProvider;
 use Webid\Druid\DruidServiceProvider;
-use Webid\Druid\App\Components\ReusableComponent;
 
 class TestCase extends OrchestraTestCase
 {
@@ -64,19 +64,19 @@ class TestCase extends OrchestraTestCase
         $app['config']->set('cms.enable_multilingual_feature', false);
         $app['config']->set('cms.default_locale', Langs::EN->value);
         $app['config']->set('cms.components', [
-        [
-            'class' => TextComponent::class,
-        ],
-        [
-            'class' => TextImageComponent::class,
-        ],
-        [
-            'class' => ReusableComponent::class,
-            'disabled_for' => [
-                ReusableComponentModel::class,
+            [
+                'class' => TextComponent::class,
             ],
-        ],
-    ],);
+            [
+                'class' => TextImageComponent::class,
+            ],
+            [
+                'class' => ReusableComponent::class,
+                'disabled_for' => [
+                    ReusableComponentModel::class,
+                ],
+            ],
+        ], );
         $app['config']->set('cms.locales', [
             Langs::EN->value => [
                 'label' => 'English',

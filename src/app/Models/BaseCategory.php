@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\App\Models;
 
+use App\Model\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Model\Post;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 
 /**

@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\App\Models;
 
+use App\Model\Post;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Model\Post;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 
 /**

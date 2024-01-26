@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
+use App\Model\Post;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -19,7 +20,6 @@ use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PostStatus;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
-use App\Model\Post;
 use Webid\Druid\App\Repositories\PostRepository;
 use Webid\Druid\App\Services\Admin\FilamentComponentsService;
 use Webmozart\Assert\Assert;
