@@ -55,7 +55,7 @@ class NavigationMenuManagerTest extends TestCase
         $this->addPageItemToMenu($menu, ['label' => 'Custom Label']);
 
         $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
-        dd($menuResource);
+
         $this->assertEquals($menuResource->items->first()->label, 'Custom Label');
     }
 
