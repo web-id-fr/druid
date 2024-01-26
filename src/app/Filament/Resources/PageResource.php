@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PageStatus;
 use Webid\Druid\App\Filament\Resources\PageResource\Pages;
-use Webid\Druid\App\Models\Dummy\DummyPage as Page;
+use App\Model\Page;
 use Webid\Druid\App\Repositories\PageRepository;
 use Webid\Druid\App\Services\Admin\FilamentComponentsService;
 use Webmozart\Assert\Assert;

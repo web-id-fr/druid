@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Http\Resources;
 
-use Webid\Druid\App\Models\Dummy\DummyPage as Page;
+use App\Model\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webid\Druid\App\Services\ComponentDisplayContentExtractor;
 

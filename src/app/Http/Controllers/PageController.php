@@ -6,7 +6,7 @@ namespace Webid\Druid\App\Http\Controllers;
 
 use Illuminate\View\View;
 use Webid\Druid\App\Http\Resources\PageResource;
-use Webid\Druid\App\Models\Dummy\DummyPage as Page;
+use App\Model\Page;
 
 class PageController extends Controller
 {

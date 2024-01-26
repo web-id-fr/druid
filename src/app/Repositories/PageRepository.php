@@ -5,7 +5,7 @@ namespace Webid\Druid\App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
-use Webid\Druid\App\Models\Dummy\DummyPage as Page;
+use App\Model\Page;
 
 class PageRepository
 {

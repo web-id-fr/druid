@@ -13,7 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Filament\Resources\MenuItemResource\Pages;
-use Webid\Druid\App\Models\Dummy\DummyPage as Page;
+use App\Model\Page;
 use Webid\Druid\App\Models\Dummy\DummyPost as Post;
 use Webid\Druid\App\Models\MenuItem;
 use Webid\Druid\App\Repositories\MenuItemRepository;

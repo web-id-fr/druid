@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PageStatus;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
-use Webid\Druid\App\Models\Dummy\DummyPage;
+use App\Model\Page;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 use Webid\Druid\App\Services\ComponentSearchContentExtractor;
@@ -79,7 +79,7 @@ abstract class BasePage extends Model implements IsMenuable
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(DummyPage::class, 'parent_page_id');
+        return $this->belongsTo(Page::class, 'parent_page_id');
     }
 
     public function fullUrlPath(): string

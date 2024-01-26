@@ -23,7 +23,7 @@ class RedirectionParentChild
         $page = $this->pageRepository->findOrFailBySlug($lastSegment);
 
         $path = $request->path();
-        $fullPath = $page->getFullPathUrl();
+        $fullPath = $page->fullUrlPath();
 
         if ($path !== $fullPath) {
             return redirect($fullPath, 301);
