@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PostStatus;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 use Webid\Druid\App\Repositories\PostRepository;
 use Webid\Druid\App\Services\Admin\FilamentComponentsService;
 use Webmozart\Assert\Assert;

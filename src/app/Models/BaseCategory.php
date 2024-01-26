@@ -5,7 +5,7 @@ namespace Webid\Druid\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 
 /**

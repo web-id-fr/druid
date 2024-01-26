@@ -14,7 +14,7 @@ use Filament\Tables\Table;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Filament\Resources\MenuItemResource\Pages;
 use App\Model\Page;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 use Webid\Druid\App\Models\MenuItem;
 use Webid\Druid\App\Repositories\MenuItemRepository;
 use Webid\Druid\App\Repositories\MenuRepository;

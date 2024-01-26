@@ -3,7 +3,7 @@
 namespace Webid\Druid\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 use Webid\Druid\App\Services\ComponentDisplayContentExtractor;
 
 class PostResource extends JsonResource

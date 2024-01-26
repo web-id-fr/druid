@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Http\Controllers\BlogController;
 use Webid\Druid\App\Http\Controllers\FallbackController;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 
 Route::prefix('{lang}/'.config('cms.blog.prefix'))
     ->name('posts.multilingual.')

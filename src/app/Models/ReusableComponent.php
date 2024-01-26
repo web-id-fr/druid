@@ -5,7 +5,7 @@ namespace Webid\Druid\App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use App\Model\Post;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 
 /**
