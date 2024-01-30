@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
+use App\Model\Page;
 use Illuminate\View\View;
-use Webid\Druid\Http\Resources\PageResource;
+use Webid\Druid\App\Http\Resources\PageResource;
 
 class PageController extends Controller
 {

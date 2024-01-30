@@ -1,0 +1,11 @@
+env:
+  - DB_CONNECTION="mysql"
+  - DB_HOST="127.0.0.1"
+  - DB_DATABASE="druid_test"
+  - DB_USERNAME="druid_test"
+  - DB_PASSWORD="secret"
+
+providers:
+  - Webid\Druid\App\Providers\TestServiceProvider
+  - Webid\Druid\DruidServiceProvider
+  - Webid\Druid\App\Providers\ComposerServiceProvider

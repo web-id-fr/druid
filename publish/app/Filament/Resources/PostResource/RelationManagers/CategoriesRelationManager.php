@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PostResource\RelationManagers;
 
-class CategoriesRelationManager extends \Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager
+use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager as CategoriesRelationManagerBase;
+
+class CategoriesRelationManager extends CategoriesRelationManagerBase
 {
 }

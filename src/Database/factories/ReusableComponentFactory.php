@@ -2,11 +2,11 @@
 
 namespace Webid\Druid\Database\Factories;
 
-use App\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
-use Webid\Druid\Models\ReusableComponent;
+use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Models\Dummy\DummyPage;
+use Webid\Druid\App\Models\ReusableComponent;
 
 class ReusableComponentFactory extends Factory
 {
@@ -24,7 +24,7 @@ class ReusableComponentFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Model $page): void {
-            /** @var Page $page */
+            /** @var DummyPage $page */
             if ($page->translation_origin_model_id) {
                 return;
             }

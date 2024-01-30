@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-class PageResource extends \Webid\Druid\Filament\Resources\PageResource
+use Webid\Druid\App\Filament\Resources\PageResource as PageResourceBase;
+
+class PageResource extends PageResourceBase
 {
 }

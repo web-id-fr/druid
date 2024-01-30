@@ -3,15 +3,6 @@
     "version": "0.1",
     "description": "Laravel Filament based CMS",
     "type": "library",
-    "autoload": {
-        "files": [
-            "src/Helpers/Multilingual.php",
-            "src/Helpers/NavigationMenus.php"
-        ],
-        "psr-4": {
-            "Webid\\Druid\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Web ID team",
@@ -25,6 +16,37 @@
         "laravel/framework": "^10",
         "webmozart/assert": "^1.11"
     },
+    "require-dev": {
+        "nunomaduro/larastan": "^2.8",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.20",
+        "phpunit/phpunit": "^9.5.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webid\\Druid\\": "src/",
+            "Webid\\Druid\\App\\": "src/app/",
+            "Webid\\Druid\\Database\\Factories\\": "src/database/factories/"
+        },
+        "files": [
+            "src/app/Helpers/helpers.php",
+            "src/app/Helpers/Multilingual.php",
+            "src/app/Helpers/NavigationMenus.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "src/app/",
+            "Webid\\Druid\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webid\\Druid\\DruidServiceProvider"
+            ]
+        }
+    },
     "scripts": {
         "pint": "pint",
         "phpstan": "phpstan --memory-limit=4G",
@@ -35,17 +57,5 @@
         "test": [
             "@php vendor/bin/phpunit"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Webid\\Druid\\DruidServiceProvider"
-            ]
-        }
-    },
-    "require-dev": {
-        "nunomaduro/larastan": "^2.8",
-        "laravel/pint": "^1.13",
-        "orchestra/testbench": "^8.20"
     }
 }

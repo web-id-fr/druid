@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\MenuResource\Pages;
 
-class EditMenu extends \Webid\Druid\Filament\Resources\MenuResource\Pages\EditMenu
+use Webid\Druid\App\Filament\Resources\MenuResource\Pages\EditMenu as EditMenuBase;
+
+class EditMenu extends EditMenuBase
 {
 }

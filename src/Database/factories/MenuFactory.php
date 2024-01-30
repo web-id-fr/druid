@@ -4,8 +4,8 @@ namespace Webid\Druid\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
-use Webid\Druid\Models\Menu;
+use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Models\Menu;
 
 class MenuFactory extends Factory
 {
