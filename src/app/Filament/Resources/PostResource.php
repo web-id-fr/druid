@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use App\Model\Post;
+use App\Models\Post;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;

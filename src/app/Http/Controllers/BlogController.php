@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Http\Controllers;
 
-use App\Model\Post;
+use App\Models\Post;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Webid\Druid\App\Enums\Langs;

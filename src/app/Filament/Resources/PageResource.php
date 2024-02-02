@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use App\Model\Page;
+use App\Models\Page;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;

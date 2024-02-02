@@ -18,7 +18,7 @@ class DruidServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
 
-        ViewFacade::addLocation(__DIR__.'/resources/');
+        ViewFacade::addLocation(__DIR__.'/resources/views/');
     }
 
     public function register(): void

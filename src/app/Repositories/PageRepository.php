@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Repositories;
 
-use App\Model\Page;
+use App\Models\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;

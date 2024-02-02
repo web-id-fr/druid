@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Repositories;
 
-use App\Model\Category;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Webid\Druid\App\Enums\Langs;

@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use App\Model\Category;
+use App\Models\Category;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;

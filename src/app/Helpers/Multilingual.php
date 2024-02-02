@@ -54,14 +54,9 @@ if (! function_exists('getCurrentLocale')) {
             return $defaultLocale;
         }
 
-        Assert::string($langParam);
+        Assert::isInstanceOf($langParam, Langs::class);
 
-        $lang = Langs::tryFrom($langParam);
-        if (! $lang) {
-            return $defaultLocale;
-        }
-
-        return $lang;
+        return $langParam;
     }
 }
 

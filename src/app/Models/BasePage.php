@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Models;
 
-use App\Model\Page;
+use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

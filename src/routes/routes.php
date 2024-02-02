@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Model\Post;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Webid\Druid\App\Enums\Langs;
