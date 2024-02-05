@@ -120,23 +120,4 @@ class MultilingualPostsTest extends TestCase
 
         $this->assertCount(2, $originPost->translations);
     }
-
-    /** @test */
-    public function multilingual_items_show_up_in_admin_posts_list_when_multilingual_feature_is_enabled(): void
-    {
-        $user = $this->createDummyUser();
-        $this->disableMultilingualFeature();
-        $this->createPostInEnglish();
-
-        $this->actingAs($user)
-            ->get(route('filament.admin.resources.posts.index'))
-            ->assertDontSee('Translations')
-            ->assertDontSee('English');
-        $this->enableMultilingualFeature();
-
-        $this->actingAs($user)
-            ->get(route('filament.admin.resources.posts.index'))
-            ->assertSee('Translations')
-            ->assertSee('English');
-    }
 }

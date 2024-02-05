@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Model\Page;
+use App\Models\Page;
 use Illuminate\View\View;
 use Webid\Druid\App\Http\Resources\PageResource;
 

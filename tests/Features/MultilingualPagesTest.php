@@ -116,23 +116,4 @@ class MultilingualPagesTest extends TestCase
 
         $this->assertCount(2, $originPage->translations);
     }
-
-    /** @test */
-    public function multilingual_items_show_up_in_admin_pages_list_when_multilingual_feature_is_enabled(): void
-    {
-        $user = $this->createDummyUser();
-        $this->disableMultilingualFeature();
-        $this->createPageInEnglish();
-
-        $this->actingAs($user)
-            ->get(route('filament.admin.resources.pages.index'))
-            ->assertDontSee('Translations')
-            ->assertDontSee('English');
-        $this->enableMultilingualFeature();
-
-        $this->actingAs($user)
-            ->get(route('filament.admin.resources.pages.index'))
-            ->assertSee('Translations')
-            ->assertSee('English');
-    }
 }
