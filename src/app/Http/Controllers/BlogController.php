@@ -2,11 +2,11 @@
 
 namespace Webid\Druid\App\Http\Controllers;
 
-use App\Models\Post;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Http\Resources\PostResource;
+use Webid\Druid\App\Models\Post;
 use Webid\Druid\App\Repositories\PostRepository;
 
 class BlogController

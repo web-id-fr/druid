@@ -5,8 +5,6 @@ namespace Webid\Druid\App\Filament\Resources;
 use App\Filament\Resources\MenuItemResource\Pages\CreateMenuItem;
 use App\Filament\Resources\MenuItemResource\Pages\EditMenuItem;
 use App\Filament\Resources\MenuItemResource\Pages\ListMenuItems;
-use App\Models\Page;
-use App\Models\Post;
 use Filament\Forms\Components\MorphToSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -18,6 +16,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Models\MenuItem;
+use Webid\Druid\App\Models\Page;
+use Webid\Druid\App\Models\Post;
 use Webid\Druid\App\Repositories\MenuItemRepository;
 use Webid\Druid\App\Repositories\MenuRepository;
 

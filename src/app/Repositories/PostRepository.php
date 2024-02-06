@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\App\Repositories;
 
-use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Webid\Druid\App\Models\Post;
 
 class PostRepository
 {

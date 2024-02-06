@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\App\Repositories;
 
-use App\Models\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
+use Webid\Druid\App\Models\Page;
 
 class PageRepository
 {

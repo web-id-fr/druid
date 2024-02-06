@@ -2,8 +2,8 @@
 
 namespace Webid\Druid\App\Http\Resources;
 
-use App\Models\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webid\Druid\App\Models\Page;
 use Webid\Druid\App\Services\ComponentDisplayContentExtractor;
 
 class PageResource extends JsonResource

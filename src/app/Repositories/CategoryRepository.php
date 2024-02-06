@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\App\Repositories;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Models\Category;
 
 class CategoryRepository
 {

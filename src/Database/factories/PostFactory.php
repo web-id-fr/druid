@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PostStatus;
-use Webid\Druid\App\Models\Dummy\DummyPost as Post;
+use Webid\Druid\App\Models\Post;
 
 class PostFactory extends Factory
 {
