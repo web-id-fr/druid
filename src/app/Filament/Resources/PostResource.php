@@ -109,7 +109,7 @@ class PostResource extends Resource
                                 $allDefaultLanguagePosts->put($post->id, __('#No origin model'));
                             }
 
-                            if ($post?->translationOriginModel->isNot($post)) {
+                            if ($post?->translationOriginModel?->isNot($post)) {
                                 $allDefaultLanguagePosts->put($post->translationOriginModel->id, $post->translationOriginModel->title);
                             }
 

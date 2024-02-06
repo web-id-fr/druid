@@ -39,7 +39,7 @@ use Webid\Druid\App\Services\ComponentSearchContentExtractor;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
- * @property-read Page $translationOriginModel
+ * @property-read Page|null $translationOriginModel
  * @property-read Collection<int, Page> $translations
  */
 abstract class BasePage extends Model implements IsMenuable

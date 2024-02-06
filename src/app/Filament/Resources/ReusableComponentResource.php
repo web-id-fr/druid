@@ -69,7 +69,7 @@ class ReusableComponentResource extends Resource
                                 $allDefaultLanguageComponents->put($reusableComponent->id, __('#No origin model'));
                             }
 
-                            if ($reusableComponent?->translationOriginModel->isNot($reusableComponent)) {
+                            if ($reusableComponent?->translationOriginModel?->isNot($reusableComponent)) {
                                 $allDefaultLanguageComponents->put($reusableComponent->translationOriginModel->id, $reusableComponent->translationOriginModel->title);
                             }
 

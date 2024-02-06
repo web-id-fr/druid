@@ -97,7 +97,7 @@ class PageResource extends Resource
                                 $allDefaultLanguagePages->put($page->id, __('#No origin model'));
                             }
 
-                            if ($page?->translationOriginModel->isNot($page)) {
+                            if ($page?->translationOriginModel?->isNot($page)) {
                                 $allDefaultLanguagePages->put($page->translationOriginModel->id, $page->translationOriginModel->title);
                             }
 
