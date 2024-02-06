@@ -67,7 +67,7 @@ class MenuResource extends Resource
                                 $allDefaultLanguageMenus->put($menu->id, __('#No origin model'));
                             }
 
-                            if ($menu?->translationOriginModel->isNot($menu)) {
+                            if ($menu?->translationOriginModel?->isNot($menu)) {
                                 $allDefaultLanguageMenus->put($menu->translationOriginModel->id, $menu->translationOriginModel->title);
                             }
 

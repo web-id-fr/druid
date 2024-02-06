@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\App\Models;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ use Webid\Druid\App\Models\Traits\IsTranslatable;
  * @property string $lang
  * @property int|null $translation_origin_model_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BasePost[] $posts
+ * @property-read Category|null $translationOriginModel
  */
 class BaseCategory extends Model
 {

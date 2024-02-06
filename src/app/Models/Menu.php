@@ -16,7 +16,7 @@ use Webid\Druid\App\Models\Traits\IsTranslatable;
  * @property int $translation_origin_model_id
  * @property-read Collection $items
  * @property-read Collection<string, MenuItem> $level0Items
- * @property-read Menu $translationOriginModel
+ * @property-read Menu|null $translationOriginModel
  * @property-read Collection<int, Menu> $translations
  */
 class Menu extends Model

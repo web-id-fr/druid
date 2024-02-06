@@ -43,7 +43,7 @@ use Webid\Druid\App\Models\Traits\IsTranslatable;
  * @property Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\BaseCategory[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read Post $translationOriginModel
+ * @property-read Post|null $translationOriginModel
  * @property-read Collection<int, Post> $translations
  */
 abstract class BasePost extends Model implements IsMenuable
