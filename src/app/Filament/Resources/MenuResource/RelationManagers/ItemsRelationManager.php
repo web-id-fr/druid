@@ -15,7 +15,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Repositories\MenuItemRepository;
-use Webid\Druid\App\Repositories\MenuRepository;
 
 class ItemsRelationManager extends RelationManager
 {
@@ -32,12 +31,15 @@ class ItemsRelationManager extends RelationManager
             $targetOptions[$target->value] = $target->getLabel();
         }
 
+        /** @var int $menuId */
+        $menuId = $this->ownerRecord->getKey();
+
         return $form
             ->schema([
                 Select::make('parent_item_id')
                     ->label(__('Parent'))
                     ->placeholder(__('Select a parent item'))
-                    ->options($menuItemRepository->allPluckedByIdAndLabel($this->ownerRecord->getKey())
+                    ->options($menuItemRepository->allPluckedByIdAndLabel($menuId)
                     ),
                 TextInput::make('order')
                     ->label(__('Order'))
