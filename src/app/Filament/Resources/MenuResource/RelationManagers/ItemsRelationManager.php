@@ -1,0 +1,106 @@
+<?php
+
+namespace Webid\Druid\App\Filament\Resources\MenuResource\RelationManagers;
+
+use App\Models\Page;
+use App\Models\Post;
+use Filament\Forms\Components\MorphToSelect;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Webid\Druid\App\Enums\MenuItemTarget;
+use Webid\Druid\App\Repositories\MenuItemRepository;
+use Webid\Druid\App\Repositories\MenuRepository;
+
+class ItemsRelationManager extends RelationManager
+{
+    protected static string $relationship = 'items';
+
+    public function form(Form $form): Form
+    {
+
+        /** @var MenuItemRepository $menuItemRepository */
+        $menuItemRepository = app()->make(MenuItemRepository::class);
+
+        $targetOptions = [];
+        foreach (MenuItemTarget::cases() as $target) {
+            $targetOptions[$target->value] = $target->getLabel();
+        }
+
+        return $form
+            ->schema([
+                Select::make('parent_item_id')
+                    ->label(__('Parent'))
+                    ->placeholder(__('Select a parent item'))
+                    ->options($menuItemRepository->allPluckedByIdAndLabel($this->ownerRecord->getKey())
+                    ),
+                TextInput::make('order')
+                    ->label(__('Order'))
+                    ->numeric()
+                    ->nullable()
+                    ->default(0),
+                Select::make('target')
+                    ->label(__('Target'))
+                    ->options($targetOptions)
+                    ->default(MenuItemTarget::SELF->value),
+                TextInput::make('label')
+                    ->label(__('Label'))
+                    ->nullable(),
+                Section::make('link')
+                    ->schema([
+                        Select::make('type')
+                            ->label(__('Type'))
+                            ->live()
+                            ->options(
+                                [
+                                    'page' => __('Link to an existing page'),
+                                    'custom' => __('Custom URL'),
+                                ],
+                            ),
+                        TextInput::make('custom_url')
+                            ->url()
+                            ->nullable()
+                            ->visible(fn (Get $get) => $get('type') === 'custom'),
+                        MorphToSelect::make('model')
+                            ->label(__('Model'))
+                            ->visible(fn (Get $get) => $get('type') === 'page')
+                            ->types([
+                                MorphToSelect\Type::make(Page::class)
+                                    ->titleAttribute('title'),
+                                MorphToSelect\Type::make(Post::class)
+                                    ->titleAttribute('title'),
+                            ]),
+
+                    ]),
+            ]);
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->recordTitleAttribute('label')
+            ->columns([
+                Tables\Columns\TextColumn::make('label'),
+            ])
+            ->filters([
+                //
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}
