@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
+use Webid\Druid\App\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -117,7 +118,7 @@ class MenuResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ItemsRelationManager::class,
         ];
     }
 
