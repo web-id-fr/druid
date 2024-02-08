@@ -15,6 +15,17 @@ class MenuRepository
     {
     }
 
+    public function findOrFailById(int $menuId): Menu
+    {
+        /** @var Menu $model */
+        $model = $this->model->newQuery()
+            ->whereKey($menuId)
+            ->with($this->defaultRelationsToLoad())
+            ->firstOrFail();
+
+        return $model;
+    }
+
     /**
      * @throws ModelNotFoundException
      */
@@ -23,21 +34,7 @@ class MenuRepository
         /** @var Menu $model */
         $model = $this->model->newQuery()
             ->where('lang', $lang)
-            ->with([
-                'level0Items' => function (HasMany $query) {
-                    $query->orderBy('order');
-                },
-                'level0Items.children' => function (HasMany $query) {
-                    $query->orderBy('order');
-                },
-                'level0Items.children.children' => function (HasMany $query) {
-                    $query->orderBy('order');
-                },
-                'level0Items.model.parent',
-                'level0Items.children.model.parent',
-                'level0Items.children.children.model.parent',
-                'level0Items.children.children.children.model.parent',
-            ])
+            ->with($this->defaultRelationsToLoad())
             ->where('slug', $slug)
             ->firstOrFail();
 
@@ -84,5 +81,24 @@ class MenuRepository
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();
+    }
+
+    private function defaultRelationsToLoad(): array
+    {
+        return [
+            'level0Items' => function (HasMany $query) {
+                $query->orderBy('order');
+            },
+            'level0Items.children' => function (HasMany $query) {
+                $query->orderBy('order');
+            },
+            'level0Items.children.children' => function (HasMany $query) {
+                $query->orderBy('order');
+            },
+            'level0Items.model.parent',
+            'level0Items.children.model.parent',
+            'level0Items.children.children.model.parent',
+            'level0Items.children.children.children.model.parent',
+        ];
     }
 }

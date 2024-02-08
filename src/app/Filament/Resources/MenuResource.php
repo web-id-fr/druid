@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use Webid\Druid\App\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Webid\Druid\App\Models\Menu;
 use Webid\Druid\App\Repositories\MenuRepository;
 use Webmozart\Assert\Assert;
