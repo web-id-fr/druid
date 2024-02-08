@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PageStatus;
-use Webid\Druid\App\Models\Dummy\DummyPage;
+use Webid\Druid\App\Models\Page;
 
 class PageFactory extends Factory
 {
-    protected $model = DummyPage::class;
+    protected $model = Page::class;
 
     public function definition(): array
     {
@@ -27,7 +27,7 @@ class PageFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Model $page): void {
-            /** @var DummyPage $page */
+            /** @var Page $page */
             if ($page->translation_origin_model_id) {
                 return;
             }
@@ -36,7 +36,7 @@ class PageFactory extends Factory
         });
     }
 
-    public function asATranslationFrom(DummyPage $page, Langs $lang): static
+    public function asATranslationFrom(Page $page, Langs $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $page) {
             return [

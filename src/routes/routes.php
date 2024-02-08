@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Http\Controllers\BlogController;
 use Webid\Druid\App\Http\Controllers\FallbackController;
+use Webid\Druid\App\Models\Post;
 
 Route::prefix('{lang}/'.config('cms.blog.prefix'))
     ->name('posts.multilingual.')

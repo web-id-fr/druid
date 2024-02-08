@@ -4,7 +4,7 @@ namespace Webid\Druid\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\App\Models\Dummy\DummyCategory as Category;
+use Webid\Druid\App\Models\Category as Category;
 
 class CategoryFactory extends Factory
 {

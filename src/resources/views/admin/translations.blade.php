@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Page $page */
+<?php /** @var \Webid\Druid\App\Models\Page $page */
 $page = $getRecord();
 $page->refresh();
 $page->loadMissing('translationOriginModel.translations');

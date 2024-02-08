@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use App\Models\Page;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -18,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PageStatus;
 use Webid\Druid\App\Filament\Resources\PageResource\Pages;
+use Webid\Druid\App\Models\Page;
 use Webid\Druid\App\Repositories\PageRepository;
 use Webid\Druid\App\Services\Admin\FilamentComponentsService;
 use Webmozart\Assert\Assert;
