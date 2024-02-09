@@ -3,8 +3,7 @@
 namespace Webid\Druid\Tests\Helpers;
 
 use Webid\Druid\App\Enums\Langs;
-use Webid\Druid\App\Models\Post as Post;
-use Webid\Druid\Database\Factories\PostFactory;
+use Webid\Druid\App\Models\Post;
 
 trait PostCreator
 {

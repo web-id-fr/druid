@@ -15,7 +15,7 @@ class MenuItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'menu_id' => MenuFactory::new(),
+            'menu_id' => Menu::factory(),
             'label' => $this->faker->name,
             'order' => $this->faker->numberBetween(0, 30),
             'parent_item_id' => null,

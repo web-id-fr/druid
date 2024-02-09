@@ -3,8 +3,7 @@
 namespace Webid\Druid\Tests\Helpers;
 
 use Webid\Druid\App\Enums\Langs;
-use Webid\Druid\App\Models\Page as Page;
-use Webid\Druid\Database\Factories\PageFactory;
+use Webid\Druid\App\Models\Page;
 
 trait PageCreator
 {
