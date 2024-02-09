@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Models\Menu;
 use Webid\Druid\App\Models\MenuItem;
+use Webid\Druid\App\Models\Page;
 
 class MenuItemFactory extends Factory
 {
@@ -47,8 +48,8 @@ class MenuItemFactory extends Factory
     public function withPageItem(array $params = []): self
     {
         return $this->state(function () use ($params) {
-            /** @var \Webid\Druid\App\Models\Page $page */
-            $page = PageFactory::new()->create($params);
+            /** @var Page $page */
+            $page = Page::factory()->create($params);
 
             return [
                 'model_id' => $page->getKey(),
@@ -63,7 +64,7 @@ class MenuItemFactory extends Factory
             // @phpstan-ignore-next-line
             fn (MenuItem $menuItem) => $menuItem->update(
                 // @phpstan-ignore-next-line
-                ['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]
+                ['parent_item_id' => MenuItem::factory()->forMenu($menuItem->menu)->create()->getKey()]
             )
         );
     }
