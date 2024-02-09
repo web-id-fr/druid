@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
+use Webid\Druid\Database\Factories\CategoryFactory;
 
 /**
  * @property string $name
@@ -32,5 +33,10 @@ class Category extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
+    }
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return new CategoryFactory();
     }
 }

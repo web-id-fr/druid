@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
+use Webid\Druid\Database\Factories\MenuFactory;
 
 /**
  * @property int $id
@@ -43,5 +44,10 @@ class Menu extends Model
     public function level0Items(): HasMany
     {
         return $this->items()->whereNull('parent_item_id');
+    }
+
+    protected static function newFactory(): MenuFactory
+    {
+        return new MenuFactory();
     }
 }

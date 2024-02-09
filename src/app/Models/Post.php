@@ -13,6 +13,7 @@ use Webid\Druid\App\Enums\PostStatus;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
+use Webid\Druid\Database\Factories\PostFactory;
 
 /**
  * @property int $id
@@ -116,5 +117,10 @@ class Post extends Model implements IsMenuable
     public function getMenuLabel(): string
     {
         return $this->title;
+    }
+
+    protected static function newFactory(): PostFactory
+    {
+        return new PostFactory();
     }
 }

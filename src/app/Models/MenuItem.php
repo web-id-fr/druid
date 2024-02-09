@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\MenuItemTarget;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
+use Webid\Druid\Database\Factories\MenuItemFactory;
 
 /**
  * @property int $id
@@ -52,5 +53,10 @@ class MenuItem extends Model
     public function children(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'parent_item_id');
+    }
+
+    protected static function newFactory(): MenuItemFactory
+    {
+        return new MenuItemFactory();
     }
 }
