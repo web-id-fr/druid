@@ -67,11 +67,17 @@ class PostRepository
             ->get();
     }
 
+    /**
+     * @param  array<string>  $relations
+     */
     public function allPaginated(int $perPage, array $relations = []): LengthAwarePaginator
     {
         return $this->model->newQuery()->with($relations)->paginate($perPage);
     }
 
+    /**
+     * @param  array<string>  $relations
+     */
     public function allByCategoryPaginated(Category $category, int $perPage, array $relations = []): LengthAwarePaginator
     {
         return $this->model->newQuery()
@@ -80,11 +86,17 @@ class PostRepository
             ->paginate($perPage);
     }
 
+    /**
+     * @param  array<string>  $relations
+     */
     public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
     {
         return $this->model->newQuery()->with($relations)->where('lang', $lang)->paginate($perPage);
     }
 
+    /**
+     * @param  array<string>  $relations
+     */
     public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
     {
         return $this->model->newQuery()

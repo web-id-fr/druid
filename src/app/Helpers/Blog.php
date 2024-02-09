@@ -12,6 +12,8 @@ if (! function_exists('isBlogDefaultRoutesEnable')) {
 if (! function_exists('getPostsPerPage')) {
     function getPostsPerPage(): int
     {
-        return config('cms.blog.pagination');
+        /** @var int $perPage */
+        $perPage = config('cms.blog.pagination');
+        return $perPage;
     }
 }
