@@ -10,7 +10,7 @@ trait PageCreator
     protected function createPage(array $params = []): Page
     {
         /** @var Page $page */
-        $page = Page::factory()->create($params);
+        $page = Page::factory($params)->create();
 
         return $page;
     }
@@ -18,7 +18,7 @@ trait PageCreator
     protected function createPageInEnglish(array $params = []): Page
     {
         /** @var Page $page */
-        $page = Page::factory()->create([...$params, 'lang' => Langs::EN->value]);
+        $page = Page::factory([...$params, 'lang' => Langs::EN->value])->create();
 
         return $page;
     }
@@ -30,7 +30,7 @@ trait PageCreator
         }
 
         /** @var Page $page */
-        $page = Page::factory()->create([...$params, 'lang' => Langs::FR->value]);
+        $page = Page::factory([...$params, 'lang' => Langs::FR->value])->create();
 
         return $page;
     }
@@ -42,7 +42,7 @@ trait PageCreator
         }
 
         /** @var Page $page */
-        $page = Page::factory()->create([...$params, 'lang' => Langs::DE->value]);
+        $page = Page::factory([...$params, 'lang' => Langs::DE->value])->create();
 
         return $page;
     }

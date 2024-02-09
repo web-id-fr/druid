@@ -11,7 +11,7 @@ trait MenuCreator
     protected function createMenu(array $params = []): Menu
     {
         /** @var Menu $menu */
-        $menu = Menu::factory()->create($params);
+        $menu = Menu::factory($params)->create();
 
         return $menu;
     }
@@ -23,12 +23,12 @@ trait MenuCreator
 
     protected function addItemToMenu(Menu $menu, array $params = []): MenuItem
     {
-        return MenuItem::factory()->forMenu($menu)->create($params);
+        return MenuItem::factory($params)->forMenu($menu)->create();
     }
 
     protected function addPageItemToMenu(Menu $menu, array $params = []): MenuItem
     {
-        return MenuItem::factory()->forMenu($menu)->withPageItem()->create($params);
+        return MenuItem::factory($params)->forMenu($menu)->withPageItem()->create();
     }
 
     protected function createFrenchTranslationMenu(array $params = [], ?Menu $fromMenu = null): Menu
@@ -39,7 +39,7 @@ trait MenuCreator
         }
 
         /** @var Menu $menu */
-        $menu = Menu::factory()->create([...$params, 'lang' => Langs::FR->value]);
+        $menu = Menu::factory([...$params, 'lang' => Langs::FR->value])->create();
 
         return $menu;
     }

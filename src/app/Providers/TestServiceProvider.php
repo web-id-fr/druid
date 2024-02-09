@@ -13,6 +13,5 @@ class TestServiceProvider extends ServiceProvider
         }
 
         $this->loadMigrationsFrom(package_base_path('vendor/orchestra/testbench-core/laravel/migrations'));
-        $this->loadMigrationsFrom(package_base_path('tests/Database/migrations'));
     }
 }

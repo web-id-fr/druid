@@ -10,7 +10,7 @@ trait PostCreator
     protected function createPost(array $params = []): Post
     {
         /** @var Post $post */
-        $post = Post::factory()->create($params);
+        $post = Post::factory($params)->create();
 
         return $post;
     }
@@ -18,7 +18,7 @@ trait PostCreator
     protected function createPostInEnglish(array $params = []): Post
     {
         /** @var Post $post */
-        $post = Post::factory()->create([...$params, 'lang' => Langs::EN->value]);
+        $post = Post::factory([...$params, 'lang' => Langs::EN->value])->create();
 
         return $post;
     }
@@ -30,7 +30,7 @@ trait PostCreator
         }
 
         /** @var Post $post */
-        $post = Post::factory()->create([...$params, 'lang' => Langs::FR->value]);
+        $post = Post::factory([...$params, 'lang' => Langs::FR->value])->create();
 
         return $post;
     }
