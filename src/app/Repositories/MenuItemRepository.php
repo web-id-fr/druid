@@ -20,7 +20,7 @@ class MenuItemRepository
     /**
      * @return array<int, string>
      */
-    public function allPluckedByIdAndLabel(int|null $parentMenuId): array
+    public function allPluckedByIdAndLabel(?int $parentMenuId = null): array
     {
         /** @var array<int, string> $menus */
         $menus = $this->all()
