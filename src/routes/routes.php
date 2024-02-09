@@ -16,10 +16,10 @@ Route::prefix('{lang}/'.config('cms.blog.prefix'))
         Route::get('/', [BlogController::class, 'indexMultilingual'])
             ->name('index');
 
-        Route::get('/{category:slug}', [BlogController::class, 'indexByCategoryMultilingual'])
+        Route::get('/categories/{category:slug}', [BlogController::class, 'indexByCategoryMultilingual'])
             ->name('indexByCategory');
 
-        Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'showMultilingual'])
+        Route::get('/{post:slug}', [BlogController::class, 'showMultilingual'])
             ->name('show')
             ->missing(function (Request $request) {
                 abort(404);
@@ -33,9 +33,9 @@ Route::prefix(config('cms.blog.prefix'))
     ->group(function () {
         Route::get('/', [BlogController::class, 'index'])
             ->name('index');
-        Route::get('/{category:slug}', [BlogController::class, 'indexByCategory'])
+        Route::get('/categories/{category:slug}', [BlogController::class, 'indexByCategory'])
             ->name('indexByCategory');
-        Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'show'])
+        Route::get('/{post:slug}', [BlogController::class, 'show'])
             ->name('show')
             ->missing(function (Request $request) {
                 abort(404);

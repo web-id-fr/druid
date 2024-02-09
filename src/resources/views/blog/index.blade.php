@@ -4,7 +4,6 @@
     @foreach($posts as $post)
         <div class="flex flex-col">
             <a href="{{ route('posts.multilingual.show', [
-                'category' => $post->categories->first()->slug,
                 'post' => $post->slug,
                 'lang' => getCurrentLocale()
             ]) }}" class="font-bold text-gray-700 text-2xl">

@@ -44,12 +44,11 @@ class BlogController
         }
 
         return view('druid::blog.index', [
-            'category' => $category,
             'posts' => $posts,
         ]);
     }
 
-    public function showMultilingual(Langs $lang, Category $category, Post $post): View|PostResource
+    public function showMultilingual(Langs $lang, Post $post): View|PostResource
     {
         $type = config('cms.views.type');
 
@@ -81,12 +80,11 @@ class BlogController
         }
 
         return view('druid::blog.index', [
-            'category' => $category,
             'posts' => $posts,
         ]);
     }
 
-    public function show(Category $category, Post $post): View|PostResource
+    public function show(Post $post): View|PostResource
     {
         $type = config('cms.views.type');
 
