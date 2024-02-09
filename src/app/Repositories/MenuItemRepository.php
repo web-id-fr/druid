@@ -20,11 +20,11 @@ class MenuItemRepository
     /**
      * @return array<int, string>
      */
-    public function allPluckedByIdAndLabel(int $parentMenuId): array
+    public function allPluckedByIdAndLabel(int|null $parentMenuId): array
     {
         /** @var array<int, string> $menus */
         $menus = $this->all()
-            ->where('menu_id', $parentMenuId)
+            ->when($parentMenuId, fn ($query) => $query->where('menu_id', $parentMenuId))
             ->pluck('label', 'id')
             ->map(function ($label, $id) {
                 return $label ?? 'Item ID #'.$id;

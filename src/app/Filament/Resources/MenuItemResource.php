@@ -54,8 +54,7 @@ class MenuItemResource extends Resource
                 Select::make('parent_item_id')
                     ->label(__('Parent'))
                     ->placeholder(__('Select a parent item'))
-                    ->options($menuItemRepository->allPluckedByIdAndLabel()
-                    ),
+                    ->options($menuItemRepository->allPluckedByIdAndLabel()),
                 TextInput::make('order')
                     ->label(__('Order'))
                     ->numeric()
