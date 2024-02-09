@@ -63,7 +63,6 @@ class MenuItemFactory extends Factory
         return $this->afterCreating(
             // @phpstan-ignore-next-line
             fn (MenuItem $menuItem) => $menuItem->update(
-                // @phpstan-ignore-next-line
                 ['parent_item_id' => MenuItem::factory()->forMenu($menuItem->menu)->create()->getKey()]
             )
         );
