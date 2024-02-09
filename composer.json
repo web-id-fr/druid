@@ -25,7 +25,6 @@
     "autoload": {
         "psr-4": {
             "Webid\\Druid\\App\\": "src/app/",
-            "Webid\\Druid\\Database\\": "src/database/",
             "Webid\\Druid\\Database\\Factories\\": "src/database/factories/",
             "Webid\\Druid\\": "src/"
         },
