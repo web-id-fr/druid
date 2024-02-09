@@ -50,6 +50,8 @@ class BlogController
 
     public function showMultilingual(Langs $lang, Post $post): View|PostResource
     {
+        $post = $this->postRepository->findOrFailBySlugAndLang($post->slug, $lang->value);
+
         $type = config('cms.views.type');
 
         if ($type === 'api') {
