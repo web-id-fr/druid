@@ -72,7 +72,7 @@ return [
      */
     'enable_default_blog_routes' => true,
     'blog' => [
-        'pagination' => 10,
+        'posts_per_page' => 10,
         'prefix' => 'blog',
     ],
 ];

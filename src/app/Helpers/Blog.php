@@ -13,7 +13,7 @@ if (! function_exists('getPostsPerPage')) {
     function getPostsPerPage(): int
     {
         /** @var int $perPage */
-        $perPage = config('cms.blog.pagination');
+        $perPage = config('cms.blog.posts_per_page');
         return $perPage;
     }
 }
