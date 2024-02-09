@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Tests;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
@@ -22,6 +23,11 @@ class TestCase extends OrchestraTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            // Charge les factories du core
+            return 'Webid\\Druid\\Database\\Factories\\'.class_basename($modelName).'Factory';
+        });
 
         $this->loadLaravelMigrations(['--database' => 'mysql']);
         $this->artisan('migrate', ['--database' => 'mysql'])->run();
