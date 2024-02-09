@@ -13,19 +13,13 @@ Route::prefix('{lang}/'.config('cms.blog.prefix'))
     ->name('posts.multilingual.')
     ->middleware(['multilingual-required', 'web'])
     ->group(function () {
-        Route::get('/', [BlogController::class, 'index'])
+        Route::get('/', [BlogController::class, 'indexMultilingual'])
             ->name('index');
 
-        // TODO: Refacto model binding. Should work automatically with implicit binding but does not
-        Route::get('/{post:slug}', function (Langs $lang, string $postSlug) {
-            /** @var BlogController $blogController */
-            $blogController = app()->make(BlogController::class);
+        Route::get('/{category:slug}', [BlogController::class, 'indexByCategoryMultilingual'])
+            ->name('indexByCategory');
 
-            return $blogController
-                ->showMultilingual($lang, Post::query()
-                    ->where(['lang' => $lang, 'slug' => $postSlug])
-                    ->firstOrFail());
-        })
+        Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'showMultilingual'])
             ->name('show')
             ->missing(function (Request $request) {
                 abort(404);
@@ -39,7 +33,9 @@ Route::prefix(config('cms.blog.prefix'))
     ->group(function () {
         Route::get('/', [BlogController::class, 'index'])
             ->name('index');
-        Route::get('/{post:slug}', [BlogController::class, 'show'])
+        Route::get('/{category:slug}', [BlogController::class, 'indexByCategory'])
+            ->name('indexByCategory');
+        Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'show'])
             ->name('show')
             ->missing(function (Request $request) {
                 abort(404);

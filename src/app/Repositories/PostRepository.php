@@ -5,6 +5,9 @@ namespace Webid\Druid\App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Models\Category;
 use Webid\Druid\App\Models\Post;
 
 class PostRepository
@@ -62,5 +65,32 @@ class PostRepository
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();
+    }
+
+    public function allPaginated(int $perPage, array $relations = []): LengthAwarePaginator
+    {
+        return $this->model->newQuery()->with($relations)->paginate($perPage);
+    }
+
+    public function allByCategoryPaginated(Category $category, int $perPage, array $relations = []): LengthAwarePaginator
+    {
+        return $this->model->newQuery()
+            ->whereRelation('categories', 'slug', $category->slug)
+            ->with($relations)
+            ->paginate($perPage);
+    }
+
+    public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
+    {
+        return $this->model->newQuery()->with($relations)->where('lang', $lang)->paginate($perPage);
+    }
+
+    public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
+    {
+        return $this->model->newQuery()
+            ->whereRelation('categories', 'slug', $category->slug)
+            ->with($relations)
+            ->where('lang', $lang)
+            ->paginate($perPage);
     }
 }

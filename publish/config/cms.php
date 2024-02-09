@@ -70,7 +70,9 @@ return [
      | Blog
      |--------------------------------------------------------------------------
      */
+    'enable_default_blog_routes' => true,
     'blog' => [
+        'pagination' => 10,
         'prefix' => 'blog',
     ],
 ];

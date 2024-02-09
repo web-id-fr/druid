@@ -4,6 +4,7 @@ namespace Webid\Druid\App\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\Category;
 
@@ -34,5 +35,14 @@ class CategoryRepository
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();
+    }
+
+    public function categoryByLang(Category $category, Langs $lang): Model
+    {
+        return $this->model->newQuery()
+            ->where([
+                'slug' => $category->slug,
+                'lang' => $lang,
+            ])->firstOrFail();
     }
 }
