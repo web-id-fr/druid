@@ -117,4 +117,10 @@ class Post extends Model implements IsMenuable
     {
         return $this->title;
     }
+
+    public function resolveRouteBinding($value, $field = null): Post
+    {
+        return isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', getCurrentLocale())->firstOrFail() :
+            $this->where('slug', $value)->firstOrFail();
+    }
 }

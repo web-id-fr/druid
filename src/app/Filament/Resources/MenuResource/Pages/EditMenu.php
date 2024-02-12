@@ -28,6 +28,9 @@ class EditMenu extends EditRecord
         /** @var NavigationMenuManager $navigationMenuManager */
         $navigationMenuManager = app()->make(NavigationMenuManager::class);
 
-        return view('druid::admin.menu-preview', ['menu' => $navigationMenuManager->getById($menu->getKey())]);
+        /** @var int $menuId */
+        $menuId = $menu->getKey();
+
+        return view('druid::admin.menu-preview', ['menu' => $navigationMenuManager->getById($menuId)]);
     }
 }
