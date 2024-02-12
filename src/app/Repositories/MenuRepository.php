@@ -83,6 +83,9 @@ class MenuRepository
             ->get();
     }
 
+    /**
+     * @return array<string|int, \Closure|string>
+     */
     private function defaultRelationsToLoad(): array
     {
         return [
