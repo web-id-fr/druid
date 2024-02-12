@@ -25,10 +25,9 @@
     },
     "autoload": {
         "psr-4": {
+            "Webid\\Druid\\": "src/",
             "Webid\\Druid\\App\\": "src/app/",
-            "Webid\\Druid\\Database\\": "src/database/",
-            "Webid\\Druid\\Database\\Factories\\": "src/database/factories/",
-            "Webid\\Druid\\": "src/"
+            "Webid\\Druid\\Database\\Factories\\": "src/database/factories/"
         },
         "files": [
             "src/app/Helpers/helpers.php",

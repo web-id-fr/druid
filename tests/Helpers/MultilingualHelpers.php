@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Tests\Helpers;
 
+use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Services\LanguageSwitcher;
 
 trait MultilingualHelpers
@@ -24,15 +25,15 @@ trait MultilingualHelpers
     protected function setLocalesList(): void
     {
         config()->set('cms.locales', [
-            \Webid\Druid\App\Enums\Langs::EN->value => [
+            Langs::EN->value => [
                 'label' => 'English',
                 'homepage' => '/',
             ],
-            \Webid\Druid\App\Enums\Langs::FR->value => [
+            Langs::FR->value => [
                 'label' => 'Français',
                 'homepage' => '/fr',
             ],
-            \Webid\Druid\App\Enums\Langs::DE->value => [
+            Langs::DE->value => [
                 'label' => 'German',
                 'homepage' => '/de',
             ],
