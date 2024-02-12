@@ -5,12 +5,13 @@ namespace Webid\Druid\Tests\Helpers;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\Menu;
 use Webid\Druid\App\Models\MenuItem;
+use Webid\Druid\Database\Factories\MenuItemFactory;
 
 trait MenuCreator
 {
     protected function createMenu(array $params = []): Menu
     {
-        return Menu::factory($params)->create();
+        return Menu::factory()->create($params);
     }
 
     protected function createMenuWithSlug(string $slug, array $params = [], ?Langs $lang = Langs::EN): Menu
@@ -20,12 +21,12 @@ trait MenuCreator
 
     protected function addItemToMenu(Menu $menu, array $params = []): MenuItem
     {
-        return MenuItem::factory($params)->forMenu($menu)->create();
+        return MenuItemFactory::new()->forMenu($menu)->create($params);
     }
 
     protected function addPageItemToMenu(Menu $menu, array $params = []): MenuItem
     {
-        return MenuItem::factory($params)->forMenu($menu)->withPageItem()->create();
+        return MenuItemFactory::new()->forMenu($menu)->withPageItem()->create($params);
     }
 
     protected function createFrenchTranslationMenu(array $params = [], ?Menu $fromMenu = null): Menu
