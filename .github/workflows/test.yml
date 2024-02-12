@@ -32,7 +32,7 @@ jobs:
       - name: Installing PHP dependencies
         run: |
           composer clear-cache
-          composer update --prefer-dist --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+          composer install
 
       # Tests migrations
       - name: Testing migrations
