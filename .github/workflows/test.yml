@@ -30,7 +30,9 @@ jobs:
 
       # Preparing environment
       - name: Installing PHP dependencies
-        run: composer update --prefer-dist --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+        run: |
+          composer clear-cache
+          composer update --prefer-dist --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
 
       # Tests migrations
       - name: Testing migrations
