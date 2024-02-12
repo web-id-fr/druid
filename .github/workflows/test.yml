@@ -41,7 +41,9 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
   
       - name: Installing PHP dependencies
-        run: composer update --prefer-dist --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+        run: |
+          composer update --prefer-dist --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+          composer dump-autoload
 
       # Tests migrations
       - name: Testing migrations
