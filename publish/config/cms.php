@@ -70,7 +70,9 @@ return [
      | Blog
      |--------------------------------------------------------------------------
      */
+    'enable_default_blog_routes' => true,
     'blog' => [
+        'posts_per_page' => 10,
         'prefix' => 'blog',
     ],
 ];

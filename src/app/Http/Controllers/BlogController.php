@@ -6,19 +6,76 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Http\Resources\PostResource;
+use Webid\Druid\App\Models\Category;
 use Webid\Druid\App\Models\Post;
+use Webid\Druid\App\Repositories\CategoryRepository;
 use Webid\Druid\App\Repositories\PostRepository;
 
 class BlogController
 {
     public function __construct(
         private readonly PostRepository $postRepository,
+        private readonly CategoryRepository $categoryRepository,
     ) {
     }
 
-    public function index(): View|AnonymousResourceCollection
+    public function indexMultilingual(Langs $lang): View|AnonymousResourceCollection
     {
-        $posts = $this->postRepository->all(['categories']);
+        $posts = $this->postRepository->allPaginatedByLang(getPostsPerPage(), $lang, ['categories']);
+
+        if (config('cms.views.type') === 'api') {
+            return PostResource::collection($posts);
+        }
+
+        return view('druid::blog.index', [
+            'posts' => $posts,
+        ]);
+    }
+
+    public function indexByCategoryMultilingual(Langs $lang, Category $category): View|AnonymousResourceCollection
+    {
+        /** @var Category $category */
+        $category = $this->categoryRepository->categoryByLang($category, $lang);
+
+        $posts = $this->postRepository->allByCategoryAndLangPaginated($category, getPostsPerPage(), $lang, ['categories']);
+
+        if (config('cms.views.type') === 'api') {
+            return PostResource::collection($posts);
+        }
+
+        return view('druid::blog.index', [
+            'posts' => $posts,
+        ]);
+    }
+
+    public function showMultilingual(Langs $lang, Post $post): View|PostResource
+    {
+        $post = $this->postRepository->findOrFailBySlugAndLang($post->slug, $lang->value);
+
+        $type = config('cms.views.type');
+
+        if ($type === 'api') {
+            return $this->showApi($post);
+        }
+
+        return $this->showBlade($post);
+    }
+
+    public function index(): View|AnonymousResourceCollection {
+        $posts = $this->postRepository->allPaginated(getPostsPerPage(), ['categories']);
+
+        if (config('cms.views.type') === 'api') {
+            return PostResource::collection($posts);
+        }
+
+        return view('druid::blog.index', [
+            'posts' => $posts,
+        ]);
+    }
+
+    public function indexByCategory(Category $category): View|AnonymousResourceCollection
+    {
+        $posts = $this->postRepository->allByCategoryPaginated($category, getPostsPerPage(), ['categories']);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -30,17 +87,6 @@ class BlogController
     }
 
     public function show(Post $post): View|PostResource
-    {
-        $type = config('cms.views.type');
-
-        if ($type === 'api') {
-            return $this->showApi($post);
-        }
-
-        return $this->showBlade($post);
-    }
-
-    public function showMultilingual(Langs $lang, Post $post): View|PostResource
     {
         $type = config('cms.views.type');
 

@@ -32,7 +32,8 @@
         "files": [
             "src/app/Helpers/helpers.php",
             "src/app/Helpers/Multilingual.php",
-            "src/app/Helpers/NavigationMenus.php"
+            "src/app/Helpers/NavigationMenus.php",
+            "src/app/Helpers/Blog.php"
         ]
     },
     "autoload-dev": {
