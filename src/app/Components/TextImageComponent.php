@@ -15,7 +15,6 @@ class TextImageComponent implements ComponentInterface
             RichEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
-            // @phpstan-ignore-next-line
             CuratorPicker::make('image')
                 ->label(__('Image'))
                 ->preserveFilenames()
@@ -34,9 +33,11 @@ class TextImageComponent implements ComponentInterface
     public static function toBlade(array $data): View
     {
         $mediaRepository = app(MediaRepository::class);
+        /** @var int $mediaId */
+        $mediaId = $data['image'];
         return view('druid::components.text-image', [
             'content' => $data['content'],
-            'image' => $mediaRepository->findById($data['image']),
+            'image' => $mediaRepository->findById($mediaId),
         ]);
     }
 
