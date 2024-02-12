@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\Menu;
-use Webid\Druid\App\Models\MenuItem;
 
 class MenuFactory extends Factory
 {
@@ -25,10 +24,10 @@ class MenuFactory extends Factory
     {
         // @phpstan-ignore-next-line
         return $this->afterCreating(function (Menu $menu) {
-            MenuItem::factory()->forMenu($menu)->withCustomUrl()->create();
-            MenuItem::factory()->forMenu($menu)->withParentItem()->create();
-            MenuItem::factory()->forMenu($menu)->withParentItem()->create();
-            MenuItem::factory()->forMenu($menu)->withPageItem()->create();
+            MenuItemFactory::new()->forMenu($menu)->withCustomUrl()->create();
+            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
+            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
+            MenuItemFactory::new()->forMenu($menu)->withPageItem()->create();
         });
     }
 

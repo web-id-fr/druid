@@ -9,12 +9,18 @@ trait PostCreator
 {
     protected function createPost(array $params = []): Post
     {
-        return Post::factory($params)->create();
+        /** @var Post $post */
+        $post = PostFactory::new()->create($params);
+
+        return $post;
     }
 
     protected function createPostInEnglish(array $params = []): Post
     {
-        return Post::factory([...$params, 'lang' => Langs::EN->value])->create();
+        /** @var Post $post */
+        $post = PostFactory::new()->create([...$params, 'lang' => Langs::EN->value]);
+
+        return $post;
     }
 
     protected function createFrenchTranslationPost(array $params = [], ?Post $fromPost = null): Post
@@ -23,7 +29,10 @@ trait PostCreator
             $params['translation_origin_model_id'] = $fromPost->getKey();
         }
 
-        return Post::factory([...$params, 'lang' => Langs::FR->value])->create();
+        /** @var Post $post */
+        $post = PostFactory::new()->create([...$params, 'lang' => Langs::FR->value]);
+
+        return $post;
     }
 
     protected function createGermanTranslationPost(array $params = [], ?Post $fromPost = null): Post
@@ -32,6 +41,9 @@ trait PostCreator
             $params['translation_origin_model_id'] = $fromPost->getKey();
         }
 
-        return Post::factory([...$params, 'lang' => Langs::DE->value])->create();
+        /** @var Post $post */
+        $post = PostFactory::new()->create([...$params, 'lang' => Langs::DE->value]);
+
+        return $post;
     }
 }
