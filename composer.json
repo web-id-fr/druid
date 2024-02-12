@@ -20,8 +20,7 @@
         "nunomaduro/larastan": "^2.8",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.20",
-        "phpunit/phpunit": "^9.5.10",
-        "laravel/legacy-factories": "^1.0.4"
+        "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {
