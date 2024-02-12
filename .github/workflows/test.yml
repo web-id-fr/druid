@@ -33,6 +33,7 @@ jobs:
         run: |
           composer clear-cache
           composer install
+          composer dump-autoload
 
       # Tests migrations
       - name: Testing migrations
