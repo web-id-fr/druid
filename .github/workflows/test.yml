@@ -46,6 +46,11 @@ jobs:
       - name: Running phpstan
         run: ./vendor/bin/phpstan analyse -c phpstan.neon
 
+      - name: Delete old data from database before tests
+        run: ./vendor/bin/testbench db:wipe
+        env:
+          DB_PORT: 32574
+
       - name: Running phpunit
         run: ./vendor/bin/phpunit --no-coverage
         env:
