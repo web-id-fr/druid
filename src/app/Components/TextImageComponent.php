@@ -33,6 +33,7 @@ class TextImageComponent implements ComponentInterface
     public static function toBlade(array $data): View
     {
         $mediaRepository = app(MediaRepository::class);
+
         /** @var int $mediaId */
         $mediaId = $data['image'];
 

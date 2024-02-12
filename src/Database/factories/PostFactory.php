@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
+use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
@@ -17,16 +18,23 @@ class PostFactory extends Factory
         return [
             'title' => fake()->words(3, true),
             'slug' => fake()->slug,
-            'post_image' => 'image.png',
+            'post_image' => Media::factory()->create()->getKey(),
             'post_image_alt' => fake()->words(3, true),
             'status' => PostStatus::PUBLISHED,
             'lang' => Langs::EN,
             'excerpt' => fake()->text,
             'content' => [
                 [
+                    'type' => 'textImage',
+                    'data' => [
+                        'content' => '<p>'.$this->faker->text(900).'</p>',
+                        'image' => Media::factory()->create()->getKey(),
+                    ],
+                ],
+                [
                     'type' => 'text',
                     'data' => [
-                        'content' => $this->faker->text(300),
+                        'content' => '<h2>'.$this->faker->text(30).'</h2><p>'.$this->faker->text(900).'</p>',
                     ],
                 ],
             ],
