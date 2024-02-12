@@ -59,7 +59,8 @@ class BlogController
         return $this->showBlade($post);
     }
 
-    public function index(): View|AnonymousResourceCollection {
+    public function index(): View|AnonymousResourceCollection
+    {
         $posts = $this->postRepository->allPaginated(getPostsPerPage(), ['categories']);
 
         if (config('cms.views.type') === 'api') {
