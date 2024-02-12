@@ -19,6 +19,7 @@ class TextImageComponent implements ComponentInterface
             CuratorPicker::make('image')
                 ->label(__('Image'))
                 ->preserveFilenames()
+                ->required(),
         ];
     }
 
