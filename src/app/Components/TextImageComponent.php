@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\App\Components;
 
-use Filament\Forms\Components\FileUpload;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
 
@@ -14,9 +14,9 @@ class TextImageComponent implements ComponentInterface
             RichEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
-            FileUpload::make('image')
+            CuratorPicker::make('image')
                 ->label(__('Image'))
-                ->required(),
+                ->preserveFilenames()
         ];
     }
 
@@ -26,7 +26,7 @@ class TextImageComponent implements ComponentInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      */
     public static function toBlade(array $data): View
     {
@@ -37,7 +37,7 @@ class TextImageComponent implements ComponentInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      */
     public static function toSearchableContent(array $data): string
     {
