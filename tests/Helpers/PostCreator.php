@@ -4,6 +4,7 @@ namespace Webid\Druid\Tests\Helpers;
 
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\Post;
+use Webid\Druid\Database\Factories\PostFactory;
 
 trait PostCreator
 {
