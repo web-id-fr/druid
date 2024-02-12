@@ -14,7 +14,6 @@ use Webid\Druid\App\Models\Contracts\IsMenuable;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
 use Webid\Druid\App\Services\ComponentSearchContentExtractor;
-use Webid\Druid\Database\Factories\PageFactory;
 
 /**
  * @property int $id
@@ -121,10 +120,5 @@ class Page extends Model implements IsMenuable
 
             $model->searchable_content = $searchableContentExtractor->extractSearchableContentFromBlocks($model->content);
         });
-    }
-
-    protected static function newFactory(): PageFactory
-    {
-        return new PageFactory();
     }
 }

@@ -9,18 +9,12 @@ trait PageCreator
 {
     protected function createPage(array $params = []): Page
     {
-        /** @var Page $page */
-        $page = Page::factory($params)->create();
-
-        return $page;
+        return Page::factory($params)->create();
     }
 
     protected function createPageInEnglish(array $params = []): Page
     {
-        /** @var Page $page */
-        $page = Page::factory([...$params, 'lang' => Langs::EN->value])->create();
-
-        return $page;
+        return Page::factory([...$params, 'lang' => Langs::EN->value])->create();
     }
 
     protected function createFrenchTranslationPage(array $params = [], ?Page $fromPage = null): Page
@@ -29,10 +23,7 @@ trait PageCreator
             $params['translation_origin_model_id'] = $fromPage->getKey();
         }
 
-        /** @var Page $page */
-        $page = Page::factory([...$params, 'lang' => Langs::FR->value])->create();
-
-        return $page;
+        return Page::factory([...$params, 'lang' => Langs::FR->value])->create();
     }
 
     protected function createGermanTranslationPage(array $params = [], ?Page $fromPage = null): Page
@@ -41,9 +32,6 @@ trait PageCreator
             $params['translation_origin_model_id'] = $fromPage->getKey();
         }
 
-        /** @var Page $page */
-        $page = Page::factory([...$params, 'lang' => Langs::DE->value])->create();
-
-        return $page;
+        return Page::factory([...$params, 'lang' => Langs::DE->value])->create();
     }
 }

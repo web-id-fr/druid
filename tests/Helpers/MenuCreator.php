@@ -10,10 +10,7 @@ trait MenuCreator
 {
     protected function createMenu(array $params = []): Menu
     {
-        /** @var Menu $menu */
-        $menu = Menu::factory($params)->create();
-
-        return $menu;
+        return Menu::factory($params)->create();
     }
 
     protected function createMenuWithSlug(string $slug, array $params = [], ?Langs $lang = Langs::EN): Menu
@@ -38,9 +35,6 @@ trait MenuCreator
             $params['slug'] = $fromMenu->slug;
         }
 
-        /** @var Menu $menu */
-        $menu = Menu::factory([...$params, 'lang' => Langs::FR->value])->create();
-
-        return $menu;
+        return Menu::factory([...$params, 'lang' => Langs::FR->value])->create();
     }
 }
