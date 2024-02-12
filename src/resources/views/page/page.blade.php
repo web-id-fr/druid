@@ -11,12 +11,12 @@
     <div class="container">
 
         @include('druid::includes.main-menu')
+
         <h1 class="title">
             {{ $page->title }}
         </h1>
 
         {!! $page->content !!}
-
 
         <p><a href="/admin/pages/{{$page->id}}/edit">Edit page</a></p>
 

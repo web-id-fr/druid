@@ -5,6 +5,7 @@ namespace Webid\Druid\App\Components;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
+use Webid\Druid\App\Repositories\MediaRepository;
 
 class TextImageComponent implements ComponentInterface
 {
@@ -14,6 +15,7 @@ class TextImageComponent implements ComponentInterface
             RichEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
+            // @phpstan-ignore-next-line
             CuratorPicker::make('image')
                 ->label(__('Image'))
                 ->preserveFilenames()
@@ -30,9 +32,10 @@ class TextImageComponent implements ComponentInterface
      */
     public static function toBlade(array $data): View
     {
+        $mediaRepository = app(MediaRepository::class);
         return view('druid::components.text-image', [
             'content' => $data['content'],
-            'image' => $data['image'],
+            'image' => $mediaRepository->findById($data['image']),
         ]);
     }
 
