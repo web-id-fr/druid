@@ -5,6 +5,7 @@ namespace Webid\Druid\Tests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\View;
+use Intervention\Image\ImageServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Webid\Druid\App\Components\ReusableComponent;
 use Webid\Druid\App\Components\TextComponent;
@@ -37,6 +38,7 @@ class TestCase extends OrchestraTestCase
             TestServiceProvider::class,
             DruidServiceProvider::class,
             ComposerServiceProvider::class,
+            ImageServiceProvider::class,
         ];
     }
 
@@ -82,5 +84,7 @@ class TestCase extends OrchestraTestCase
                 'label' => 'German',
             ],
         ]);
+        $app['config']->set('curator.directory', 'media');
+        $app['config']->set('curator.disk', env('FILAMENT_FILESYSTEM_DISK', 'public'));
     }
 }
