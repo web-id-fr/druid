@@ -12,7 +12,6 @@ use Webid\Druid\App\Components\TextComponent;
 use Webid\Druid\App\Components\TextImageComponent;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
-use Webid\Druid\App\Providers\ComposerServiceProvider;
 use Webid\Druid\App\Providers\TestServiceProvider;
 use Webid\Druid\DruidServiceProvider;
 
@@ -37,7 +36,6 @@ class TestCase extends OrchestraTestCase
         return [
             TestServiceProvider::class,
             DruidServiceProvider::class,
-            ComposerServiceProvider::class,
             ImageServiceProvider::class,
         ];
     }

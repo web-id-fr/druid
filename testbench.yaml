@@ -8,4 +8,4 @@ env:
 providers:
   - Webid\Druid\App\Providers\TestServiceProvider
   - Webid\Druid\DruidServiceProvider
-  - Webid\Druid\App\Providers\ComposerServiceProvider
+  - Intervention\Image\ImageServiceProvider
