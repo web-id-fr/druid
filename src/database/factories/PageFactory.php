@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
+use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Enums\Langs;
@@ -62,7 +63,7 @@ class PageFactory extends Factory
                 'type' => 'textImage',
                 'data' => [
                     'content' => '<p>'.$this->faker->text(900).'</p>',
-                    'image' => 'placeholder-image.png',
+                    'image' => Media::factory()->create()->getKey(),
                 ],
             ],
             [

@@ -2,9 +2,10 @@
 
 namespace Webid\Druid\App\Components;
 
-use Filament\Forms\Components\FileUpload;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
+use Webid\Druid\App\Repositories\MediaRepository;
 
 class TextImageComponent implements ComponentInterface
 {
@@ -14,8 +15,9 @@ class TextImageComponent implements ComponentInterface
             RichEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
-            FileUpload::make('image')
+            CuratorPicker::make('image')
                 ->label(__('Image'))
+                ->preserveFilenames()
                 ->required(),
         ];
     }
@@ -30,9 +32,14 @@ class TextImageComponent implements ComponentInterface
      */
     public static function toBlade(array $data): View
     {
+        $mediaRepository = app(MediaRepository::class);
+
+        /** @var int $mediaId */
+        $mediaId = $data['image'];
+
         return view('druid::components.text-image', [
             'content' => $data['content'],
-            'image' => $data['image'],
+            'image' => $mediaRepository->findById($mediaId),
         ]);
     }
 

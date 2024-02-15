@@ -14,6 +14,7 @@ if (! function_exists('getPostsPerPage')) {
     {
         /** @var int $perPage */
         $perPage = config('cms.blog.posts_per_page');
+
         return $perPage;
     }
 }
