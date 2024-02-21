@@ -3,14 +3,19 @@
 namespace Webid\Druid\App\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Collection;
 use Webid\Druid\App\Models\Page;
 
 class PageRepository
 {
     public function __construct(private readonly Page $model)
     {
+    }
+
+    public function all(): Collection
+    {
+        return $this->model->all();
     }
 
     /**

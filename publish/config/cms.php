@@ -7,6 +7,7 @@ use Webid\Druid\App\Components\TextComponent;
 use Webid\Druid\App\Components\TextImageComponent;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\RenderType;
+use Webid\Druid\App\Filament\Pages\SettingsPage\SettingsForm;
 use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 
 return [
@@ -74,5 +75,15 @@ return [
     'blog' => [
         'posts_per_page' => 10,
         'prefix' => 'blog',
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Settings
+     |--------------------------------------------------------------------------
+     */
+    'settings' => [
+        'enable_settings_page' => true,
+        'settings_form' => SettingsForm::class,
     ],
 ];
