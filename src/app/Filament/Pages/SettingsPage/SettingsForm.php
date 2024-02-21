@@ -13,22 +13,22 @@ class SettingsForm implements SettingsInterface
         return $form->schema([
             Tabs::make('Tabs')
                 ->tabs([
-                    Tabs\Tab::make('Général')
+                    Tabs\Tab::make(__('General'))
                         ->schema([
                             TextInput::make('site_name')
-                                ->label(__('Nom du site'))
+                                ->label(__('Name of the site'))
                                 ->required(),
                             TextInput::make('site_description')
-                                ->label(__('Description du site'))
+                                ->label(__('Description of the site'))
                                 ->required(),
                             TextInput::make('site_email')
-                                ->label(__('Email du site'))
+                                ->label(__('Email of the site'))
                                 ->required(),
                         ]),
                     Tabs\Tab::make('Application')
                         ->schema([
                             TextInput::make('app_version')
-                                ->label(__('Version de l\'application'))
+                                ->label(__('Version of the application'))
                                 ->required(),
                         ]),
                 ]),

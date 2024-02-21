@@ -2,8 +2,10 @@
 
 namespace Webid\Druid\App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webid\Druid\App\Repositories\SettingsRepository;
 
 /**
  * @property int $id
@@ -29,22 +31,24 @@ class Settings extends Model
 
     public static function get(string $key = '*', mixed $default = null): mixed
     {
-        $settings = [];
+        $settingRepository = app(SettingsRepository::class);
 
-        Settings::all()->each(function ($setting) use (&$settings) {
-            data_set($settings, $setting->key, $setting->value);
-        });
+        /** @var Collection<Settings> $settingsCollection */
+        $settingsCollection = $settingRepository->all()->pluck('value', 'key');
 
         if ($key === '*') {
-            return $settings;
+            return $settingsCollection->toArray();
         }
 
-        return data_get($settings, $key, $default);
+        return $settingsCollection->get($key, $default);
     }
 
     public static function set(string $key, mixed $value): mixed
     {
-        $setting = self::updateOrCreate(
+        $settingRepository = app(SettingsRepository::class);
+
+        /** @var Settings $setting */
+        $setting = $settingRepository->updateOrCreate(
             ['key' => $key],
             ['value' => $value]
         );

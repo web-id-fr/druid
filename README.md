@@ -12,6 +12,7 @@ Essentially out of the box you'll get a Filament based admin panel where you can
 - Posts
 - Navigation menus
 - Reusable blocks
+- Settings
 
 You'll also find helpers and services to manage multilingual and navigation menu features in your codebase.
 
@@ -72,6 +73,12 @@ and use it multiple times wherever you like afterward. This is what we call a re
 You can manually group and nest your contents inside navigation menus in the admin panel. You can choose between internal content
 (page and posts) and external URLs. You can nest your menu items up to 3 levels for advanced menus usage.
 
+### Settings
+
+You can define some settings in the admin panel that you can use in your codebase using the `Settings` helper.
+It's possible to build your own settings form page using the `SettingsInterface` class. When you're done, you have to
+add the class to the `config/cms.php` file `settings.settings_form`.
+
 ## Helpers
 
 ### Multilingual helpers
@@ -91,6 +98,15 @@ You can manually group and nest your contents inside navigation menus in the adm
 |--------------------------------------------------------------------|--------------------------------------------------------|
 | `getNavigationMenuBySlug(string $slug): Menu`                      | Returns a `Menu` DTO with all the nested links details |
 | `getNavigationMenuBySlugAndLang(string $slug, Langs $lang) : Menu` | Same as preview but with a given language              |
+
+### Settings helpers
+
+| Function                              | Description                                                     |
+|---------------------------------------|-----------------------------------------------------------------|
+| `getSettingByKey(string $key): mixed` | Returns the value of a setting defined in the admin panel       |
+| `getSettings(): Collection`           | Returns a collection of all settings defined in the admin panel |
+|  `isSettingsPageEnable(): bool`       | Returns `true` if the settings page is enabled                  |
+| `settingsPage(): SettingsInterface`   | Returns the settings page class used to build the form          |
 
 ## Services
 

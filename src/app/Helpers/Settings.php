@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Filament\Pages\SettingsPage\SettingsInterface;
+use Webid\Druid\App\Repositories\SettingsRepository;
 
 if (! function_exists('isSettingsPageEnable')) {
     function isSettingsPageEnable(): bool
     {
-        return config('cms.settings.enable_settings_page') == true;
+        return config('cms.settings.enable_settings_page') === true;
     }
 }
 
@@ -26,5 +29,23 @@ if (! function_exists('settingsPage')) {
         }
 
         return new $className();
+    }
+}
+
+if (! function_exists('getSettingByKey')) {
+    function getSettingByKey(string $key): ?Model
+    {
+        $settingsRepository = app(SettingsRepository::class);
+
+        return $settingsRepository->findSettingByKeyName($key);
+    }
+}
+
+if (! function_exists('getSettings')) {
+    function getSettings(): Collection
+    {
+        $settingsRepository = app(SettingsRepository::class);
+
+        return $settingsRepository->all();
     }
 }
