@@ -20,6 +20,7 @@ use Webid\Druid\DruidServiceProvider;
 class TestCase extends OrchestraTestCase
 {
     use DatabaseTransactions;
+
     private ?Collection $languageSwitcherLinks = null;
 
     /**
@@ -99,8 +100,8 @@ class TestCase extends OrchestraTestCase
 
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
-        $this->loadMigrationsFrom(__DIR__ . '../src/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'../src/database/migrations');
         $this->loadLaravelMigrations(['--database' => 'mysql']);
         $this->artisan('migrate', ['--database' => 'mysql'])->run();
     }

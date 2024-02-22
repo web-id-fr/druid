@@ -1,6 +1,6 @@
 {
     "name": "webid/druid",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Laravel Filament based CMS",
     "type": "library",
     "authors": [
@@ -33,7 +33,8 @@
             "src/app/Helpers/helpers.php",
             "src/app/Helpers/Multilingual.php",
             "src/app/Helpers/NavigationMenus.php",
-            "src/app/Helpers/Blog.php"
+            "src/app/Helpers/Blog.php",
+            "src/app/Helpers/Settings.php"
         ]
     },
     "autoload-dev": {
