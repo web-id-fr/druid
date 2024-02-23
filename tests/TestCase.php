@@ -54,8 +54,10 @@ class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('cms.blog.posts_per_page', 10);
         $app['config']->set('cms.blog.prefix', 'blog');
-        $app['config']->set('cms.enable_multilingual_feature', false);
+        $app['config']->set('cms.enable_multilingual_feature', true);
+        $app['config']->set('cms.enable_default_blog_routes', true);
         $app['config']->set('cms.default_locale', Langs::EN->value);
         $app['config']->set('cms.components', [
             [
