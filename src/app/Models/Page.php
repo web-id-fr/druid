@@ -50,23 +50,8 @@ class Page extends Model implements IsMenuable
 
     protected $table = 'pages';
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'lang',
-        'status',
-        'content',
-        'indexation',
-        'follow',
-        'meta_title',
-        'meta_description',
-        'meta_keywords',
-        'opengraph_title',
-        'opengraph_description',
-        'opengraph_picture',
-        'opengraph_picture_alt',
-        'published_at',
-        'parent_page_id',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
