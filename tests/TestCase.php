@@ -38,7 +38,7 @@ class TestCase extends OrchestraTestCase
     /**
      * @param  Application  $app
      */
-    protected function defineEnvironment($app)
+    protected function defineEnvironment($app): void
     {
         View::addLocation(package_base_path('src/resources/views'));
         $app->instance('path.public', package_base_path());
@@ -52,10 +52,12 @@ class TestCase extends OrchestraTestCase
     /**
      * @param  Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
+        $app['config']->set('cms.blog.posts_per_page', 10);
         $app['config']->set('cms.blog.prefix', 'blog');
-        $app['config']->set('cms.enable_multilingual_feature', false);
+        $app['config']->set('cms.enable_multilingual_feature', true);
+        $app['config']->set('cms.enable_default_blog_routes', true);
         $app['config']->set('cms.default_locale', Langs::EN->value);
         $app['config']->set('cms.components', [
             [

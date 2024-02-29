@@ -52,8 +52,6 @@ class MultilingualPostsTest extends TestCase
     /** @test */
     public function post_url_without_lang_leads_to_a_404(): void
     {
-        $this->disableMultilingualFeature();
-
         $post = $this->createPost(['lang' => null]);
         $this->assertNull($post->lang);
         $postUrlWithoutLang = $post->url();
