@@ -108,12 +108,12 @@ class MultilingualPagesTest extends TestCase
         $frenchTranslation = $this->createFrenchTranslationPage(fromPage: $originPage);
         $originPage->refresh();
 
-        $this->assertCount(1, $originPage->translations);
-        $this->assertTrue($originPage->translations->first()->is($frenchTranslation));
+        $this->assertCount(2, $originPage->translations);
+        $this->assertTrue($originPage->translations->last()->is($frenchTranslation));
 
         $this->createGermanTranslationPage(fromPage: $originPage);
         $originPage->refresh();
 
-        $this->assertCount(2, $originPage->translations);
+        $this->assertCount(3, $originPage->translations);
     }
 }
