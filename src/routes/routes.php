@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Webid\Druid\App\Http\Controllers\BlogController;
 use Webid\Druid\App\Http\Controllers\FallbackController;
+use Webid\Druid\App\Http\Controllers\LanguageSwitcherController;
+
+if (isMultilingualEnabled()) {
+    Route::get('switch-lang/{locale}', LanguageSwitcherController::class)->name('switch_lang');
+}
 
 if (isBlogDefaultRoutesEnable()) {
     if (isMultilingualEnabled()) {

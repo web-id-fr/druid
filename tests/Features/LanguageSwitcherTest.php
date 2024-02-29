@@ -28,18 +28,8 @@ class LanguageSwitcherTest extends TestCase
         $links = $this->getLanguageSwitcher()->getLinks();
 
         $this->assertCount(3, $links);
-        $this->assertEquals($links->first()->lang, Langs::EN);
-        $this->assertEquals($links->get(1)->lang, Langs::FR);
-        $this->assertEquals($links->get(2)->lang, Langs::DE);
-    }
-
-    /** @test */
-    public function homepage_can_be_defined_in_config_for_each_locale(): void
-    {
-        $links = $this->getLanguageSwitcher()->getLinks();
-
-        $this->assertEquals($links->first()->url, '/');
-        $this->assertEquals($links->get(1)->url, '/fr');
-        $this->assertEquals($links->get(2)->url, '/de');
+        $this->assertEquals($links->first(), Langs::EN);
+        $this->assertEquals($links->get(1), Langs::FR);
+        $this->assertEquals($links->get(2), Langs::DE);
     }
 }

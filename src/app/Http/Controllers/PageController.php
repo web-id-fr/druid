@@ -10,10 +10,6 @@ use Webid\Druid\App\Models\Page;
 
 class PageController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     public function show(Page $page): View
     {
         if (isMultilingualEnabled()) {
