@@ -45,11 +45,10 @@
 
                         <div class="navbar-dropdown">
                             @foreach ($languageSwitcher as $lang)
-                                <a href="{{ $lang->url }}" class="navbar-item">
-                                    {{$lang->lang->getName()}}
+                                <a href="{{ route('switch_lang', ['locale' => $lang]) }}" class="navbar-item">
+                                    {{$lang->getName()}}
                                 </a>
                             @endforeach
-
                         </div>
                     </div>
                 @endif

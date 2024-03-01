@@ -8,11 +8,6 @@ use Webid\Druid\App\Enums\Langs;
 
 class LanguageSwitcher
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * @return Collection<LangLink>
      */
@@ -20,8 +15,7 @@ class LanguageSwitcher
     {
         $links = collect();
         foreach (getLocales() as $locale => $details) {
-            $homepage = isset($details['homepage']) ? $details['homepage'] : '/';
-            $links->push(LangLink::make($homepage, Langs::from($locale)));
+            $links->push(Langs::from($locale));
         }
 
         return $links;
