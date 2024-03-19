@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Webid\Druid\App\Components\HintComponent;
+use Webid\Druid\App\Components\ImageComponent;
 use Webid\Druid\App\Components\ReusableComponent;
 use Webid\Druid\App\Components\TextComponent;
 use Webid\Druid\App\Components\TextImageComponent;
@@ -47,7 +49,13 @@ return [
             'class' => TextComponent::class,
         ],
         [
+            'class' => ImageComponent::class,
+        ],
+        [
             'class' => TextImageComponent::class,
+        ],
+        [
+            'class' => HintComponent::class,
         ],
         [
             'class' => ReusableComponent::class,
