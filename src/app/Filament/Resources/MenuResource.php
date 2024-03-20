@@ -97,7 +97,7 @@ class MenuResource extends Resource
         ];
 
         if (isMultilingualEnabled()) {
-            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.menu.translations');
         }
 
         return $table

@@ -153,14 +153,11 @@ class PageResource extends Resource
         ];
 
         if (isMultilingualEnabled()) {
-            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.page.translations');
         }
 
         return $table
             ->columns($columns)
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
@@ -169,14 +166,8 @@ class PageResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ])
+            ->striped();
     }
 
     public static function getPages(): array

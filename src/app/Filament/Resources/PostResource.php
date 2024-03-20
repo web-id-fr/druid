@@ -168,14 +168,11 @@ class PostResource extends Resource
         ];
 
         if (isMultilingualEnabled()) {
-            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.translations');
+            $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.post.translations');
         }
 
         return $table
             ->columns($columns)
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
@@ -184,7 +181,8 @@ class PostResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->striped();
     }
 
     public static function getRelations(): array

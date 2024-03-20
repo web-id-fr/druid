@@ -29,9 +29,6 @@ class PostsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make(),
