@@ -107,9 +107,6 @@ class MenuItemResource extends Resource
                 Tables\Columns\TextColumn::make('menu_id')
                     ->label(__('Menu ID')),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -118,13 +115,6 @@ class MenuItemResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

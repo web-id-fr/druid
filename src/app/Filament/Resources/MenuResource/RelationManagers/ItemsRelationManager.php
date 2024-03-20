@@ -22,7 +22,6 @@ class ItemsRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-
         /** @var MenuItemRepository $menuItemRepository */
         $menuItemRepository = app()->make(MenuItemRepository::class);
 
@@ -88,9 +87,6 @@ class ItemsRelationManager extends RelationManager
             ->recordTitleAttribute('label')
             ->columns([
                 Tables\Columns\TextColumn::make('label'),
-            ])
-            ->filters([
-                //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
