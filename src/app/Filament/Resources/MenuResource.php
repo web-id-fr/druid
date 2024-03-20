@@ -34,7 +34,7 @@ class MenuResource extends Resource
         $parametersTab = [
             TextInput::make('title')
                 ->label(__('Title'))
-                ->live()
+                ->live(debounce: 500)
                 ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug(strval($state))))
                 ->required(),
             TextInput::make('slug')
