@@ -3,18 +3,14 @@
 namespace Webid\Druid\App\Components;
 
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
 use Webid\Druid\App\Repositories\MediaRepository;
 
-class TextImageComponent implements ComponentInterface
+class ImageComponent implements ComponentInterface
 {
     public static function blockSchema(): array
     {
         return [
-            RichEditor::make('content')
-                ->label(__('Content'))
-                ->required(),
             CuratorPicker::make('image')
                 ->label(__('Image'))
                 ->preserveFilenames()
@@ -24,7 +20,7 @@ class TextImageComponent implements ComponentInterface
 
     public static function fieldName(): string
     {
-        return 'textImage';
+        return 'image';
     }
 
     /**
@@ -39,8 +35,7 @@ class TextImageComponent implements ComponentInterface
         $mediaId = $data['image'];
 
         $image = $mediaRepository->findById($mediaId);
-        return view('druid::components.text-image', [
-            'content' => $data['content'],
+        return view('druid::components.image', [
             // @phpstan-ignore-next-line
             'image' => $image->url,
             // @phpstan-ignore-next-line
