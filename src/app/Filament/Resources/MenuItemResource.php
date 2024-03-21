@@ -2,9 +2,6 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
-use App\Filament\Resources\MenuItemResource\Pages\CreateMenuItem;
-use App\Filament\Resources\MenuItemResource\Pages\EditMenuItem;
-use App\Filament\Resources\MenuItemResource\Pages\ListMenuItems;
 use Filament\Forms\Components\MorphToSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -15,6 +12,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\App\Enums\MenuItemTarget;
+use Webid\Druid\App\Filament\Resources\MenuResource\Pages\CreateMenu;
+use Webid\Druid\App\Filament\Resources\MenuResource\Pages\EditMenu;
+use Webid\Druid\App\Filament\Resources\MenuResource\Pages\ListMenus;
 use Webid\Druid\App\Models\MenuItem;
 use Webid\Druid\App\Models\Page;
 use Webid\Druid\App\Models\Post;
@@ -120,12 +120,9 @@ class MenuItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            // @phpstan-ignore-next-line
-            'index' => ListMenuItems::route('/'),
-            // @phpstan-ignore-next-line
-            'create' => CreateMenuItem::route('/create'),
-            // @phpstan-ignore-next-line
-            'edit' => EditMenuItem::route('/{record}/edit'),
+            'index' => ListMenus::route('/'),
+            'create' => CreateMenu::route('/create'),
+            'edit' => EditMenu::route('/{record}/edit'),
         ];
     }
 }

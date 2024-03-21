@@ -11,6 +11,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\CreateCategory;
+use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\EditCategory;
+use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use Webid\Druid\App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use Webid\Druid\App\Models\Category;
 
@@ -82,9 +85,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Resources\CategoryResource\Pages\ListCategories::route('/'),
-            'create' => \App\Filament\Resources\CategoryResource\Pages\CreateCategory::route('/create'),
-            'edit' => \App\Filament\Resources\CategoryResource\Pages\EditCategory::route('/{record}/edit'),
+            'index' => ListCategories::route('/'),
+            'create' => CreateCategory::route('/create'),
+            'edit' => EditCategory::route('/{record}/edit'),
         ];
     }
 }
