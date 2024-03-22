@@ -38,9 +38,5 @@ class DruidServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../publish/config/cms.php' => base_path('/config/cms.php'),
         ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../publish/app/Filament' => base_path('/app/Filament'),
-        ], 'filament-resources');
     }
 }
