@@ -35,7 +35,7 @@ Please follow the installation process
 - For Curator here: https://github.com/awcodes/filament-curator
 
 ```
-composer require webid/druid:"^0.1"
+composer require webid/druid
 ```
 
 ```
@@ -43,7 +43,7 @@ php artisan vendor:publish --provider="Webid\Druid\DruidServiceProvider"
 ```
 
 ```
-php artisan migrate
+php artisan migrate --path=./vendor/webid/druid/src/database/migrations
 ```
 
 Read on customize the `config/cms.php` file specially if you need to enable the multilingual feature.
@@ -105,7 +105,7 @@ add the class to the `config/cms.php` file `settings.settings_form`.
 |---------------------------------------|-----------------------------------------------------------------|
 | `getSettingByKey(string $key): mixed` | Returns the value of a setting defined in the admin panel       |
 | `getSettings(): Collection`           | Returns a collection of all settings defined in the admin panel |
-|  `isSettingsPageEnable(): bool`       | Returns `true` if the settings page is enabled                  |
+| `isSettingsPageEnable(): bool`        | Returns `true` if the settings page is enabled                  |
 | `settingsPage(): SettingsInterface`   | Returns the settings page class used to build the form          |
 
 ## Services

@@ -87,6 +87,7 @@ class BlogController
 
     public function show(Post $post): View|PostResource
     {
+        $post->loadMissing('thumbnail');
         $type = config('cms.views.type');
 
         if ($type === 'api') {

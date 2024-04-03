@@ -15,7 +15,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('slug', 255);
-            $table->string('post_image')->nullable();
+            $table->unsignedBigInteger('thumbnail_id')->nullable();
+            $table->foreign('thumbnail_id')
+                ->references('id')
+                ->on('media');
+            $table->longText('thumbnail_alt')->nullable();
             $table->string('lang', 20)->nullable();
             $table->foreignId('translation_origin_model_id')
                 ->nullable()
@@ -35,7 +39,6 @@ return new class extends Migration
             $table->longText('opengraph_title')->nullable();
             $table->longText('opengraph_description')->nullable();
             $table->string('opengraph_picture')->nullable();
-            $table->longText('post_image_alt')->nullable();
             $table->longText('opengraph_picture_alt')->nullable();
 
             $table->dateTime('published_at')->nullable();

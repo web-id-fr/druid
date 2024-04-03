@@ -59,11 +59,11 @@ class PostResource extends Resource
         ];
 
         $parametersTab = [
-            CuratorPicker::make('post_image')
+            CuratorPicker::make('thumbnail_id')
                 ->label(__('Image'))
                 ->preserveFilenames()
                 ->columnSpanFull(),
-            TextInput::make('post_image_alt')
+            TextInput::make('thumbnail_alt')
                 ->label(__('Image alt'))
                 ->columnSpanFull(),
             Select::make('status')
