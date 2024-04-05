@@ -1,8 +1,17 @@
 {
     "name": "webid/druid",
-    "version": "0.2",
+    "version": "0.1.0",
     "description": "Laravel Filament based CMS",
     "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "web-id",
+        "laravel",
+        "cms",
+        "content",
+        "filament",
+        "curator"
+    ],
     "authors": [
         {
             "name": "Web ID team",
@@ -11,11 +20,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.1",
-        "filament/forms": "^3.1",
-        "laravel/framework": "^10",
-        "webmozart/assert": "^1.11",
-        "awcodes/filament-curator": "^3.4"
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "nunomaduro/larastan": "^2.8",
