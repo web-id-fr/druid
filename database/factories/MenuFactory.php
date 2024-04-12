@@ -20,17 +20,6 @@ class MenuFactory extends Factory
         ];
     }
 
-    public function withItems(): self
-    {
-        // @phpstan-ignore-next-line
-        return $this->afterCreating(function (Menu $menu) {
-            MenuItemFactory::new()->forMenu($menu)->withCustomUrl()->create();
-            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
-            MenuItemFactory::new()->forMenu($menu)->withParentItem()->create();
-            MenuItemFactory::new()->forMenu($menu)->withPageItem()->create();
-        });
-    }
-
     public function configure(): static
     {
         return $this->afterCreating(function (Model $menu): void {

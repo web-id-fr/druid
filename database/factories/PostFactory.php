@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
+use App\Models\User;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,7 @@ class PostFactory extends Factory
             'opengraph_title' => null,
             'opengraph_description' => null,
             'opengraph_picture' => null,
+            'indexation' => 1,
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
@@ -67,6 +69,24 @@ class PostFactory extends Factory
                 'lang' => $lang,
                 'translation_origin_model_id' => $post->getKey(),
             ];
+        });
+    }
+
+    public function forCategory(Category $category): static
+    {
+        return $this->afterCreating(function (Model $post) use ($category): void {
+            /** @var Post $post */
+            $post->categories()->attach($category);
+            $post->save();
+        });
+    }
+
+    public function forUser(User $user): static
+    {
+        return $this->afterCreating(function (Model $post) use ($user): void {
+            /** @var Post $post */
+            $post->users()->attach($user);
+            $post->save();
         });
     }
 }
