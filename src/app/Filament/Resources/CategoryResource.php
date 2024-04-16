@@ -90,4 +90,9 @@ class CategoryResource extends Resource
             'edit' => EditCategory::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return isBlogModuleEnable();
+    }
 }

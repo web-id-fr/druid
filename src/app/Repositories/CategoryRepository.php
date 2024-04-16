@@ -14,6 +14,16 @@ class CategoryRepository
     {
     }
 
+    public function all(): Collection
+    {
+        return $this->model->all();
+    }
+
+    public function allByLang(Langs $lang): Collection
+    {
+        return $this->model->newQuery()->where('lang', $lang)->get();
+    }
+
     public function countAll(): int
     {
         return $this->model->newQuery()->count();
