@@ -79,6 +79,7 @@ return [
      | Blog
      |--------------------------------------------------------------------------
      */
+    'enable_blog_module' => true,
     'enable_default_blog_routes' => true,
     'blog' => [
         'posts_per_page' => 10,

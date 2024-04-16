@@ -208,4 +208,9 @@ class PostResource extends Resource
         // @phpstan-ignore-next-line
         return static::$model::count();
     }
+
+    public static function canAccess(): bool
+    {
+        return isBlogModuleEnable();
+    }
 }

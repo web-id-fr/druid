@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+if (! function_exists('isBlogModuleEnable')) {
+    function isBlogModuleEnable(): bool
+    {
+        return config('cms.enable_blog_module') === true;
+    }
+}
+
 if (! function_exists('isBlogDefaultRoutesEnable')) {
     function isBlogDefaultRoutesEnable(): bool
     {
