@@ -31,18 +31,18 @@ class HintComponent implements ComponentInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toBlade(array $data): View
     {
         return view('druid::components.hint', [
             'content' => $data['content'],
-            'type' => $data['type']
+            'type' => $data['type'],
         ]);
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toSearchableContent(array $data): string
     {

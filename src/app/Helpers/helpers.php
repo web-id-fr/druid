@@ -1,13 +1,9 @@
 <?php
 
-if (!function_exists('current_url_is')) {
+if (! function_exists('current_url_is')) {
     /**
      * Compare la chaine passée en paramètre avec l'url actuelle,
      * pour déterminer si la chaine correspond à la page actuelle
-     *
-     * @param string $urlToCompare
-     *
-     * @return bool
      */
     function current_url_is(string $urlToCompare): bool
     {
@@ -18,7 +14,6 @@ if (!function_exists('current_url_is')) {
         return request()->is("$urlPath*");
     }
 }
-
 
 if (! function_exists('package_base_path')) {
     /**

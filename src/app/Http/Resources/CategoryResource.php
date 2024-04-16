@@ -7,7 +7,7 @@ use Webid\Druid\App\Models\Category;
 
 class CategoryResource extends JsonResource
 {
-    /** @var Category $resource */
+    /** @var Category */
     public $resource;
 
     /**

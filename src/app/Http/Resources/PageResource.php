@@ -8,7 +8,7 @@ use Webid\Druid\App\Services\ComponentDisplayContentExtractor;
 
 class PageResource extends JsonResource
 {
-    /** @var Page $resource */
+    /** @var Page */
     public $resource;
 
     /**
