@@ -95,6 +95,6 @@ class Settings extends Page
 
     public static function canAccess(): bool
     {
-        return isSettingsPageEnable();
+        return isSettingsPageEnabled();
     }
 }
