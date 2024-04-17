@@ -12,8 +12,8 @@ if (isMultilingualEnabled()) {
     Route::get('switch-lang/{locale}', LanguageSwitcherController::class)->name('switch_lang');
 }
 
-if (isBlogModuleEnable()) {
-    if (isBlogDefaultRoutesEnable()) {
+if (isBlogModuleEnabled()) {
+    if (isBlogDefaultRoutesEnabled()) {
         if (isMultilingualEnabled()) {
             Route::prefix('{lang}/'.config('cms.blog.prefix'))
                 ->name('posts.multilingual.')
