@@ -211,6 +211,6 @@ class PostResource extends Resource
 
     public static function canAccess(): bool
     {
-        return isBlogModuleEnable();
+        return isBlogModuleEnabled();
     }
 }

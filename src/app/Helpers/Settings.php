@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\App\Filament\Pages\SettingsPage\SettingsInterface;
 use Webid\Druid\App\Repositories\SettingsRepository;
 
-if (! function_exists('isSettingsPageEnable')) {
-    function isSettingsPageEnable(): bool
+if (! function_exists('isSettingsPageEnabled')) {
+    function isSettingsPageEnabled(): bool
     {
         return config('cms.settings.enable_settings_page') === true;
     }
