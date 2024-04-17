@@ -1,5 +1,5 @@
 name: Dru^ID CI
-on: [push]
+on: [ push ]
 
 jobs:
   druid-ci:
@@ -39,6 +39,7 @@ jobs:
       - name: Testing migrations
         run: |
           ./vendor/bin/testbench migrate:fresh
+          ./vendor/bin/testbench migrate --path=./src/database/migrations
           ./vendor/bin/testbench migrate
         env:
           DB_PORT: 32574

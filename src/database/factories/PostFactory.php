@@ -18,8 +18,8 @@ class PostFactory extends Factory
         return [
             'title' => fake()->words(3, true),
             'slug' => fake()->slug,
-            'post_image' => Media::factory()->create()->getKey(),
-            'post_image_alt' => fake()->words(3, true),
+            'thumbnail_id' => Media::factory()->create()->getKey(),
+            'thumbnail_alt' => fake()->words(3, true),
             'status' => PostStatus::PUBLISHED,
             'lang' => Langs::EN,
             'excerpt' => fake()->text,

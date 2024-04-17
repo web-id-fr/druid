@@ -33,6 +33,7 @@ class PostResource extends JsonResource
             'slug' => $this->resource->slug,
             'lang' => $this->resource->lang,
             'content' => $componentDisplayContentExtractor->getContentFromBlocks($this->resource->content),
+            'thumbnail' => MediaResource::make($this->whenLoaded('thumbnail')),
             'searchable_content' => $this->resource->searchable_content,
             'status' => $this->resource->status->value,
             'indexation' => $this->resource->indexation,

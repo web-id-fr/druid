@@ -20,8 +20,8 @@ use Webid\Druid\App\Models\Traits\IsTranslatable;
  * @property int $id
  * @property string $title
  * @property string $slug
- * @property string|null $post_image
- * @property string|null $post_image_alt
+ * @property string|null $thumbnail_id
+ * @property string|null $thumbnail_alt
  * @property PostStatus $status
  * @property ?Langs $lang
  * @property string|null $excerpt
@@ -45,6 +45,7 @@ use Webid\Druid\App\Models\Traits\IsTranslatable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\App\Models\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read Post $translationOriginModel
+ * @property-read ?Media $thumbnail
  * @property-read Collection<int, Post> $translations
  */
 class Post extends Model implements IsMenuable
@@ -58,8 +59,8 @@ class Post extends Model implements IsMenuable
     protected $fillable = [
         'title',
         'slug',
-        'post_image',
-        'post_image_alt',
+        'thumbnail_id',
+        'thumbnail_alt',
         'status',
         'lang',
         'excerpt',
@@ -110,14 +111,14 @@ class Post extends Model implements IsMenuable
         return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
 
+    public function thumbnail(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'thumbnail_id', 'id');
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
-    }
-
-    public function image(): BelongsTo
-    {
-        return $this->belongsTo(Media::class, 'post_image', 'id');
     }
 
     public function getMenuLabel(): string
