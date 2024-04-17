@@ -2,8 +2,8 @@
 
 namespace Webid\Druid\App\Filament\Resources;
 
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -54,14 +54,14 @@ class PostResource extends Resource
                 )
                 ->required(),
             RichEditor::make('excerpt')
-                ->label(__('excerpt')),
+                ->label(__('Excerpt')),
             $filamentComponentService->getFlexibleContentFieldsForModel(Post::class),
         ];
 
         $parametersTab = [
-            FileUpload::make('post_image')
+            CuratorPicker::make('post_image')
                 ->label(__('Image'))
-                ->image()
+                ->preserveFilenames()
                 ->columnSpanFull(),
             TextInput::make('post_image_alt')
                 ->label(__('Image alt'))
