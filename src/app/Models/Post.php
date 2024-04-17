@@ -3,9 +3,11 @@
 namespace Webid\Druid\App\Models;
 
 use App\Models\User;
+use Awcodes\Curator\Models\Media;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\Langs;
@@ -111,6 +113,11 @@ class Post extends Model implements IsMenuable
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function image(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'post_image', 'id');
     }
 
     public function getMenuLabel(): string

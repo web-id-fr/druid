@@ -28,7 +28,7 @@ class TextImageComponent implements ComponentInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toBlade(array $data): View
     {
@@ -39,6 +39,7 @@ class TextImageComponent implements ComponentInterface
         $mediaId = $data['image'];
 
         $image = $mediaRepository->findById($mediaId);
+
         return view('druid::components.text-image', [
             'content' => $data['content'],
             // @phpstan-ignore-next-line
@@ -49,7 +50,7 @@ class TextImageComponent implements ComponentInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function toSearchableContent(array $data): string
     {

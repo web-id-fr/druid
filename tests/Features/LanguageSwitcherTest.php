@@ -48,10 +48,9 @@ class LanguageSwitcherTest extends TestCase
 
         $this->from($pageInEnglish->url())
             ->get(route(self::SWITCHER_ROUTE_NAME, [
-                'locale' => Langs::FR->value
+                'locale' => Langs::FR->value,
             ]))
-            ->assertRedirect($pageInFrench->url())
-        ;
+            ->assertRedirect($pageInFrench->url());
     }
 
     public function test_user_is_redirect_to_homepage_if_the_same_page_does_not_exist_in_selected_lang(): void
@@ -63,10 +62,9 @@ class LanguageSwitcherTest extends TestCase
 
         $this->from($pageInEnglish->url())
             ->get(route(self::SWITCHER_ROUTE_NAME, [
-                'locale' => $lang
+                'locale' => $lang,
             ]))
-            ->assertRedirect("{$lang}/")
-        ;
+            ->assertRedirect("{$lang}/");
     }
 
     public function test_user_can_update_locale_with_switch_to_the_same_post_in_other_lang(): void
@@ -80,10 +78,9 @@ class LanguageSwitcherTest extends TestCase
 
         $this->from($postInEnglish->url())
             ->get(route(self::SWITCHER_ROUTE_NAME, [
-                'locale' => Langs::FR->value
+                'locale' => Langs::FR->value,
             ]))
-            ->assertRedirect($postInFrench->url())
-        ;
+            ->assertRedirect($postInFrench->url());
     }
 
     public function test_user_is_redirect_to_homepage_if_the_same_post_does_not_exist_in_selected_lang(): void
@@ -95,9 +92,8 @@ class LanguageSwitcherTest extends TestCase
 
         $this->from($postInEnglish->url())
             ->get(route(self::SWITCHER_ROUTE_NAME, [
-                'locale' => $lang
+                'locale' => $lang,
             ]))
-            ->assertRedirect("{$lang}/")
-        ;
+            ->assertRedirect("{$lang}/");
     }
 }
