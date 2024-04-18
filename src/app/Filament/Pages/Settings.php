@@ -56,7 +56,7 @@ class Settings extends Page
         try {
             $this->callHook('beforeValidate');
 
-            $data = collect($this->form->getState())->dot()->all();
+            $data = collect($this->form->getState())->all();
 
             $this->callHook('afterValidate');
 
