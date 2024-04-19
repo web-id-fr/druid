@@ -7,12 +7,13 @@ namespace Webid\Druid\App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Webid\Druid\Facades\Druid;
 
 class MultilingualFeatureRequired
 {
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        if (! isMultilingualEnabled()) {
+        if (! Druid::isMultilingualEnabled()) {
             abort(404);
         }
 

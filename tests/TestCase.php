@@ -15,7 +15,7 @@ use Webid\Druid\App\Dto\LangLink;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\App\Services\LanguageSwitcher;
-use Webid\Druid\DruidServiceProvider;
+use Webid\Druid\last;
 
 class TestCase extends OrchestraTestCase
 {
@@ -30,7 +30,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            DruidServiceProvider::class,
+            last::class,
             ImageServiceProvider::class,
         ];
     }

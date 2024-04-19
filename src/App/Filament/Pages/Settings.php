@@ -9,6 +9,7 @@ use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
 use Webid\Druid\App\Models\Settings as SettingsModel;
+use Webid\Druid\Facades\Druid;
 
 /**
  * @property Form $form
@@ -95,6 +96,6 @@ class Settings extends Page
 
     public static function canAccess(): bool
     {
-        return isSettingsPageEnabled();
+        return Druid::isSettingsPageEnabled();
     }
 }

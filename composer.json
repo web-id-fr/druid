@@ -20,10 +20,11 @@
     ],
     "require": {
         "php": "^8.2",
-        "webmozart/assert": "^1.11"
+        "webmozart/assert": "^1.11",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
-        "nunomaduro/larastan": "^2.8",
+        "larastan/larastan": "^2.8",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.20",
         "phpunit/phpunit": "^9.5.10"
@@ -31,20 +32,18 @@
     "autoload": {
         "psr-4": {
             "Webid\\Druid\\": "src/",
-            "Webid\\Druid\\App\\": "src/app/",
-            "Webid\\Druid\\Database\\Factories\\": "src/database/factories/"
+            "Webid\\Druid\\Database\\Factories\\": "database/factories/"
         },
         "files": [
-            "src/app/Helpers/helpers.php",
-            "src/app/Helpers/Multilingual.php",
-            "src/app/Helpers/NavigationMenus.php",
-            "src/app/Helpers/Blog.php",
-            "src/app/Helpers/Settings.php"
+            "src/App/Helpers/helpers.php",
+            "src/App/Helpers/Multilingual.php",
+            "src/App/Helpers/NavigationMenus.php",
+            "src/App/Helpers/Blog.php",
+            "src/App/Helpers/Settings.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "src/app/",
             "Webid\\Druid\\Tests\\": "tests/"
         }
     },
@@ -52,7 +51,10 @@
         "laravel": {
             "providers": [
                 "Webid\\Druid\\DruidServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Druid": "Webid\\Druid\\Facades\\Druid"
+            }
         }
     },
     "scripts": {

@@ -22,6 +22,7 @@ use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\UsersRelati
 use Webid\Druid\App\Models\Post;
 use Webid\Druid\App\Repositories\PostRepository;
 use Webid\Druid\App\Services\Admin\FilamentComponentsService;
+use Webid\Druid\Facades\Druid;
 use Webmozart\Assert\Assert;
 
 class PostResource extends Resource
@@ -167,7 +168,7 @@ class PostResource extends Resource
                 ->sortable(),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.post.translations');
         }
 
@@ -211,6 +212,6 @@ class PostResource extends Resource
 
     public static function canAccess(): bool
     {
-        return isBlogModuleEnabled();
+        return Druid::isBlogModuleEnabled();
     }
 }
