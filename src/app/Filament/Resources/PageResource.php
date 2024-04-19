@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PageStatus;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\PageResource\Pages;
 use Webid\Druid\App\Models\Page;
 use Webid\Druid\App\Repositories\PageRepository;
@@ -71,14 +72,14 @@ class PageResource extends Resource
                 ->required(),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $parametersTab = array_merge(
                 $parametersTab,
                 [
                     Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
                         ->placeholder(__('Select a language')),
@@ -104,7 +105,7 @@ class PageResource extends Resource
                             return $allDefaultLanguagePages;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -152,7 +153,7 @@ class PageResource extends Resource
                 ->label(__('Published at')),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.page.translations');
         }
 

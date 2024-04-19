@@ -13,6 +13,7 @@ use Webid\Druid\App\Components\TextComponent;
 use Webid\Druid\App\Components\TextImageComponent;
 use Webid\Druid\App\Dto\LangLink;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\App\Services\LanguageSwitcher;
 use Webid\Druid\DruidServiceProvider;
@@ -43,9 +44,9 @@ class TestCase extends OrchestraTestCase
         View::addLocation(package_base_path('src/resources/views'));
         $app->instance('path.public', package_base_path());
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             View::share('languageSwitcher', $this->getLanguageSwitcher());
-            View::share('currentLocale', getCurrentLocale());
+            View::share('currentLocale', Druid::getCurrentLocale());
         }
     }
 

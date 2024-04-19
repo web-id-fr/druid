@@ -3,10 +3,10 @@
 @section('content')
     @foreach($posts as $post)
         <div class="flex flex-col">
-            @if(isMultilingualEnabled())
+            @if(\Webid\Druid\App\Facades\Druid::isMultilingualEnabled())
                 <a href="{{ route('posts.multilingual.show', [
                 'post' => $post->slug,
-                'lang' => getCurrentLocale()
+                'lang' => \Webid\Druid\App\Facades\Druid::getCurrentLocale()
             ]) }}" class="font-bold text-gray-700 text-2xl">
                     {{ $post->title }} - @foreach($post->categories as $category) {{ $category->name }} @endforeach
                 </a>

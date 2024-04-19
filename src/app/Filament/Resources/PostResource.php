@@ -17,6 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\PostStatus;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\App\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
 use Webid\Druid\App\Models\Post;
@@ -83,14 +84,14 @@ class PostResource extends Resource
                 ->helperText(__('Display this article in the top article section')),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $parametersTab = array_merge(
                 $parametersTab,
                 [
                     Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
                         ->placeholder(__('Select a language')),
@@ -116,7 +117,7 @@ class PostResource extends Resource
                             return $allDefaultLanguagePosts;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -167,7 +168,7 @@ class PostResource extends Resource
                 ->sortable(),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.post.translations');
         }
 
@@ -211,6 +212,6 @@ class PostResource extends Resource
 
     public static function canAccess(): bool
     {
-        return isBlogModuleEnabled();
+        return Druid::isBlogModuleEnabled();
     }
 }

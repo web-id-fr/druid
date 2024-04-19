@@ -5,6 +5,7 @@ namespace Webid\Druid\App\Services;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Dto\LangLink;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 
 class LanguageSwitcher
 {
@@ -14,7 +15,7 @@ class LanguageSwitcher
     public function getLinks(): Collection
     {
         $links = collect();
-        foreach (getLocales() as $locale => $details) {
+        foreach (Druid::getLocales() as $locale => $details) {
             $links->push(Langs::from($locale));
         }
 

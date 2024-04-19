@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\PageResource;
 use Webid\Druid\App\Repositories\PageRepository;
 
@@ -22,7 +23,7 @@ class ListPages extends ListRecords
 
     public function getTabs(): array
     {
-        if (! isMultilingualEnabled()) {
+        if (! Druid::isMultilingualEnabled()) {
             return [];
         }
 
@@ -34,7 +35,7 @@ class ListPages extends ListRecords
                 ->badge($pageRepository->countAll()),
         ];
 
-        foreach (getLocales() as $localeKey => $localeData) {
+        foreach (Druid::getLocales() as $localeKey => $localeData) {
             $tabs[$localeKey] = Tab::make($localeData['label'])
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('lang', $localeKey))
                 ->badge($pageRepository->countAllHavingLangCode($localeKey));

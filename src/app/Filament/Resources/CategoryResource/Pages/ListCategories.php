@@ -7,6 +7,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\CategoryResource;
 use Webid\Druid\App\Repositories\CategoryRepository;
 
@@ -23,7 +24,7 @@ class ListCategories extends ListRecords
 
     public function getTabs(): array
     {
-        if (! isMultilingualEnabled()) {
+        if (! Druid::isMultilingualEnabled()) {
             return [];
         }
 
@@ -35,7 +36,7 @@ class ListCategories extends ListRecords
                 ->badge($categoryRepository->countAll()),
         ];
 
-        foreach (getLocales() as $localeKey => $localeData) {
+        foreach (Druid::getLocales() as $localeKey => $localeData) {
             $tabs[$localeKey] = Tab::make($localeData['label'])
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('lang', $localeKey))
                 ->badge($categoryRepository->countAllHavingLang(Langs::from($localeKey)));

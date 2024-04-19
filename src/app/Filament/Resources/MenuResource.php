@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Webid\Druid\App\Models\Menu;
 use Webid\Druid\App\Repositories\MenuRepository;
@@ -42,14 +43,14 @@ class MenuResource extends Resource
                 ->required(),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $parametersTab = array_merge(
                 $parametersTab,
                 [
                     Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
                         ->placeholder(__('Select a language')),
@@ -75,7 +76,7 @@ class MenuResource extends Resource
                             return $allDefaultLanguageMenus;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -96,7 +97,7 @@ class MenuResource extends Resource
                 ->label(__('Title')),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $columns[] = Tables\Columns\ViewColumn::make('translations')->view('admin.menu.translations');
         }
 

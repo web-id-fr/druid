@@ -5,6 +5,7 @@ namespace Webid\Druid\App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\Page;
 
 class PageRepository
@@ -77,7 +78,7 @@ class PageRepository
 
     public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
     {
-        return $this->model->newQuery()->where(['lang' => getDefaultLocale()])
+        return $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();

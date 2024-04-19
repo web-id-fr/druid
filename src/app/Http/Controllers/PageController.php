@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webid\Druid\App\Http\Controllers;
 
 use Illuminate\View\View;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Http\Resources\PageResource;
 use Webid\Druid\App\Models\Page;
 
@@ -12,7 +13,7 @@ class PageController extends Controller
 {
     public function show(Page $page): View
     {
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $page->loadMissing('translations');
         }
 

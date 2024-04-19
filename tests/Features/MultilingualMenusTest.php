@@ -4,6 +4,7 @@ namespace Webid\Druid\Tests\Features;
 
 use Illuminate\Database\UniqueConstraintViolationException;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\Tests\Helpers\MenuCreator;
 use Webid\Druid\Tests\Helpers\MultilingualHelpers;
 use Webid\Druid\Tests\TestCase;
@@ -92,12 +93,12 @@ class MultilingualMenusTest extends TestCase
         $originMenu = $this->createMenuWithSlug($menuSlug, lang: Langs::EN);
         $frenchTranslation = $this->createFrenchTranslationMenu(fromMenu: $originMenu);
 
-        $menu = getNavigationMenuBySlug($menuSlug);
+        $menu = Druid::getNavigationMenuBySlug($menuSlug);
         $this->assertEquals($menu->slug, $menuSlug);
         $this->assertEquals($menu->title, $originMenu->title);
         $this->assertEquals($menu->items->count(), $originMenu->items->count());
 
-        $menu = getNavigationMenuBySlugAndLang($menuSlug, Langs::FR);
+        $menu = Druid::getNavigationMenuBySlugAndLang($menuSlug, Langs::FR);
         $this->assertEquals($menu->slug, $menuSlug);
         $this->assertEquals($menu->title, $frenchTranslation->title);
         $this->assertEquals($menu->items->count(), $frenchTranslation->items->count());

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PostStatus;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
@@ -89,7 +90,7 @@ class Post extends Model implements IsMenuable
     {
         $path = '';
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
             $path .= '/';
         }
@@ -128,7 +129,7 @@ class Post extends Model implements IsMenuable
 
     public function resolveRouteBinding($value, $field = null): Post
     {
-        return isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', getCurrentLocale())->firstOrFail() :
+        return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
     }
 }

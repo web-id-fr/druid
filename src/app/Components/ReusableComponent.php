@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\App\Repositories\ReusableComponentsRepository;
 use Webid\Druid\App\Services\ComponentDisplayContentExtractor;
@@ -26,7 +27,7 @@ class ReusableComponent implements ComponentInterface
                 ->label(__('Reusable component'))
                 ->placeholder(__('Select a component'))
                 ->options(function (Get $get) use ($reusableComponentsRepository) {
-                    $lang = $get('../../../lang') ?? getDefaultLocaleKey();
+                    $lang = $get('../../../lang') ?? Druid::getDefaultLocaleKey();
                     Assert::string($lang);
 
                     return $reusableComponentsRepository->allForLang(Langs::from($lang))

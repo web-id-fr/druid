@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Webid\Druid\App\Enums\RenderType;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Http\Resources\PageResource;
 use Webid\Druid\App\Repositories\PageRepository;
 use Webmozart\Assert\Assert;
@@ -30,7 +31,7 @@ class FallbackController extends Controller
         Assert::string($lastSegment);
 
         try {
-            if (isMultilingualEnabled()) {
+            if (Druid::isMultilingualEnabled()) {
                 $page = $this->pageRepository->findOrFailBySlugAndLang($lastSegment, $firstSegment);
             } else {
                 $page = $this->pageRepository->findOrFailBySlug($lastSegment);

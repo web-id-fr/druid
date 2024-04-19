@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Webid\Druid\App\Enums\Langs;
 use Webid\Druid\App\Enums\PageStatus;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\Contracts\IsMenuable;
 use Webid\Druid\App\Models\Traits\CanRenderContent;
 use Webid\Druid\App\Models\Traits\IsTranslatable;
@@ -70,7 +71,7 @@ class Page extends Model implements IsMenuable
     {
         $path = '';
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
             $path .= '/';
         }
@@ -98,7 +99,7 @@ class Page extends Model implements IsMenuable
 
     public function resolveRouteBinding($value, $field = null): Page
     {
-        return isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', getCurrentLocale())->firstOrFail() :
+        return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
     }
 
