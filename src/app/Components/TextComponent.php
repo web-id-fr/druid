@@ -4,7 +4,7 @@ namespace Webid\Druid\App\Components;
 
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
-use Illuminate\Testing\Assert;
+use Webmozart\Assert\Assert;
 
 class TextComponent implements ComponentInterface
 {
@@ -38,7 +38,7 @@ class TextComponent implements ComponentInterface
     public static function toSearchableContent(array $data): string
     {
         $content = $data['content'] ?? '';
-        Assert::assertIsString($content);
+        Assert::string($content);
 
         return strip_tags($content);
     }
