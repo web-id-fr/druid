@@ -38,6 +38,10 @@ class DruidServiceProvider extends ServiceProvider
     protected function publishFiles(): void
     {
         $this->publishes([
+            __DIR__.'/../src/database/migrations/' => database_path('migrations'),
+        ], 'migrations');
+
+        $this->publishes([
             __DIR__.'/../publish/config/cms.php' => base_path('/config/cms.php'),
         ], 'config');
     }
