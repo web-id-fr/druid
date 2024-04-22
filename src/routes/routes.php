@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Http\Controllers\BlogController;
 use Webid\Druid\App\Http\Controllers\FallbackController;
 use Webid\Druid\App\Http\Controllers\LanguageSwitcherController;
 
-if (isMultilingualEnabled()) {
+if (Druid::isMultilingualEnabled()) {
     Route::get('switch-lang/{locale}', LanguageSwitcherController::class)->name('switch_lang');
 }
 
-if (isBlogModuleEnabled()) {
-    if (isBlogDefaultRoutesEnabled()) {
-        if (isMultilingualEnabled()) {
+if (Druid::isBlogModuleEnabled()) {
+    if (Druid::isBlogDefaultRoutesEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             Route::prefix('{lang}/'.config('cms.blog.prefix'))
                 ->name('posts.multilingual.')
                 ->middleware(['multilingual-required', 'web'])

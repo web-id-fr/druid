@@ -22,6 +22,9 @@ class DruidServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->app->singleton(Druid::class);
+        $this->app->alias(Druid::class, 'druid');
+
         app('router')->aliasMiddleware('multilingual-required', MultilingualFeatureRequired::class);
         app('router')->aliasMiddleware('multilingual-forbidden', MultilingualFeatureForbidden::class);
     }

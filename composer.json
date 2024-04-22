@@ -23,7 +23,7 @@
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
-        "nunomaduro/larastan": "^2.8",
+        "larastan/larastan": "^2.8",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.20",
         "phpunit/phpunit": "^9.5.10"
@@ -35,11 +35,7 @@
             "Webid\\Druid\\Database\\Factories\\": "src/database/factories/"
         },
         "files": [
-            "src/app/Helpers/helpers.php",
-            "src/app/Helpers/Multilingual.php",
-            "src/app/Helpers/NavigationMenus.php",
-            "src/app/Helpers/Blog.php",
-            "src/app/Helpers/Settings.php"
+            "src/app/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -53,6 +49,9 @@
             "providers": [
                 "Webid\\Druid\\DruidServiceProvider"
             ]
+        },
+        "aliases": {
+            "Druid": "Webid\\Druid\\Facades\\Druid"
         }
     },
     "scripts": {

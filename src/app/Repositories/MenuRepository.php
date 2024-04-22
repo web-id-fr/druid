@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\Menu;
 
 class MenuRepository
@@ -77,7 +78,7 @@ class MenuRepository
 
     public function allFromDefaultLanguageWithoutTranslationForLang(Langs $lang): Collection
     {
-        return $this->model->newQuery()->where(['lang' => getDefaultLocale()])
+        return $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
             ->get();

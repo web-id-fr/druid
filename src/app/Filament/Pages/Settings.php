@@ -8,6 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Models\Settings as SettingsModel;
 
 /**
@@ -30,7 +31,7 @@ class Settings extends Page
 
     public function form(Form $form): Form
     {
-        return settingsPage()::formSchema($form)
+        return Druid::settingsPage()::formSchema($form)
             ->statePath('data');
     }
 
@@ -95,6 +96,6 @@ class Settings extends Page
 
     public static function canAccess(): bool
     {
-        return isSettingsPageEnabled();
+        return Druid::isSettingsPageEnabled();
     }
 }

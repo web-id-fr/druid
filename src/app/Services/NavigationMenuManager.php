@@ -5,6 +5,7 @@ namespace Webid\Druid\App\Services;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Webid\Druid\App\Dto\Menu;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Repositories\MenuRepository;
 
 class NavigationMenuManager
@@ -39,6 +40,6 @@ class NavigationMenuManager
      */
     public function getBySlug(string $menuSlug): Menu
     {
-        return $this->getBySlugAndLang($menuSlug, getCurrentLocale());
+        return $this->getBySlugAndLang($menuSlug, Druid::getCurrentLocale());
     }
 }

@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\CreateCategory;
 use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use Webid\Druid\App\Filament\Resources\CategoryResource\Pages\ListCategories;
@@ -93,6 +94,6 @@ class CategoryResource extends Resource
 
     public static function canAccess(): bool
     {
-        return isBlogModuleEnabled();
+        return Druid::isBlogModuleEnabled();
     }
 }

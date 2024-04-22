@@ -4,6 +4,7 @@ namespace Webid\Druid\Tests\Features;
 
 use Illuminate\Database\UniqueConstraintViolationException;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\Druid;
 use Webid\Druid\Tests\Helpers\ApiHelpers;
 use Webid\Druid\Tests\Helpers\DummyUserCreator;
 use Webid\Druid\Tests\Helpers\MultilingualHelpers;
@@ -29,7 +30,7 @@ class MultilingualPagesTest extends TestCase
     {
         $page = $this->createPageInEnglish();
 
-        $this->assertFalse(isMultilingualEnabled());
+        $this->assertFalse(Druid::isMultilingualEnabled());
         $this->assertEquals($page->url(), url($page->slug));
 
         $this->enableMultilingualFeature();

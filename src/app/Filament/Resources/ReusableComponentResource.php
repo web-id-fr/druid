@@ -10,6 +10,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Filament\Resources\ReusableComponentResource\Pages\CreateReusableComponent;
 use Webid\Druid\App\Filament\Resources\ReusableComponentResource\Pages\EditReusableComponent;
 use Webid\Druid\App\Filament\Resources\ReusableComponentResource\Pages\ListReusableComponents;
@@ -43,14 +44,14 @@ class ReusableComponentResource extends Resource
         ];
 
         $parametersTab = [];
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $parametersTab = array_merge(
                 $parametersTab,
                 [
                     Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
                         ->placeholder(__('Select a language')),
@@ -76,7 +77,7 @@ class ReusableComponentResource extends Resource
                             return $allDefaultLanguageComponents;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -86,7 +87,7 @@ class ReusableComponentResource extends Resource
             Tabs\Tab::make(__('Content'))->schema($contentTab),
         ];
 
-        if (isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled()) {
             $tabs[] = Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2);
         }
 

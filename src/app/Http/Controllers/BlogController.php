@@ -5,6 +5,7 @@ namespace Webid\Druid\App\Http\Controllers;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Webid\Druid\App\Enums\Langs;
+use Webid\Druid\App\Facades\Druid;
 use Webid\Druid\App\Http\Resources\PostResource;
 use Webid\Druid\App\Models\Category;
 use Webid\Druid\App\Models\Post;
@@ -21,7 +22,7 @@ class BlogController
 
     public function indexMultilingual(Langs $lang): View|AnonymousResourceCollection
     {
-        $posts = $this->postRepository->allPaginatedByLang(getPostsPerPage(), $lang, ['categories']);
+        $posts = $this->postRepository->allPaginatedByLang(Druid::getPostsPerPage(), $lang, ['categories']);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -37,7 +38,7 @@ class BlogController
         /** @var Category $category */
         $category = $this->categoryRepository->categoryByLang($category, $lang);
 
-        $posts = $this->postRepository->allByCategoryAndLangPaginated($category, getPostsPerPage(), $lang, ['categories']);
+        $posts = $this->postRepository->allByCategoryAndLangPaginated($category, Druid::getPostsPerPage(), $lang, ['categories']);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -61,7 +62,7 @@ class BlogController
 
     public function index(): View|AnonymousResourceCollection
     {
-        $posts = $this->postRepository->allPaginated(getPostsPerPage(), ['categories']);
+        $posts = $this->postRepository->allPaginated(Druid::getPostsPerPage(), ['categories']);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -74,7 +75,7 @@ class BlogController
 
     public function indexByCategory(Category $category): View|AnonymousResourceCollection
     {
-        $posts = $this->postRepository->allByCategoryPaginated($category, getPostsPerPage(), ['categories']);
+        $posts = $this->postRepository->allByCategoryPaginated($category, Druid::getPostsPerPage(), ['categories']);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
