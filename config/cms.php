@@ -1,0 +1,98 @@
+<?php
+
+declare(strict_types=1);
+
+use Webid\Druid\Components\HintComponent;
+use Webid\Druid\Components\ImageComponent;
+use Webid\Druid\Components\ReusableComponent;
+use Webid\Druid\Components\TextComponent;
+use Webid\Druid\Components\TextImageComponent;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Enums\RenderType;
+use Webid\Druid\Filament\Pages\SettingsPage\SettingsForm;
+use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
+
+return [
+    /*
+     |--------------------------------------------------------------------------
+     | Multilingual feature
+     |--------------------------------------------------------------------------
+     */
+    'enable_multilingual_feature' => false,
+    'locales' => [
+        Langs::EN->value => [
+            'label' => 'English',
+        ],
+        Langs::FR->value => [
+            'label' => 'Français',
+        ],
+        Langs::DE->value => [
+            'label' => 'German',
+        ],
+    ],
+    'default_locale' => Langs::EN->value,
+
+    /*
+     |--------------------------------------------------------------------------
+     | SEO
+     |--------------------------------------------------------------------------
+     */
+    'disable_robots_follow' => env('DISABLE_ROBOTS_FOLLOW', false),
+
+    /*
+     |--------------------------------------------------------------------------
+     | Components
+     |--------------------------------------------------------------------------
+     */
+    'components' => [
+        [
+            'class' => TextComponent::class,
+        ],
+        [
+            'class' => ImageComponent::class,
+        ],
+        [
+            'class' => TextImageComponent::class,
+        ],
+        [
+            'class' => HintComponent::class,
+        ],
+        [
+            'class' => ReusableComponent::class,
+            'disabled_for' => [
+                ReusableComponentModel::class,
+            ],
+        ],
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Views
+     |--------------------------------------------------------------------------
+     */
+    'views' => [
+        'type' => RenderType::BLADE->value,
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Blog
+     |--------------------------------------------------------------------------
+     */
+    'enable_blog_module' => true,
+    'enable_default_blog_routes' => true,
+    'blog' => [
+        'posts_per_page' => 10,
+        'prefix' => 'blog',
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Settings
+     |--------------------------------------------------------------------------
+     */
+    'settings' => [
+        'enable_settings_page' => true,
+        'settings_form' => SettingsForm::class,
+    ],
+];

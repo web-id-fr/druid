@@ -2,9 +2,9 @@
 
 # TESTS
 test:
-	composer run phpstan
-	composer run pint
-	./vendor/bin/phpunit --no-coverage
+	composer run analyse
+	composer run format
+	composer run test-coverage
 
 stan:
 	composer run phpstan
