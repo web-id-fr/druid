@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Webid\Druid\Druid
+ *
  * @mixin \Webid\Druid\Druid
  */
 class Druid extends Facade
