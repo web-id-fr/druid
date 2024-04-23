@@ -38,7 +38,7 @@ class TextComponent implements ComponentInterface
     public static function toSearchableContent(array $data): string
     {
         $content = $data['content'] ?? '';
-        Assert::assertIsString($content);
+        Assert::string($content);
 
         return strip_tags($content);
     }
