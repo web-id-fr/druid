@@ -51,13 +51,13 @@ Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provi
 
 ```
 ->discoverResources(
-        in: base_path('vendor/webid/druid/src/app/Filament/Resources'),
-        for: 'Webid\\Druid\\App\\Filament\\Resources'
+        in: base_path('vendor/webid/druid/src/Filament/Resources'),
+        for: 'Webid\\Druid\\Filament\\Resources'
     )
     ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
     ->discoverPages(
-        in: base_path('vendor/webid/druid/src/app/Filament/Filament/Pages'),
-        for: 'Webid\\Druid\\App\\Filament\\\Pages'
+        in: base_path('vendor/webid/druid/src/Filament/Filament/Pages'),
+        for: 'Webid\\Druid\\Filament\\\Pages'
 )
 ```
 
