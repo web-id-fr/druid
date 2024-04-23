@@ -56,8 +56,8 @@ Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provi
     )
     ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
     ->discoverPages(
-        in: base_path('vendor/webid/druid/src/Filament/Filament/Pages'),
-        for: 'Webid\\Druid\\Filament\\\Pages'
+        in: base_path('vendor/webid/druid/src/Filament/Pages'),
+        for: 'Webid\\Druid\\Filament\\Pages'
 )
 ```
 
