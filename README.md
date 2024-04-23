@@ -47,12 +47,25 @@ Create a first admin
 ```
 php artisan filament:install --panels
 php artisan make:filament-user
-
 ```
 
 https://filamentphp.com/docs/3.x/panels/installation
 
-Read on customize the `config/cms.php` file specially if you need to enable the multilingual feature.
+Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provider after `$panel->default()->id('admin')`
+
+```
+->discoverResources(
+        in: base_path('vendor/webid/druid/src/app/Filament/Resources'),
+        for: 'Webid\\Druid\\App\\Filament\\Resources'
+    )
+    ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+    ->discoverPages(
+        in: base_path('vendor/webid/druid/src/app/Filament/Filament/Pages'),
+        for: 'Webid\\Druid\\App\\Filament\\\Pages'
+)
+```
+
+Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
 It's better to choose the default language before writing content.
 
 ## The admin panel
