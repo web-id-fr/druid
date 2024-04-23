@@ -35,11 +35,7 @@ composer require webid/druid:"^0.1"
 ```
 
 ```
-php artisan vendor:publish --provider="Webid\Druid\DruidServiceProvider"
-```
-
-```
-php artisan migrate
+php artisan druid:install
 ```
 
 Create a first admin
