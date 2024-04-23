@@ -4,7 +4,7 @@ namespace Webid\Druid\Components;
 
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Contracts\View\View;
-use Illuminate\Testing\Assert;
+use Webmozart\Assert\Assert;
 
 class TextComponent implements ComponentInterface
 {
