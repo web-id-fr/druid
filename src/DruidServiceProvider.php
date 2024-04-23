@@ -43,4 +43,20 @@ class DruidServiceProvider extends PackageServiceProvider
         app('router')->aliasMiddleware('multilingual-required', MultilingualFeatureRequired::class);
         app('router')->aliasMiddleware('multilingual-forbidden', MultilingualFeatureForbidden::class);
     }
+
+    public function packageBooted(): void
+    {
+        $this->registerDruid();
+    }
+
+    protected function registerDruid(): self
+    {
+        $this->app->singleton(Druid::class, function () {
+            return new Druid();
+        });
+
+        $this->app->alias(Druid::class, 'druid');
+
+        return $this;
+    }
 }
