@@ -4,13 +4,13 @@ namespace Webid\Druid;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Webid\Druid\App\Dto\LangLink;
-use Webid\Druid\App\Dto\Menu;
-use Webid\Druid\App\Enums\Langs;
-use Webid\Druid\App\Filament\Pages\SettingsPage\SettingsInterface;
-use Webid\Druid\App\Repositories\SettingsRepository;
-use Webid\Druid\App\Services\LanguageSwitcher;
-use Webid\Druid\App\Services\NavigationMenuManager;
+use Webid\Druid\Dto\LangLink;
+use Webid\Druid\Dto\Menu;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
+use Webid\Druid\Repositories\SettingsRepository;
+use Webid\Druid\Services\LanguageSwitcher;
+use Webid\Druid\Services\NavigationMenuManager;
 use Webmozart\Assert\Assert;
 
 class Druid
@@ -38,7 +38,7 @@ class Druid
         return config('cms.enable_multilingual_feature') === true;
     }
 
-    function getDefaultLocale(): Langs
+    public function getDefaultLocale(): Langs
     {
         $defaultLanguage = config('cms.default_locale');
         Assert::string($defaultLanguage);

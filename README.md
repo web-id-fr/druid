@@ -1,4 +1,10 @@
-# Druid
+# Dru^ID CMS
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/webid/druid/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/webid/druid/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
+
 
 ## What is Dru^ID CMS?
 
@@ -12,7 +18,6 @@ Essentially out of the box you'll get a Filament based admin panel where you can
 - Posts
 - Navigation menus
 - Reusable blocks
-- Settings
 
 You'll also find helpers and services to manage multilingual and navigation menu features in your codebase.
 
@@ -22,31 +27,41 @@ You'll also find helpers and services to manage multilingual and navigation menu
 * Laravel >= 10
 * Composer 2
 * MariaDB / MySQL
-* Laravel Filament 3.x
-* Filament Curator
 
 ## Installation
 
-In order to install Dru^ID CMS, you first need to have a Laravel Filament running installation with the Filament Curator admin.
-
-Please follow the installation process
-
-- For Filament here: https://filamentphp.com/docs/3.x/panels/installation
-- For Curator here: https://github.com/awcodes/filament-curator
-
 ```
-composer require webid/druid
+composer require webid/druid:"^0.1"
 ```
 
 ```
-php artisan vendor:publish --provider="Webid\Druid\DruidServiceProvider"
+php artisan druid:install
 ```
 
+Create a first admin
+
 ```
-php artisan migrate --path=./vendor/webid/druid/src/database/migrations
+php artisan filament:install --panels
+php artisan make:filament-user
 ```
 
-Read on customize the `config/cms.php` file specially if you need to enable the multilingual feature.
+https://filamentphp.com/docs/3.x/panels/installation
+
+Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provider after `$panel->default()->id('admin')`
+
+```
+->discoverResources(
+        in: base_path('vendor/webid/druid/src/Filament/Resources'),
+        for: 'Webid\\Druid\\Filament\\Resources'
+    )
+    ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+    ->discoverPages(
+        in: base_path('vendor/webid/druid/src/Filament/Filament/Pages'),
+        for: 'Webid\\Druid\\Filament\\\Pages'
+)
+```
+
+Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
 It's better to choose the default language before writing content.
 
 ## The admin panel
@@ -73,12 +88,6 @@ and use it multiple times wherever you like afterward. This is what we call a re
 You can manually group and nest your contents inside navigation menus in the admin panel. You can choose between internal content
 (page and posts) and external URLs. You can nest your menu items up to 3 levels for advanced menus usage.
 
-### Settings
-
-You can define some settings in the admin panel that you can use in your codebase using the `Settings` helper.
-It's possible to build your own settings form page using the `SettingsInterface` class. When you're done, you have to
-add the class to the `config/cms.php` file `settings.settings_form`.
-
 ## Helpers
 
 ### Multilingual helpers
@@ -98,15 +107,6 @@ add the class to the `config/cms.php` file `settings.settings_form`.
 |--------------------------------------------------------------------|--------------------------------------------------------|
 | `getNavigationMenuBySlug(string $slug): Menu`                      | Returns a `Menu` DTO with all the nested links details |
 | `getNavigationMenuBySlugAndLang(string $slug, Langs $lang) : Menu` | Same as preview but with a given language              |
-
-### Settings helpers
-
-| Function                              | Description                                                     |
-|---------------------------------------|-----------------------------------------------------------------|
-| `getSettingByKey(string $key): mixed` | Returns the value of a setting defined in the admin panel       |
-| `getSettings(): Collection`           | Returns a collection of all settings defined in the admin panel |
-| `isSettingsPageEnable(): bool`        | Returns `true` if the settings page is enabled                  |
-| `settingsPage(): SettingsInterface`   | Returns the settings page class used to build the form          |
 
 ## Services
 
@@ -155,4 +155,11 @@ You can also choose to render a `JsonResource` instead by changing the `views.ty
 
 You can of course create a custom package that adds one or several components and give it to the community.
 
+## Credits
 
+- [Web^ID Team](https://github.com/webid)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

@@ -2,47 +2,61 @@
 
 namespace Webid\Druid;
 
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View as ViewFacade;
-use Illuminate\Support\ServiceProvider;
-use Webid\Druid\App\Http\Middleware\MultilingualFeatureForbidden;
-use Webid\Druid\App\Http\Middleware\MultilingualFeatureRequired;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
+use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 
-class DruidServiceProvider extends ServiceProvider
+class DruidServiceProvider extends PackageServiceProvider
 {
-    public function boot(Router $router): void
+    public function configurePackage(Package $package): void
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'druid');
-        $this->publishFiles();
-        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
-
-        ViewFacade::addLocation(__DIR__.'/resources/views/');
+        $package
+            ->name('druid')
+            ->hasConfigFile('cms')
+            ->hasViews()
+            ->hasRoute('routes')
+            ->hasMigrations([
+                '01_create_pages_table',
+                '02_create_reusable_components_table',
+                '03_create_posts_table',
+                '04_create_categories_table',
+                '05_create_category_post_table',
+                '06_create_post_user_table',
+                '07_create_menus_table',
+                '08_create_menu_items_table',
+                '09_create_settings_table',
+            ])
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->publishConfigFile()
+                    ->publishAssets()
+                    ->publishMigrations()
+                    ->askToRunMigrations()
+                    ->askToStarRepoOnGitHub('web-id-fr/druid');
+            });
     }
 
-    public function register(): void
+    public function registeringPackage(): void
     {
-        $this->app->singleton(Druid::class);
-        $this->app->alias(Druid::class, 'druid');
-
         app('router')->aliasMiddleware('multilingual-required', MultilingualFeatureRequired::class);
         app('router')->aliasMiddleware('multilingual-forbidden', MultilingualFeatureForbidden::class);
     }
 
-    public function map(): void
+    public function packageBooted(): void
     {
-        Route::middleware('web')
-            ->group(__DIR__.'/routes/routes.php');
+        $this->registerDruid();
     }
 
-    protected function publishFiles(): void
+    protected function registerDruid(): self
     {
-        $this->publishes([
-            __DIR__.'/../src/database/migrations/' => database_path('migrations'),
-        ], 'migrations');
+        $this->app->singleton(Druid::class, function () {
+            return new Druid();
+        });
 
-        $this->publishes([
-            __DIR__.'/../publish/config/cms.php' => base_path('/config/cms.php'),
-        ], 'config');
+        $this->app->alias(Druid::class, 'druid');
+
+        return $this;
     }
 }

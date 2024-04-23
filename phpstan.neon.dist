@@ -1,0 +1,28 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: max
+    paths:
+        - config
+        - database
+        - resources
+        - routes
+        - src/Exceptions
+        - src/Facades
+        - src/Helpers
+        - src/Http
+        - src/Models
+        - src/Providers
+        - src/Repositories
+        - src/Services
+    excludePaths:
+        - database/factories
+        - src/Http/Resources/MediaResource.php
+        - src/Models/Post.php
+        - src/Repositories/MediaRepository.php
+        - src/Services/Admin
+
+    tmpDir: build/phpstan
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: false

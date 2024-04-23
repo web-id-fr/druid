@@ -1,5 +1,11 @@
-vendor
-workbench
 .idea
+.phpunit.cache
+build
 composer.lock
-.phpunit.result.cache
+coverage
+docs
+phpunit.xml
+phpstan.neon
+testbench.yaml
+vendor
+node_modules
