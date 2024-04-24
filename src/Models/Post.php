@@ -43,8 +43,8 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\Category[] $categories
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read Collection|Category[] $categories
+ * @property-read Collection|User[] $users
  * @property-read Post $translationOriginModel
  * @property-read ?Media $thumbnail
  * @property-read Collection<int, Post> $translations
@@ -109,17 +109,17 @@ class Post extends Model implements IsMenuable
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
+        return $this->belongsToMany(Druid::getModel('category'), 'category_post', 'post_id', 'category_id');
     }
 
     public function thumbnail(): BelongsTo
     {
-        return $this->belongsTo(Media::class, 'thumbnail_id', 'id');
+        return $this->belongsTo(Druid::getModel('media'), 'thumbnail_id', 'id');
     }
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Druid::getModel('user'), 'post_user', 'post_id', 'user_id');
     }
 
     public function getMenuLabel(): string

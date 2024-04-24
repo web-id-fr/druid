@@ -11,8 +11,11 @@ use Webid\Druid\Models\Category;
 
 class CategoryRepository
 {
-    public function __construct(private readonly Category $model)
+    private Category $model;
+
+    public function __construct()
     {
+        $this->model = Druid::Category();
     }
 
     public function all(): Collection

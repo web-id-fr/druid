@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\MenuItemTarget;
+use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Contracts\IsMenuable;
 
 /**
@@ -46,11 +47,11 @@ class MenuItem extends Model
 
     public function menu(): BelongsTo
     {
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Druid::getModel('menu'));
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(MenuItem::class, 'parent_item_id');
+        return $this->hasMany(Druid::getModel('menu_item'), 'parent_item_id');
     }
 }

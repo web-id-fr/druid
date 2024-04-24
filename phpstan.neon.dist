@@ -23,6 +23,10 @@ parameters:
         - src/Repositories/MediaRepository.php
         - src/Services/Admin
 
+    ignoreErrors:
+        - '#Class App\\Models\\User not found.#'
+        - '#Class Awcodes\\Curator\\Models\\Media not found.#'
+
     tmpDir: build/phpstan
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false

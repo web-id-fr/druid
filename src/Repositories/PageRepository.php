@@ -10,8 +10,11 @@ use Webid\Druid\Models\Page;
 
 class PageRepository
 {
-    public function __construct(private readonly Page $model)
+    private Page $model;
+
+    public function __construct()
     {
+        $this->model = Druid::Page();
     }
 
     public function all(): Collection

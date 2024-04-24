@@ -3,12 +3,16 @@
 namespace Webid\Druid\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
+use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\MenuItem;
 
 class MenuItemRepository
 {
-    public function __construct(private readonly MenuItem $model)
+    private MenuItem $model;
+
+    public function __construct()
     {
+        $this->model = Druid::MenuItem();
     }
 
     public function all(): Collection

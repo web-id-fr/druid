@@ -8,6 +8,12 @@ use Webid\Druid\Dto\LangLink;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
+use Webid\Druid\Models\Category;
+use Webid\Druid\Models\MenuItem;
+use Webid\Druid\Models\Page;
+use Webid\Druid\Models\Post;
+use Webid\Druid\Models\ReusableComponent;
+use Webid\Druid\Models\Settings;
 use Webid\Druid\Repositories\SettingsRepository;
 use Webid\Druid\Services\LanguageSwitcher;
 use Webid\Druid\Services\NavigationMenuManager;
@@ -15,6 +21,50 @@ use Webmozart\Assert\Assert;
 
 class Druid
 {
+    public function getModel(string $model): string
+    {
+        if (! config("cms.models.$model")) {
+            throw new \RuntimeException("Model $model not found in config file.");
+        }
+
+        return config("cms.models.$model");
+    }
+
+    public function Page(): Page
+    {
+        return new (config('cms.models.page'));
+    }
+
+    public function Post(): Post
+    {
+        return new (config('cms.models.post'));
+    }
+
+    public function Category(): Category
+    {
+        return new (config('cms.models.category'));
+    }
+
+    public function Menu(): \Webid\Druid\Models\Menu
+    {
+        return new (config('cms.models.menu'));
+    }
+
+    public function MenuItem(): MenuItem
+    {
+        return new (config('cms.models.menu_item'));
+    }
+
+    public function Settings(): Settings
+    {
+        return new (config('cms.models.settings'));
+    }
+
+    public function ReusableComponent(): ReusableComponent
+    {
+        return new (config('cms.models.reusable_component'));
+    }
+
     public function isBlogModuleEnabled(): bool
     {
         return config('cms.enable_blog_module') === true;

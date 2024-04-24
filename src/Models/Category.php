@@ -2,9 +2,11 @@
 
 namespace Webid\Druid\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
@@ -12,7 +14,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property string $slug
  * @property string $lang
  * @property int|null $translation_origin_model_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\Webid\Druid\Models\Post[] $posts
+ * @property-read Collection|Post[] $posts
  */
 class Category extends Model
 {
@@ -31,6 +33,6 @@ class Category extends Model
 
     public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
+        return $this->belongsToMany(Druid::getModel('post'), 'category_post', 'category_id', 'post_id');
     }
 }

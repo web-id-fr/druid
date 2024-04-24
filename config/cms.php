@@ -15,6 +15,24 @@ use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 return [
     /*
      |--------------------------------------------------------------------------
+     | Models
+     |--------------------------------------------------------------------------
+     */
+
+    'models' => [
+        'user' => \App\Models\User::class,
+        'media' => \Awcodes\Curator\Models\Media::class,
+        'page' => \Webid\Druid\Models\Page::class,
+        'post' => \Webid\Druid\Models\Post::class,
+        'category' => \Webid\Druid\Models\Category::class,
+        'menu' => \Webid\Druid\Models\Menu::class,
+        'menu_item' => \Webid\Druid\Models\MenuItem::class,
+        'settings' => \Webid\Druid\Models\Settings::class,
+        'reusable_component' => \Webid\Druid\Models\ReusableComponent::class,
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
      | Multilingual feature
      |--------------------------------------------------------------------------
      */

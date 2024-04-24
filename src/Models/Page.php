@@ -64,7 +64,7 @@ class Page extends Model implements IsMenuable
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Page::class, 'parent_page_id');
+        return $this->belongsTo(Druid::getModel('page'), 'parent_page_id');
     }
 
     public function fullUrlPath(): string
