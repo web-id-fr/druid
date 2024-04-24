@@ -1,6 +1,6 @@
 <?php
 
-namespace Webid\Druid\App\Console\Commands;
+namespace Webid\Druid\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;

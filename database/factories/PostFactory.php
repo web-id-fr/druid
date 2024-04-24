@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
+use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
 
 class PostFactory extends Factory

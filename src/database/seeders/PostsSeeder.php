@@ -7,11 +7,12 @@ namespace Webid\Druid\database\seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
-use Webid\Druid\App\Enums\Langs;
-use Webid\Druid\App\Models\Category;
-use Webid\Druid\App\Models\Post;
 use Webid\Druid\Database\Factories\CategoryFactory;
 use Webid\Druid\Database\Factories\PostFactory;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Facades\Druid;
+use Webid\Druid\Models\Category;
+use Webid\Druid\Models\Post;
 
 class PostsSeeder extends Seeder
 {
@@ -22,14 +23,14 @@ class PostsSeeder extends Seeder
         $user = User::query()->first();
 
         foreach ($this->getCategoriesStructure() as $categoryByLocale) {
-            if (! isset($categoryByLocale[getDefaultLocaleKey()])) {
+            if (! isset($categoryByLocale[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
             /** @var Category $category */
             $category = CategoryFactory::new()->create([
-                ...$categoryByLocale[getDefaultLocaleKey()],
-                'lang' => getDefaultLocaleKey(),
+                ...$categoryByLocale[Druid::getDefaultLocaleKey()],
+                'lang' => Druid::getDefaultLocaleKey(),
             ]);
 
             /** @var Collection<int, Post> $posts */
@@ -39,9 +40,9 @@ class PostsSeeder extends Seeder
                 ->forUser($user)
                 ->create();
 
-            if (isMultilingualEnabled()) {
+            if (Druid::isMultilingualEnabled()) {
                 foreach ($categoryByLocale as $categoryLocale => $categoryData) {
-                    if ($categoryLocale === getDefaultLocaleKey()) {
+                    if ($categoryLocale === Druid::getDefaultLocaleKey()) {
                         continue;
                     }
 

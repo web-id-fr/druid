@@ -5,28 +5,29 @@ declare(strict_types=1);
 namespace Webid\Druid\database\seeders;
 
 use Illuminate\Database\Seeder;
-use Webid\Druid\App\Enums\Langs;
-use Webid\Druid\App\Models\Page;
 use Webid\Druid\Database\Factories\PageFactory;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Facades\Druid;
+use Webid\Druid\Models\Page;
 
 class PagesSeeder extends Seeder
 {
     public function run(): void
     {
         foreach ($this->getPagesStructure() as $pageStructure) {
-            if (! isset($pageStructure[getDefaultLocaleKey()])) {
+            if (! isset($pageStructure[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
             /** @var Page $mainPage */
             $mainPage = PageFactory::new()
                 ->create([
-                    'lang' => getDefaultLocaleKey(),
-                    'title' => $pageStructure[getDefaultLocaleKey()]['title'],
-                    'slug' => $pageStructure[getDefaultLocaleKey()]['slug'],
+                    'lang' => Druid::getDefaultLocaleKey(),
+                    'title' => $pageStructure[Druid::getDefaultLocaleKey()]['title'],
+                    'slug' => $pageStructure[Druid::getDefaultLocaleKey()]['slug'],
                 ]);
 
-            if (isMultilingualEnabled()) {
+            if (Druid::isMultilingualEnabled()) {
                 foreach ($pageStructure as $locale => $structure) {
                     if ($locale === getDefaultLocaleKey()) {
                         continue;

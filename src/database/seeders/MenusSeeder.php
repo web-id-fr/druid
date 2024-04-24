@@ -5,33 +5,34 @@ declare(strict_types=1);
 namespace Webid\Druid\database\seeders;
 
 use Illuminate\Database\Seeder;
-use Webid\Druid\App\Models\Menu;
-use Webid\Druid\App\Models\Page;
 use Webid\Druid\Database\Factories\MenuFactory;
 use Webid\Druid\Database\Factories\MenuItemFactory;
+use Webid\Druid\Facades\Druid;
+use Webid\Druid\Models\Menu;
+use Webid\Druid\Models\Page;
 
 class MenusSeeder extends Seeder
 {
     public function run(): void
     {
         foreach ($this->getMenusStructure() as $menuStructureByLocale) {
-            if (! isset($menuStructureByLocale[getDefaultLocaleKey()])) {
+            if (! isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
             $menu = MenuFactory::new()->create([
-                ...$menuStructureByLocale[getDefaultLocaleKey()],
-                'lang' => getDefaultLocaleKey(),
+                ...$menuStructureByLocale[Druid::getDefaultLocaleKey()],
+                'lang' => Druid::getDefaultLocaleKey(),
             ]);
 
-            Page::query()->where('lang', getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
+            Page::query()->where('lang', Druid::getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
                 /** @var Menu $menu */
                 MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create();
             });
 
-            if (isMultilingualEnabled()) {
+            if (Druid::isMultilingualEnabled()) {
                 foreach ($menuStructureByLocale as $menuLocale => $menuData) {
-                    if ($menuLocale === getDefaultLocaleKey()) {
+                    if ($menuLocale === Druid::getDefaultLocaleKey()) {
                         continue;
                     }
 
@@ -40,7 +41,7 @@ class MenusSeeder extends Seeder
                         'lang' => $menuLocale,
                     ]);
 
-                    Page::query()->where('lang', getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
+                    Page::query()->where('lang', Druid::getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
                         /** @var Menu $menu */
                         MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create();
                     });
