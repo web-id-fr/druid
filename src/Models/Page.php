@@ -71,18 +71,18 @@ class Page extends Model implements IsMenuable
     {
         $path = '';
 
-        if (Druid::isMultilingualEnabled()) {
-            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
-            $path .= '/';
-        }
-
-        $path .= $this->slug;
-
         $parent = $this->parent;
+        $parentsPath = '';
         while ($parent) {
-            $path = $parent->slug.'/'.$path;
+            $parentsPath = $parent->slug . '/' . $parentsPath;
             $parent = $parent->parent;
         }
+
+        if (Druid::isMultilingualEnabled()) {
+            $path .= $this->lang ? $this->lang->value . '/' : '';
+        }
+
+        $path .= $parentsPath . $this->slug;
 
         return $path;
     }
