@@ -74,15 +74,15 @@ class Page extends Model implements IsMenuable
         $parent = $this->parent;
         $parentsPath = '';
         while ($parent) {
-            $parentsPath = $parent->slug . '/' . $parentsPath;
+            $parentsPath = $parent->slug.'/'.$parentsPath;
             $parent = $parent->parent;
         }
 
         if (Druid::isMultilingualEnabled()) {
-            $path .= $this->lang ? $this->lang->value . '/' : '';
+            $path .= $this->lang ? $this->lang->value.'/' : '';
         }
 
-        $path .= $parentsPath . $this->slug;
+        $path .= $parentsPath.$this->slug;
 
         return $path;
     }
