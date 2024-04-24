@@ -7,6 +7,10 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
 use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
+use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
+use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
+use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentSettingsFieldsBuilder;
+use Webid\Druid\Services\DefaultFilamentFieldsProvider;
 
 class DruidServiceProvider extends PackageServiceProvider
 {
@@ -46,6 +50,7 @@ class DruidServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         $this->registerDruid();
+        $this->registerAdminFieldsBuilders();
     }
 
     protected function registerDruid(): self
@@ -55,6 +60,35 @@ class DruidServiceProvider extends PackageServiceProvider
         });
 
         $this->app->alias(Druid::class, 'druid');
+
+        return $this;
+    }
+
+    protected function registerAdminFieldsBuilders(): self
+    {
+        /** @var DefaultFilamentFieldsProvider $defaultFieldsProvider */
+        $defaultFieldsProvider = $this->app->make(DefaultFilamentFieldsProvider::class);
+
+        $this->app->singleton(FilamentSettingsFieldsBuilder::class, function () use ($defaultFieldsProvider) {
+            $builder = new FilamentSettingsFieldsBuilder();
+            $builder->updateFields($defaultFieldsProvider->getDefaultSettingsFields());
+
+            return $builder;
+        });
+
+        $this->app->singleton(FilamentPageFieldsBuilder::class, function () use ($defaultFieldsProvider) {
+            $builder = new FilamentPageFieldsBuilder();
+            $builder->updateFields($defaultFieldsProvider->getDefaultPagesFields());
+
+            return $builder;
+        });
+
+        $this->app->singleton(FilamentPostFieldsBuilder::class, function () use ($defaultFieldsProvider) {
+            $builder = new FilamentPostFieldsBuilder();
+            $builder->updateFields($defaultFieldsProvider->getDefaultPostsFields());
+
+            return $builder;
+        });
 
         return $this;
     }

@@ -2,26 +2,15 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource\Pages;
 use Webid\Druid\Models\Page;
-use Webid\Druid\Repositories\PageRepository;
-use Webid\Druid\Services\Admin\FilamentComponentsService;
-use Webmozart\Assert\Assert;
+use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 
 class PageResource extends Resource
 {
@@ -33,95 +22,10 @@ class PageResource extends Resource
 
     public static function form(Form $form): Form
     {
-        /** @var FilamentComponentsService $filamentComponentService */
-        $filamentComponentService = app(FilamentComponentsService::class);
+        /** @var FilamentPageFieldsBuilder $fieldsBuilder */
+        $fieldsBuilder = app()->make(FilamentPageFieldsBuilder::class);
 
-        /** @var PageRepository $pageRepository */
-        $pageRepository = app(PageRepository::class);
-
-        $contentTab = [
-            TextInput::make('title')
-                ->label(__('Title'))
-                ->live(onBlur: true)
-                ->afterStateUpdated(
-                    fn (string $operation, $state, Set $set) => $operation === 'create'
-                        ? $set('slug', Str::slug($state)) : null
-                )
-                ->required(),
-            $filamentComponentService->getFlexibleContentFieldsForModel(Page::class),
-        ];
-
-        $parametersTab = [
-            TextInput::make('slug')
-                ->label(__('Slug')),
-            Select::make('parent_page_id')
-                ->label(__('Parent page'))
-                ->placeholder(__('Select a parent page'))
-                // @phpstan-ignore-next-line
-                ->options(fn (?Model $record): Collection => $pageRepository->allExceptForPageId($record?->getKey())->pluck('title', 'id'))
-                ->searchable(),
-            Select::make('status')
-                ->label(__('Status'))
-                ->placeholder(__('Select a status'))
-                ->options(PageStatus::class)
-                ->default(PageStatus::PUBLISHED)
-                ->required(),
-            DatePicker::make('published_at')
-                ->label(__('Published at'))
-                ->default(now())
-                ->required(),
-        ];
-
-        if (Druid::isMultilingualEnabled()) {
-            $parametersTab = array_merge(
-                $parametersTab,
-                [
-                    Select::make('lang')
-                        ->label(__('Language'))
-                        ->options(
-                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
-                        )
-                        ->live()
-                        ->placeholder(__('Select a language')),
-                    Select::make('translation_origin_model_id')
-                        ->label(__('Translation origin model'))
-                        ->placeholder(__('Is a translation of...'))
-                        ->options(function (Get $get, ?Page $page) use ($pageRepository) {
-                            $lang = $get('lang');
-                            Assert::string($lang);
-
-                            $allDefaultLanguagePages = $pageRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
-                                // @phpstan-ignore-next-line
-                                ->mapWithKeys(fn (Page $mapPage) => [$mapPage->getKey() => $mapPage->title]);
-
-                            if ($page) {
-                                $allDefaultLanguagePages->put($page->id, __('#No origin model'));
-                            }
-
-                            if ($page?->translationOriginModel?->isNot($page)) {
-                                $allDefaultLanguagePages->put($page->translationOriginModel->id, $page->translationOriginModel->title);
-                            }
-
-                            return $allDefaultLanguagePages;
-                        })
-                        ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
-                        ->live(),
-                ]
-            );
-        }
-
-        return $form
-            ->schema(components: [
-                Tabs::make('Tabs')
-                    ->tabs([
-                        Tabs\Tab::make(__('Content'))->schema($contentTab),
-                        Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2),
-                        Tabs\Tab::make(__('SEO'))->schema(CommonFields::getCommonSeoFields())->columns(2),
-                    ])
-                    ->activeTab(1)
-                    ->columnSpanFull(),
-            ]);
+        return $form->schema(components: $fieldsBuilder->getFields());
     }
 
     public static function table(Table $table): Table
