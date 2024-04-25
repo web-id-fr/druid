@@ -13,8 +13,11 @@ use Webid\Druid\Models\Post;
 
 class PostRepository
 {
-    public function __construct(private readonly Post $model)
+    private Post $model;
+
+    public function __construct()
     {
+        $this->model = Druid::Post();
     }
 
     /**

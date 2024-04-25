@@ -10,8 +10,11 @@ use Webid\Druid\Models\ReusableComponent;
 
 class ReusableComponentsRepository
 {
-    public function __construct(private readonly ReusableComponent $model)
+    private ReusableComponent $model;
+
+    public function __construct()
     {
+        $this->model = Druid::ReusableComponent();
     }
 
     /**

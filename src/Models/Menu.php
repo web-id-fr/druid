@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webid\Druid\Enums\Langs;
+use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
@@ -37,7 +38,7 @@ class Menu extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(MenuItem::class);
+        return $this->hasMany(Druid::getModel('menu_item'));
     }
 
     public function level0Items(): HasMany

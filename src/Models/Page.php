@@ -64,25 +64,25 @@ class Page extends Model implements IsMenuable
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Page::class, 'parent_page_id');
+        return $this->belongsTo(Druid::getModel('page'), 'parent_page_id');
     }
 
     public function fullUrlPath(): string
     {
         $path = '';
 
-        if (Druid::isMultilingualEnabled()) {
-            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
-            $path .= '/';
-        }
-
-        $path .= $this->slug;
-
         $parent = $this->parent;
+        $parentsPath = '';
         while ($parent) {
-            $path = $parent->slug.'/'.$path;
+            $parentsPath = $parent->slug.'/'.$parentsPath;
             $parent = $parent->parent;
         }
+
+        if (Druid::isMultilingualEnabled()) {
+            $path .= $this->lang ? $this->lang->value.'/' : '';
+        }
+
+        $path .= $parentsPath.$this->slug;
 
         return $path;
     }

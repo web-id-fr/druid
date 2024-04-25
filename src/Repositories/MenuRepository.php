@@ -12,8 +12,11 @@ use Webid\Druid\Models\Menu;
 
 class MenuRepository
 {
-    public function __construct(private readonly Menu $model)
+    private Menu $model;
+
+    public function __construct()
     {
+        $this->model = Druid::Menu();
     }
 
     public function findOrFailById(int $menuId): Menu

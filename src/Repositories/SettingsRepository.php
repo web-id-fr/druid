@@ -8,8 +8,11 @@ use Webid\Druid\Models\Settings;
 
 class SettingsRepository
 {
-    public function __construct(private readonly Settings $model)
+    private Settings $model;
+
+    public function __construct()
     {
+        $this->model = new Settings();
     }
 
     public function all(): Collection
