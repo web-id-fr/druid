@@ -6,8 +6,8 @@ test:
 	composer run format
 	composer run test-coverage
 
-stan:
-	composer run phpstan
+analyse:
+	composer run analyse
 
 pint:
 	composer run pint

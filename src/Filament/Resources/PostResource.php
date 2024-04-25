@@ -2,28 +2,16 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
 use Webid\Druid\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
 use Webid\Druid\Models\Post;
-use Webid\Druid\Repositories\PostRepository;
-use Webid\Druid\Services\Admin\FilamentComponentsService;
-use Webmozart\Assert\Assert;
+use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
 
 class PostResource extends Resource
 {
@@ -39,99 +27,10 @@ class PostResource extends Resource
 
     public static function form(Form $form): Form
     {
-        /** @var FilamentComponentsService $filamentComponentService */
-        $filamentComponentService = app(FilamentComponentsService::class);
+        /** @var FilamentPostFieldsBuilder $fieldsBuilder */
+        $fieldsBuilder = app()->make(FilamentPostFieldsBuilder::class);
 
-        /** @var PostRepository $postsRepository */
-        $postsRepository = app(PostRepository::class);
-
-        $contentTab = [
-            TextInput::make('title')
-                ->label(__('Title'))
-                ->live(onBlur: true)
-                ->afterStateUpdated(
-                    fn (string $operation, $state, Set $set) => $operation === 'create'
-                        ? $set('slug', Str::slug($state)) : null
-                )
-                ->required(),
-            RichEditor::make('excerpt')
-                ->label(__('Excerpt')),
-            $filamentComponentService->getFlexibleContentFieldsForModel(Post::class),
-        ];
-
-        $parametersTab = [
-            CuratorPicker::make('thumbnail_id')
-                ->label(__('Image'))
-                ->preserveFilenames()
-                ->columnSpanFull(),
-            TextInput::make('thumbnail_alt')
-                ->label(__('Image alt'))
-                ->columnSpanFull(),
-            Select::make('status')
-                ->label(__('Status'))
-                ->options(PostStatus::class)
-                ->default(PostStatus::PUBLISHED)
-                ->required(),
-            DatePicker::make('published_at')
-                ->label(__('Published at'))
-                ->default(now())
-                ->required(),
-            TextInput::make('slug')
-                ->label(__('Slug'))
-                ->required(),
-            Toggle::make('is_top_article')
-                ->label(__('Top article'))
-                ->helperText(__('Display this article in the top article section')),
-        ];
-
-        if (Druid::isMultilingualEnabled()) {
-            $parametersTab = array_merge(
-                $parametersTab,
-                [
-                    Select::make('lang')
-                        ->label(__('Language'))
-                        ->options(
-                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
-                        )
-                        ->live()
-                        ->placeholder(__('Select a language')),
-                    Select::make('translation_origin_model_id')
-                        ->label(__('Translation origin model'))
-                        ->placeholder(__('Is a translation of...'))
-                        ->options(function (Get $get, ?Post $post) use ($postsRepository) {
-                            $lang = $get('lang');
-                            Assert::string($lang);
-
-                            $allDefaultLanguagePosts = $postsRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
-                                // @phpstan-ignore-next-line
-                                ->mapWithKeys(fn (Post $mapPost) => [$mapPost->getKey() => $mapPost->title]);
-
-                            if ($post) {
-                                $allDefaultLanguagePosts->put($post->id, __('#No origin model'));
-                            }
-
-                            if ($post?->translationOriginModel?->isNot($post)) {
-                                $allDefaultLanguagePosts->put($post->translationOriginModel->id, $post->translationOriginModel->title);
-                            }
-
-                            return $allDefaultLanguagePosts;
-                        })
-                        ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
-                        ->live(),
-                ]
-            );
-        }
-
-        return $form
-            ->schema([
-                Tabs::make('Tabs')
-                    ->tabs([
-                        Tabs\Tab::make(__('Content'))->schema($contentTab),
-                        Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2),
-                        Tabs\Tab::make(__('SEO'))->schema(CommonFields::getCommonSeoFields())->columns(2),
-                    ])->columnSpanFull(),
-            ]);
+        return $form->schema(components: $fieldsBuilder->getFields());
     }
 
     public static function table(Table $table): Table
