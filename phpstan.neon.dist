@@ -22,7 +22,6 @@ parameters:
 
     ignoreErrors:
         - '#Class App\\Models\\User not found.#'
-        - '#Class Awcodes\\Curator\\Models\\Media not found.#'
 
     tmpDir: build/phpstan
     checkMissingIterableValueType: true
