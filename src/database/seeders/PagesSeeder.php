@@ -29,7 +29,7 @@ class PagesSeeder extends Seeder
 
             if (Druid::isMultilingualEnabled()) {
                 foreach ($pageStructure as $locale => $structure) {
-                    if ($locale === getDefaultLocaleKey()) {
+                    if ($locale === Druid::getDefaultLocaleKey()) {
                         continue;
                     }
 

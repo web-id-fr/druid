@@ -5,7 +5,6 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/webid/druid/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
 
-
 ## What is Dru^ID CMS?
 
 Dru^ID is meant to be a light Content Management System build on top of a Laravel application.
@@ -27,12 +26,12 @@ You'll also find helpers and services to manage multilingual and navigation menu
 * Laravel >= 10
 * Composer 2
 * MariaDB / MySQL
-* Laravel Filament 3.x
-* Filament Curator
+* [Laravel Filament 3.x](https://filamentphp.com/docs/3.x/panels/installation)
+* [Filament Curator](https://v2.filamentphp.com/plugins/curator)
 
 ## Installation
 
-In order to install Dru^ID CMS, you first need to have a Laravel Filament running installation with the Filament Curator admin.
+:warning:  In order to install Dru^ID CMS, you first need to have a Laravel Filament running installation with the Filament Curator admin.
 
 Please follow the installation process
 
@@ -40,7 +39,7 @@ Please follow the installation process
 - For Curator here: https://github.com/awcodes/filament-curator
 
 ```
-composer require webid/druid:"^0.1"
+composer require webid/druid"
 ```
 
 ```
@@ -56,9 +55,9 @@ php artisan make:filament-user
 
 https://filamentphp.com/docs/3.x/panels/installation
 
-Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provider after `$panel->default()->id('admin')`
+Open the `app/Providers/Filament/AdminPanelProvider.php` file and add the following code after `$panel->default()->id('admin')`
 
-```
+```php
 ->discoverResources(
         in: base_path('vendor/webid/druid/src/Filament/Resources'),
         for: 'Webid\\Druid\\Filament\\Resources'
@@ -103,25 +102,34 @@ and use it multiple times wherever you like afterward. This is what we call a re
 You can manually group and nest your contents inside navigation menus in the admin panel. You can choose between internal content
 (page and posts) and external URLs. You can nest your menu items up to 3 levels for advanced menus usage.
 
-## Helpers
+## Druid Facade
 
 ### Multilingual helpers
 
-| Function                              | Description                                                                        |
-|---------------------------------------|------------------------------------------------------------------------------------|
-| `isMultilingualEnabled(): bool`       | Returns `true` if `enable_multilingual_feature` is set to true in `config/cms.php` |
-| `getDefaultLocale() : Langs`          | Return the default `Lang` Enum set in `config/cms.php`                             |
-| `getDefaultLocaleKey() : string`      | Same as previous but returns the local key                                         |
-| `getLocales() : array`                | Returns an array of locale data defined in `config/cms.php`                        |
-| `getCurrentLocale() : Lang`           | Returns the current Lang chosen by the visitor                                     |
-| `getLanaguageSwitcher() : Collection` | Returns a Collection of links in different languages to switch to                  |
+| Function                                     | Description                                                                        |
+|----------------------------------------------|------------------------------------------------------------------------------------|
+| `Druid::isMultilingualEnabled(): bool`       | Returns `true` if `enable_multilingual_feature` is set to true in `config/cms.php` |
+| `Druid::getDefaultLocale() : Langs`          | Return the default `Lang` Enum set in `config/cms.php`                             |
+| `Druid::getDefaultLocaleKey() : string`      | Same as previous but returns the local key                                         |
+| `Druid::getLocales() : array`                | Returns an array of locale data defined in `config/cms.php`                        |
+| `Druid::getCurrentLocale() : Lang`           | Returns the current Lang chosen by the visitor                                     |
+| `Druid::getLanaguageSwitcher() : Collection` | Returns a Collection of links in different languages to switch to                  |
 
 ### Navigation menus helpers
 
-| Function                                                           | Description                                            |
-|--------------------------------------------------------------------|--------------------------------------------------------|
-| `getNavigationMenuBySlug(string $slug): Menu`                      | Returns a `Menu` DTO with all the nested links details |
-| `getNavigationMenuBySlugAndLang(string $slug, Langs $lang) : Menu` | Same as preview but with a given language              |
+| Function                                                                  | Description                                            |
+|---------------------------------------------------------------------------|--------------------------------------------------------|
+| `Druid::getNavigationMenuBySlug(string $slug): Menu`                      | Returns a `Menu` DTO with all the nested links details |
+| `Druid::getNavigationMenuBySlugAndLang(string $slug, Langs $lang) : Menu` | Same as preview but with a given language              |
+
+### Settings helpers
+
+| Function                                     | Description                                                     |
+|----------------------------------------------|-----------------------------------------------------------------|
+| `Druid::getSettingByKey(string $key): mixed` | Returns the value of a setting defined in the admin panel       |
+| `Druid::getSettings(): Collection`           | Returns a collection of all settings defined in the admin panel |
+| `Druid::isSettingsPageEnabled(): bool`       | Returns `true` if the settings page is enabled                  |
+| `Druid::settingsPage(): SettingsInterface`   | Returns the settings page class used to build the form          |
 
 ## Services
 
@@ -169,6 +177,37 @@ You can also choose to render a `JsonResource` instead by changing the `views.ty
 3. Register your component in the `config/cms.php` config file.
 
 You can of course create a custom package that adds one or several components and give it to the community.
+
+## Extending default settings and Page/Post fields
+
+Anywhere in your app (in a Service Provider, Middleware for example), you can override the default admin
+behaviour in terms of form fields
+
+The following example will show you how to add an extra settings field
+
+```php
+
+/** @var FilamentSettingsFieldsBuilder $fieldsBuilder */
+$fieldsBuilder = $this->app->make(FilamentSettingsFieldsBuilder::class);
+
+$fieldsBuilder->addField(
+    TextInput::make('a_first_field') // A Filament field as explained in Filament documentation
+        ->label(__('A first field'))
+        ->required(),
+    'a_first_field' // A key to help fields targeting
+);
+
+$fieldsBuilder->addField(
+    TextInput::make('a_second_field')
+        ->label(__('A second field'))
+        ->required(),
+    'a_second_field',
+    'tabs.application', // Here we provide the target path structure where we want our field to show up
+    // In the settings form, we have a tabs group named `tabs`. One of the tabs is named `application` 
+    before: 'another_field' // We can specify a `before` or `after` param to put the new field in a specific spot
+);
+
+```
 
 ## Credits
 

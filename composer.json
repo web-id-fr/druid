@@ -63,6 +63,7 @@
             "@composer run build",
             "@php vendor/bin/testbench serve"
         ],
+        "cs": "vendor/bin/pint --test",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
