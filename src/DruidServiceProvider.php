@@ -5,6 +5,7 @@ namespace Webid\Druid;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Webid\Druid\Console\Commands\DemoSeeder;
 use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
 use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
@@ -21,6 +22,7 @@ class DruidServiceProvider extends PackageServiceProvider
             ->hasConfigFile('cms')
             ->hasViews()
             ->hasRoute('routes')
+            ->hasCommands(DemoSeeder::class)
             ->hasMigrations([
                 '01_create_pages_table',
                 '02_create_reusable_components_table',

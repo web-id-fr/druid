@@ -27,8 +27,17 @@ You'll also find helpers and services to manage multilingual and navigation menu
 * Laravel >= 10
 * Composer 2
 * MariaDB / MySQL
+* Laravel Filament 3.x
+* Filament Curator
 
 ## Installation
+
+In order to install Dru^ID CMS, you first need to have a Laravel Filament running installation with the Filament Curator admin.
+
+Please follow the installation process
+
+- For Filament here: https://filamentphp.com/docs/3.x/panels/installation
+- For Curator here: https://github.com/awcodes/filament-curator
 
 ```
 composer require webid/druid:"^0.1"
@@ -63,6 +72,12 @@ Specify the Dru^ID path in the published Filament `AdminPanelProvider.php` provi
 
 Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
 It's better to choose the default language before writing content.
+
+## Load the demo dataset
+
+If you want to seed a demo dataset, simply run the following command in a fresh installation
+
+`php artisan druid:demo`
 
 ## The admin panel
 

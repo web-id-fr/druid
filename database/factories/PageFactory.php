@@ -21,6 +21,7 @@ class PageFactory extends Factory
             'status' => PageStatus::PUBLISHED->value,
             'content' => $this->fakeContent(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'indexation' => 1,
             'lang' => 'en',
         ];
     }

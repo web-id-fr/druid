@@ -32,16 +32,6 @@ class MenuItemFactory extends Factory
         });
     }
 
-    public function withCustomUrl(): self
-    {
-        return $this->state(function () {
-            return [
-                'custom_url' => $this->faker->url,
-                'target' => MenuItemTarget::BLANK->value,
-            ];
-        });
-    }
-
     /**
      * @param  array<string, mixed>  $params
      */
@@ -58,14 +48,14 @@ class MenuItemFactory extends Factory
         });
     }
 
-    public function withParentItem(): self
+    public function forExistingPage(Page $page): self
     {
-        return $this->afterCreating(
-            // @phpstan-ignore-next-line
-            fn (MenuItem $menuItem) => $menuItem->update(
-                // @phpstan-ignore-next-line
-                ['parent_item_id' => MenuItemFactory::new()->forMenu($menuItem->menu)->create()->getKey()]
-            )
-        );
+        return $this->state(function () use ($page) {
+            return [
+                'model_id' => $page->getKey(),
+                'model_type' => $page->getMorphClass(),
+                'label' => null,
+            ];
+        });
     }
 }

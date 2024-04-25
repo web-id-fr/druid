@@ -3,9 +3,6 @@
 namespace Webid\Druid\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
-use Webid\Druid\Models\Page;
 use Webid\Druid\Models\ReusableComponent;
 
 class ReusableComponentFactory extends Factory
@@ -15,32 +12,10 @@ class ReusableComponentFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->name,
+            'title' => 'Reusable component '.$this->faker->word,
             'content' => $this->fakeContent(),
             'lang' => 'en',
         ];
-    }
-
-    public function configure(): static
-    {
-        return $this->afterCreating(function (Model $page): void {
-            /** @var Page $page */
-            if ($page->translation_origin_model_id) {
-                return;
-            }
-
-            $page->update(['translation_origin_model_id' => $page->getKey()]);
-        });
-    }
-
-    public function asATranslationFrom(ReusableComponent $reusableComponent, Langs $lang): static
-    {
-        return $this->state(function (array $attributes) use ($lang, $reusableComponent) {
-            return [
-                'lang' => $lang,
-                'translation_origin_model_id' => $reusableComponent->getKey(),
-            ];
-        });
     }
 
     /**
