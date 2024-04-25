@@ -14,7 +14,12 @@ use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 
 class PageResource extends Resource
 {
-    protected static ?string $model = Page::class;
+    public static function getModel(): string
+    {
+        return Druid::getModel('page');
+    }
+
+    protected static ?string $modelLabel = 'Page';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -88,6 +93,6 @@ class PageResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         // @phpstan-ignore-next-line
-        return static::$model::count();
+        return static::getModel()::count();
     }
 }

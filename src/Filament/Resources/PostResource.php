@@ -8,14 +8,17 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
-use Webid\Druid\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
-use Webid\Druid\Filament\Resources\PostResource\RelationManagers\UsersRelationManager;
 use Webid\Druid\Models\Post;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
 
 class PostResource extends Resource
 {
-    protected static ?string $model = Post::class;
+    public static function getModel(): string
+    {
+        return Druid::getModel('post');
+    }
+
+    protected static ?string $modelLabel = 'Post';
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
@@ -85,14 +88,6 @@ class PostResource extends Resource
             ->striped();
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            CategoriesRelationManager::class,
-            UsersRelationManager::class,
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
@@ -106,7 +101,7 @@ class PostResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         // @phpstan-ignore-next-line
-        return static::$model::count();
+        return static::getModel()::count();
     }
 
     public static function canAccess(): bool
