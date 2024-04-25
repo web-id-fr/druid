@@ -3,9 +3,6 @@
 namespace Webid\Druid\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
-use Webid\Druid\Models\Page;
 use Webid\Druid\Models\ReusableComponent;
 
 class ReusableComponentFactory extends Factory
