@@ -27,42 +27,66 @@ class Druid
             throw new \RuntimeException("Model $model not found in config file.");
         }
 
-        return config("cms.models.$model");
+        /** @var string $model */
+        $model = config("cms.models.$model");
+
+        return $model;
     }
 
     public function Page(): Page
     {
-        return new (config('cms.models.page'));
+        /** @var Page $page */
+        $page = new (config('cms.models.page'));
+
+        return $page;
     }
 
     public function Post(): Post
     {
-        return new (config('cms.models.post'));
+        /** @var Post $post */
+        $post = new (config('cms.models.post'));
+
+        return $post;
     }
 
     public function Category(): Category
     {
-        return new (config('cms.models.category'));
+        /** @var Category $category */
+        $category = new (config('cms.models.category'));
+
+        return $category;
     }
 
     public function Menu(): \Webid\Druid\Models\Menu
     {
-        return new (config('cms.models.menu'));
+        /** @var \Webid\Druid\Models\Menu $menu */
+        $menu = new (config('cms.models.menu'));
+
+        return $menu;
     }
 
     public function MenuItem(): MenuItem
     {
-        return new (config('cms.models.menu_item'));
+        /** @var MenuItem $menuItem */
+        $menuItem = new (config('cms.models.menu_item'));
+
+        return $menuItem;
     }
 
     public function Settings(): Settings
     {
-        return new (config('cms.models.settings'));
+        /** @var Settings $settings */
+        $settings = new (config('cms.models.settings'));
+
+        return $settings;
     }
 
     public function ReusableComponent(): ReusableComponent
     {
-        return new (config('cms.models.reusable_component'));
+        /** @var ReusableComponent $reusableComponent */
+        $reusableComponent = new (config('cms.models.reusable_component'));
+
+        return $reusableComponent;
     }
 
     public function isBlogModuleEnabled(): bool

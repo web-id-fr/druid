@@ -8,15 +8,12 @@ parameters:
         - database
         - resources
         - routes
-        - src/Exceptions
-        - src/Facades
-        - src/Helpers
-        - src/Http
-        - src/Models
-        - src/Providers
-        - src/Repositories
-        - src/Services
+        - src
     excludePaths:
+        - src/Components
+        - src/Dto
+        - src/Enums
+        - src/Filament
         - database/factories
         - src/Http/Resources/MediaResource.php
         - src/Models/Post.php
