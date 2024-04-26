@@ -39,11 +39,9 @@ class TextImageComponent implements ComponentInterface
         /** @var int $mediaId */
         $mediaId = $data['image'];
 
-        $image = MediaResource::make($mediaRepository->findById($mediaId));
-
         return view('druid::components.text-image', [
             'content' => $data['content'],
-            'image' => $image,
+            'image' => MediaResource::make($mediaRepository->findById($mediaId)),
         ]);
     }
 

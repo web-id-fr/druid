@@ -35,10 +35,8 @@ class ImageComponent implements ComponentInterface
         /** @var int $mediaId */
         $mediaId = $data['image'];
 
-        $image = MediaResource::make($mediaRepository->findById($mediaId));
-
         return view('druid::components.image', [
-            'image' => $image,
+            'image' => MediaResource::make($mediaRepository->findById($mediaId)),
         ]);
     }
 
