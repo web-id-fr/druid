@@ -175,7 +175,7 @@ class DefaultFilamentFieldsProvider
                 ->required(),
             'excerpt' => RichEditor::make('excerpt')
                 ->label(__('Excerpt')),
-            $filamentComponentService->getFlexibleContentFieldsForModel(Post::class),
+            $filamentComponentService->getFlexibleContentFieldsForModel(Druid::getModel('post')),
         ];
 
         $parametersTab = [
@@ -201,6 +201,12 @@ class DefaultFilamentFieldsProvider
             'is_top_article' => Toggle::make('is_top_article')
                 ->label(__('Top article'))
                 ->helperText(__('Display this article in the top article section')),
+            'categories' => Select::make('categories')
+                ->multiple()
+                ->relationship('categories', 'name'),
+            'users' => Select::make('users')
+                ->multiple()
+                ->relationship('users', 'name'),
         ];
 
         if (Druid::isMultilingualEnabled()) {
