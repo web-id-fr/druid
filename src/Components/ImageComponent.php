@@ -4,6 +4,7 @@ namespace Webid\Druid\Components;
 
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Illuminate\Contracts\View\View;
+use Webid\Druid\Http\Resources\MediaResource;
 use Webid\Druid\Repositories\MediaRepository;
 
 class ImageComponent implements ComponentInterface
@@ -34,13 +35,10 @@ class ImageComponent implements ComponentInterface
         /** @var int $mediaId */
         $mediaId = $data['image'];
 
-        $image = $mediaRepository->findById($mediaId);
+        $image = MediaResource::make($mediaRepository->findById($mediaId));
 
         return view('druid::components.image', [
-            // @phpstan-ignore-next-line
-            'image' => $image->url,
-            // @phpstan-ignore-next-line
-            'alt' => $image->alt,
+            'image' => $image,
         ]);
     }
 
