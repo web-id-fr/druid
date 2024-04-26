@@ -2,9 +2,9 @@
 
 # TESTS
 test:
+	composer run cs
 	composer run analyse
-	composer run format
-	composer run test-coverage
+	composer run test
 
 analyse:
 	composer run analyse
