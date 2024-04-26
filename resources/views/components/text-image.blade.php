@@ -1,4 +1,4 @@
 <div>
     {!! $content !!}
-    <img src="{{ asset($image) }}"  alt="toto"/>
+    <img src="{{ $image['url'] }}" alt="{{ $image['alt'] ? $image['alt'] : 'image_alt' }}"/>
 </div>

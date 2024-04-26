@@ -5,7 +5,7 @@ namespace Webid\Druid\Components;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Illuminate\Contracts\View\View;
-use Illuminate\Testing\Assert;
+use Webmozart\Assert\Assert;
 
 class HintComponent implements ComponentInterface
 {
@@ -47,7 +47,7 @@ class HintComponent implements ComponentInterface
     public static function toSearchableContent(array $data): string
     {
         $content = $data['content'] ?? '';
-        Assert::assertIsString($content);
+        Assert::string($content);
 
         return strip_tags($content);
     }
