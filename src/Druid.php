@@ -211,6 +211,16 @@ class Druid
         return $settingsRepository->all();
     }
 
+    public function getAdminPath(): string
+    {
+        return config('cms.admin.prefix');
+    }
+
+    public function runningInBackoffice(): bool
+    {
+        return request()->is(config('cms.admin.prefix').'*');
+    }
+
     public function package_base_path(string $path = ''): string
     {
         $path = ltrim($path, '/');
