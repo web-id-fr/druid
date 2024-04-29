@@ -213,7 +213,10 @@ class Druid
 
     public function getAdminPath(): string
     {
-        return config('cms.admin.prefix');
+        /** @var string $adminPath */
+        $adminPath = config('cms.admin.prefix');
+
+        return $adminPath;
     }
 
     public function runningInBackoffice(): bool
