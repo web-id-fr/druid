@@ -1,8 +1,8 @@
 # Dru^ID CMS
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/webid/druid/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/webid/druid/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/web-id-fr/druid/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/web-id-fr/druid/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
 
 ## What is Dru^ID CMS?
@@ -207,6 +207,42 @@ $fieldsBuilder->addField(
     before: 'another_field' // We can specify a `before` or `after` param to put the new field in a specific spot
 );
 
+```
+
+## Tips to define a default homepage
+
+We decide to not provide a default homepage route in the package because we think that it's better to let the developer choose the way to define it.
+Here is a simple way to define a default homepage route in your `routes/web.php` file.
+
+You can use the `Settings` model to store the homepage id and retrieve it in your controller.
+
+```php
+    HomepageController.php
+
+    public function index(): View
+    {
+        /** @var Settings|null $page */
+        $page = Druid::getSettingByKey('homepage_id');
+
+        if (is_null($page)) {
+            abort(404);
+        }
+
+        $homepage = $this->pageRepository->findOrFail($page->value);
+
+        if (Druid::isMultilingualEnabled()) {
+            $homepage->loadMissing('translations');
+        }
+
+        return view('druid::page.page', [
+            'page' => PageResource::make($homepage)->toObject(),
+        ]);
+    }
+
+
+    routes/web.php
+
+    Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 ```
 
 ## Credits

@@ -10,7 +10,7 @@ analyse:
 	composer run analyse
 
 pint:
-	composer run pint
+	composer run format
 
 coverage:
 	./vendor/bin/phpunit --coverage-html code_coverage
