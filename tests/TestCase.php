@@ -39,6 +39,8 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+        config()->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Webid\\Druid\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
