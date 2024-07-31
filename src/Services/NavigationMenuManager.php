@@ -10,7 +10,9 @@ use Webid\Druid\Repositories\MenuRepository;
 
 class NavigationMenuManager
 {
-    public function __construct(private readonly MenuRepository $menuRepository) {}
+    public function __construct(private readonly MenuRepository $menuRepository)
+    {
+    }
 
     /**
      * @throws ModelNotFoundException

@@ -14,7 +14,8 @@ class ComponentConfiguration
         readonly public string $type,
         readonly public string $class,
         readonly public array $disabledFor,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  array<string, mixed>  $array

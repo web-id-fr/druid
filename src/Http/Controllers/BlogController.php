@@ -17,7 +17,8 @@ class BlogController
     public function __construct(
         private readonly PostRepository $postRepository,
         private readonly CategoryRepository $categoryRepository,
-    ) {}
+    ) {
+    }
 
     public function indexMultilingual(Langs $lang): View|AnonymousResourceCollection
     {
