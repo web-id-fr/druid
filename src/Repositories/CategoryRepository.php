@@ -23,6 +23,17 @@ class CategoryRepository
         return $this->model->all();
     }
 
+    public function findBySlug(string $slug): Category
+    {
+        /** @var Category $category */
+        $category = $this->model->newQuery()
+            ->where('slug', $slug)
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
+            ->firstOrFail();
+
+        return $category;
+    }
+
     public function allByLang(Langs $lang): Collection
     {
         return $this->model->newQuery()->where('lang', $lang)->get();

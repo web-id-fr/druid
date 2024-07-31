@@ -109,4 +109,15 @@ class PostRepository
             ->where('lang', $lang)
             ->paginate($perPage);
     }
+
+    public function findBySlug(string $slug): Post
+    {
+        /** @var Post $post */
+        $post = $this->model->newQuery()
+            ->where('slug', $slug)
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
+            ->firstOrFail();
+
+        return $post;
+    }
 }
