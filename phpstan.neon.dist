@@ -1,6 +1,3 @@
-includes:
-    - phpstan-baseline.neon
-
 parameters:
     level: max
     paths:
@@ -22,7 +19,7 @@ parameters:
 
     ignoreErrors:
         - '#Class App\\Models\\User not found.#'
+        - identifier: missingType.generics
 
     tmpDir: build/phpstan
     checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: false

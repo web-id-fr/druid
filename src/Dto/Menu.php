@@ -12,8 +12,7 @@ class Menu
         readonly public string $title,
         readonly public string $slug,
         readonly public Collection $items,
-    ) {
-    }
+    ) {}
 
     public static function fromMenu(MenuModel $menu): self
     {

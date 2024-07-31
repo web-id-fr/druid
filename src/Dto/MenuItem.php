@@ -14,8 +14,7 @@ class MenuItem
         readonly public string $url,
         readonly public MenuItemTarget $target,
         readonly public Collection $children,
-    ) {
-    }
+    ) {}
 
     public static function fromMenuItem(MenuItemModel $menuItem): self
     {

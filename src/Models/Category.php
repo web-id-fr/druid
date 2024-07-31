@@ -33,6 +33,9 @@ class Category extends Model
 
     public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Druid::getModel('post'), 'category_post', 'category_id', 'post_id');
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('post');
+
+        return $this->belongsToMany($model, 'category_post', 'category_id', 'post_id');
     }
 }

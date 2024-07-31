@@ -6,8 +6,8 @@ test:
 	composer run analyse
 	composer run test
 
-analyse:
-	composer run analyse
+phpstan:
+	composer run phpstan
 
 pint:
 	composer run format

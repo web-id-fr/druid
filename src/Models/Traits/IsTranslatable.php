@@ -13,12 +13,12 @@ trait IsTranslatable
 {
     public function translationOriginModel(): BelongsTo
     {
-        return $this->belongsTo($this, 'translation_origin_model_id');
+        return $this->belongsTo($this::class, 'translation_origin_model_id');
     }
 
     public function translations(): HasMany
     {
-        return $this->hasMany($this, 'translation_origin_model_id')
+        return $this->hasMany($this::class, 'translation_origin_model_id')
             ->whereNot('translation_origin_model_id', $this->getKey());
     }
 }
