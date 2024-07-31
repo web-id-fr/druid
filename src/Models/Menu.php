@@ -38,7 +38,10 @@ class Menu extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(Druid::getModel('menu_item'));
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('menu_item');
+
+        return $this->hasMany($model);
     }
 
     public function level0Items(): HasMany

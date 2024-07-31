@@ -86,4 +86,15 @@ class PageRepository
                 ->where('lang', $lang))
             ->get();
     }
+
+    public function findBySlug(string $slug): Page
+    {
+        /** @var Page $page */
+        $page = $this->model->newQuery()
+            ->where('slug', $slug)
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
+            ->firstOrFail();
+
+        return $page;
+    }
 }

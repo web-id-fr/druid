@@ -65,6 +65,7 @@
         ],
         "cs": "vendor/bin/pint --test",
         "analyse": "vendor/bin/phpstan analyse",
+        "phpstan": "phpstan --memory-limit=4G",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"

@@ -47,11 +47,17 @@ class MenuItem extends Model
 
     public function menu(): BelongsTo
     {
-        return $this->belongsTo(Druid::getModel('menu'));
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('menu');
+
+        return $this->belongsTo($model);
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Druid::getModel('menu_item'), 'parent_item_id');
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('menu_item');
+
+        return $this->hasMany($model, 'parent_item_id');
     }
 }

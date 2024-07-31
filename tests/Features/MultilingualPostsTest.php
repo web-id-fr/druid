@@ -16,10 +16,7 @@ beforeEach(function () {
     $this->disableMultilingualFeature();
 });
 
-function isMultilingualEnabled()
-{
-
-}
+function isMultilingualEnabled() {}
 
 test('current language shows up in url when multilingual feature is enabled', function () {
     $post = $this->createPostInEnglish();

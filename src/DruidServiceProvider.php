@@ -58,7 +58,7 @@ class DruidServiceProvider extends PackageServiceProvider
     protected function registerDruid(): self
     {
         $this->app->singleton(Druid::class, function () {
-            return new Druid();
+            return new Druid;
         });
 
         $this->app->alias(Druid::class, 'druid');
@@ -72,21 +72,21 @@ class DruidServiceProvider extends PackageServiceProvider
         $defaultFieldsProvider = $this->app->make(DefaultFilamentFieldsProvider::class);
 
         $this->app->singleton(FilamentSettingsFieldsBuilder::class, function () use ($defaultFieldsProvider) {
-            $builder = new FilamentSettingsFieldsBuilder();
+            $builder = new FilamentSettingsFieldsBuilder;
             $builder->updateFields($defaultFieldsProvider->getDefaultSettingsFields());
 
             return $builder;
         });
 
         $this->app->singleton(FilamentPageFieldsBuilder::class, function () use ($defaultFieldsProvider) {
-            $builder = new FilamentPageFieldsBuilder();
+            $builder = new FilamentPageFieldsBuilder;
             $builder->updateFields($defaultFieldsProvider->getDefaultPagesFields());
 
             return $builder;
         });
 
         $this->app->singleton(FilamentPostFieldsBuilder::class, function () use ($defaultFieldsProvider) {
-            $builder = new FilamentPostFieldsBuilder();
+            $builder = new FilamentPostFieldsBuilder;
             $builder->updateFields($defaultFieldsProvider->getDefaultPostsFields());
 
             return $builder;

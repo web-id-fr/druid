@@ -12,7 +12,7 @@ class SettingsRepository
 
     public function __construct()
     {
-        $this->model = new Settings();
+        $this->model = new Settings;
     }
 
     public function all(): Collection
