@@ -6,10 +6,7 @@ use Webmozart\Assert\Assert;
 
 class ComponentSearchContentExtractor
 {
-    public function __construct(private readonly ComponentConfigManager $componentConfigManager)
-    {
-
-    }
+    public function __construct(private readonly ComponentConfigManager $componentConfigManager) {}
 
     /**
      * @param  array<int, array<mixed>>  $contentBlocks

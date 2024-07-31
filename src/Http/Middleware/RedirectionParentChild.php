@@ -12,8 +12,7 @@ class RedirectionParentChild
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
-    ) {
-    }
+    ) {}
 
     public function handle(Request $request, \Closure $next): Response|Redirector
     {

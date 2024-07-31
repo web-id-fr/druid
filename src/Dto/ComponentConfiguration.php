@@ -14,8 +14,7 @@ class ComponentConfiguration
         readonly public string $type,
         readonly public string $class,
         readonly public array $disabledFor,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array<string, mixed>  $array
@@ -25,14 +24,14 @@ class ComponentConfiguration
     public static function fromArray(array $array): self
     {
         if (! isset($array['class'])) {
-            throw new ClassNotFoundException();
+            throw new ClassNotFoundException;
         }
 
         /** @var string $className */
         $className = $array['class'];
 
         /** @var ComponentInterface $componentClass */
-        $componentClass = new $className();
+        $componentClass = new $className;
 
         return new self(
             $componentClass::fieldName(),

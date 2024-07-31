@@ -194,7 +194,7 @@ class Druid
             throw new \RuntimeException("$className needs to implement SettingsInterface.");
         }
 
-        return new $className();
+        return new $className;
     }
 
     public function getSettingByKey(string $key): ?Model
