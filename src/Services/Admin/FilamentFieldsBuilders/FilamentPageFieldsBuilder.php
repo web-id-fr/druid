@@ -2,4 +2,6 @@
 
 namespace Webid\Druid\Services\Admin\FilamentFieldsBuilders;
 
-class FilamentPageFieldsBuilder extends FilamentFieldsBuilder {}
+class FilamentPageFieldsBuilder extends FilamentFieldsBuilder
+{
+}

@@ -14,7 +14,8 @@ class EnvironmentGuesserService
         private readonly Repository $config,
         private readonly PostRepository $postRepository,
         private readonly PageRepository $pageRepository
-    ) {}
+    ) {
+    }
 
     public function getEnvironment(string $path, string $locale): ?string
     {

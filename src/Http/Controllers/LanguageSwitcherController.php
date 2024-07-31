@@ -19,7 +19,8 @@ class LanguageSwitcherController extends Controller
         private readonly SessionManager $session,
         private readonly Repository $config,
         private readonly EnvironmentGuesserService $environmentGuesserService
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $locale): RedirectResponse
     {
