@@ -203,6 +203,7 @@ class DefaultFilamentFieldsProvider
                 ->helperText(__('Display this article in the top article section')),
             'categories' => Select::make('categories')
                 ->multiple()
+                ->required()
                 ->relationship('categories', 'name'),
             'users' => Select::make('users')
                 ->multiple()

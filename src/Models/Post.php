@@ -97,7 +97,7 @@ class Post extends Model implements IsMenuable
 
         $path .= config('cms.blog.prefix').'/';
 
-        $path .= $this->slug;
+        $path .= $this->categories->first()->slug . '/' . $this->slug;
 
         return $path;
     }
