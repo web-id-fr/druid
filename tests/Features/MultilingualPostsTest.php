@@ -62,8 +62,8 @@ test('two posts can share the same slug if not in the same lang', function () {
     $postSlug = 'post-slug';
     $postInEnglish = $this->createPostInEnglish(['slug' => $postSlug]);
     $postInFrench = $this->createFrenchTranslationPost(['slug' => $postSlug]);
-    #$postInFrenchCategory = $this->createFrenchCategory(['slug' => $postInEnglish->categories->first()->slug]);
-    #$postInFrench->categories()->attach($postInFrenchCategory);
+    //$postInFrenchCategory = $this->createFrenchCategory(['slug' => $postInEnglish->categories->first()->slug]);
+    //$postInFrench->categories()->attach($postInFrenchCategory);
 
     expect(Langs::EN)->toEqual($postInEnglish->lang)
         ->and(Langs::FR)->toEqual($postInFrench->lang)
