@@ -6,6 +6,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,6 +18,8 @@ use Webid\Druid\Filament\Resources\CategoryResource\Pages\EditCategory;
 use Webid\Druid\Filament\Resources\CategoryResource\Pages\ListCategories;
 use Webid\Druid\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use Webid\Druid\Models\Category;
+use Webid\Druid\Repositories\CategoryRepository;
+use Webmozart\Assert\Assert;
 
 class CategoryResource extends Resource
 {
@@ -32,6 +35,9 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /** @var CategoryRepository $categoryRepository */
+        $categoryRepository = app(CategoryRepository::class);
+
         return $form
             ->schema([
                 Section::make(__('Parameters'))
@@ -47,14 +53,36 @@ class CategoryResource extends Resource
                         TextInput::make('slug')
                             ->label(__('Slug'))
                             ->required(),
-                        Select::make('lang')
+                        'lang' => Select::make('lang')
                             ->label(__('Language'))
-                            ->options([
-                                1 => __('French'),
-                                0 => __('English'),
-                            ])
-                            ->placeholder(__('Select a language'))
-                            ->columnSpanFull(),
+                            ->options(
+                                collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            )
+                            ->live()
+                            ->placeholder(__('Select a language')),
+                        'translation_origin_model_id' => Select::make('translation_origin_model_id')
+                            ->label(__('Translation origin'))
+                            ->options(function (Get $get, ?Category $category) use ($categoryRepository) {
+                                $lang = $get('lang');
+                                Assert::string($lang);
+
+                                $allDefaultLanguagePosts = $categoryRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                                    // @phpstan-ignore-next-line
+                                    ->mapWithKeys(fn (Category $mapCatagory) => [$mapCatagory->getKey() => $mapCatagory->name]);
+
+                                if ($category) {
+                                    $allDefaultLanguagePosts->put($category->id, __('#No origin model'));
+                                }
+
+                                if ($category?->translationOriginModel?->isNot($category)) {
+                                    $allDefaultLanguagePosts->put($category->translationOriginModel->id, $category->translationOriginModel->name);
+                                }
+
+                                return $allDefaultLanguagePosts;
+                            })
+                            ->searchable()
+                            ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                            ->live(),
                     ])->columns(2),
             ]);
     }

@@ -77,6 +77,7 @@ class Post extends Model implements IsMenuable
         'opengraph_picture_alt',
         'published_at',
         'is_top_article',
+        'translation_origin_model_id',
     ];
 
     protected $casts = [

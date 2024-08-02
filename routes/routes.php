@@ -18,15 +18,15 @@ if (Druid::isBlogModuleEnabled()) {
         if (Druid::isMultilingualEnabled()) {
             Route::prefix('{lang}/'.config('cms.blog.prefix'))
                 ->name('posts.multilingual.')
-                ->middleware(['multilingual-required', 'web'])
+                ->middleware(['multilingual-required', 'language-is-valid', 'web'])
                 ->group(function () {
                     Route::get('/', [BlogController::class, 'indexMultilingual'])
                         ->name('index');
 
-                    Route::get('/categories/{category:slug}', [BlogController::class, 'indexByCategoryMultilingual'])
+                    Route::get('/{category:slug}', [BlogController::class, 'indexByCategoryMultilingual'])
                         ->name('indexByCategory');
 
-                    Route::get('/{post:slug}', [BlogController::class, 'showMultilingual'])
+                    Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'showMultilingual'])
                         ->name('show')
                         ->missing(function (Request $request) {
                             abort(404);
@@ -41,9 +41,9 @@ if (Druid::isBlogModuleEnabled()) {
             ->group(function () {
                 Route::get('/', [BlogController::class, 'index'])
                     ->name('index');
-                Route::get('/categories/{category:slug}', [BlogController::class, 'indexByCategory'])
+                Route::get('/{category:slug}', [BlogController::class, 'indexByCategory'])
                     ->name('indexByCategory');
-                Route::get('/{post:slug}', [BlogController::class, 'show'])
+                Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'show'])
                     ->name('show')
                     ->missing(function (Request $request) {
                         abort(404);

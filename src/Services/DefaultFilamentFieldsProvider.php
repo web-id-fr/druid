@@ -21,6 +21,7 @@ use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\CommonFields;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Models\Post;
+use Webid\Druid\Repositories\CategoryRepository;
 use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Repositories\PostRepository;
 use Webid\Druid\Services\Admin\FilamentComponentsService;
@@ -164,6 +165,9 @@ class DefaultFilamentFieldsProvider
         /** @var PostRepository $postsRepository */
         $postsRepository = app(PostRepository::class);
 
+        /** @var CategoryRepository $categoryRepository */
+        $categoryRepository = app(CategoryRepository::class);
+
         $contentTab = [
             'title' => TextInput::make('title')
                 ->label(__('Title'))
@@ -202,6 +206,7 @@ class DefaultFilamentFieldsProvider
                 ->label(__('Top article'))
                 ->helperText(__('Display this article in the top article section')),
             'categories' => Select::make('categories')
+                ->options($categoryRepository->allFromDefaultLanguageWithoutTranslationForLang(Druid::getDefaultLocaleKey())->pluck('name', 'id'))
                 ->multiple()
                 ->required()
                 ->relationship('categories', 'name'),

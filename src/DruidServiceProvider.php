@@ -6,6 +6,7 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Webid\Druid\Console\Commands\DemoSeeder;
+use Webid\Druid\Http\Middleware\CheckLanguageExist;
 use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
 use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
@@ -47,6 +48,7 @@ class DruidServiceProvider extends PackageServiceProvider
     {
         app('router')->aliasMiddleware('multilingual-required', MultilingualFeatureRequired::class);
         app('router')->aliasMiddleware('multilingual-forbidden', MultilingualFeatureForbidden::class);
+        app('router')->aliasMiddleware('language-is-valid', CheckLanguageExist::class);
     }
 
     public function packageBooted(): void

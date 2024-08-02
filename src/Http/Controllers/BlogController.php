@@ -22,6 +22,7 @@ class BlogController
     public function indexMultilingual(Langs $lang): View|AnonymousResourceCollection
     {
         $posts = $this->postRepository->allPaginatedByLang(Druid::getPostsPerPage(), $lang, ['categories']);
+        $categories = $this->categoryRepository->allByLang($lang);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -29,6 +30,7 @@ class BlogController
 
         return view('druid::blog.index', [
             'posts' => $posts,
+            'categories' => $categories,
         ]);
     }
 
@@ -38,17 +40,20 @@ class BlogController
         $category = $this->categoryRepository->categoryByLang($category, $lang);
 
         $posts = $this->postRepository->allByCategoryAndLangPaginated($category, Druid::getPostsPerPage(), $lang, ['categories']);
+        $categories = $this->categoryRepository->allByLang($lang);
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
         }
 
         return view('druid::blog.index', [
+            'category' => $category,
             'posts' => $posts,
+            'categories' => $categories,
         ]);
     }
 
-    public function showMultilingual(Langs $lang, Post $post): View|PostResource
+    public function showMultilingual(Langs $lang, Category $category, Post $post): View|PostResource
     {
         $type = config('cms.views.type');
 
@@ -62,6 +67,7 @@ class BlogController
     public function index(): View|AnonymousResourceCollection
     {
         $posts = $this->postRepository->allPaginated(Druid::getPostsPerPage(), ['categories']);
+        $categories = $this->categoryRepository->all();
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -69,12 +75,14 @@ class BlogController
 
         return view('druid::blog.index', [
             'posts' => $posts,
+            'categories' => $categories,
         ]);
     }
 
     public function indexByCategory(Category $category): View|AnonymousResourceCollection
     {
         $posts = $this->postRepository->allByCategoryPaginated($category, Druid::getPostsPerPage(), ['categories']);
+        $categories = $this->categoryRepository->all();
 
         if (config('cms.views.type') === 'api') {
             return PostResource::collection($posts);
@@ -82,10 +90,11 @@ class BlogController
 
         return view('druid::blog.index', [
             'posts' => $posts,
+            'categories' => $categories,
         ]);
     }
 
-    public function show(Post $post): View|PostResource
+    public function show(Category $category, Post $post): View|PostResource
     {
         $post->loadMissing('thumbnail');
         $type = config('cms.views.type');

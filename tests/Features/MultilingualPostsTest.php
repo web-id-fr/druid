@@ -12,6 +12,8 @@ uses(\Webid\Druid\Tests\Helpers\MultilingualHelpers::class);
 
 uses(\Webid\Druid\Tests\Helpers\PostCreator::class);
 
+uses(\Webid\Druid\Tests\Helpers\CategoryCreator::class);
+
 beforeEach(function () {
     $this->disableMultilingualFeature();
 });
@@ -22,18 +24,18 @@ test('current language shows up in url when multilingual feature is enabled', fu
     $post = $this->createPostInEnglish();
 
     expect(Druid::isMultilingualEnabled())->toBeFalse()
-        ->and(url('/blog/'.$post->slug))->toEqual($post->url());
+        ->and(url('/blog/'.$post->categories->first()->slug.'/'.$post->slug))->toEqual($post->url());
 
     $this->enableMultilingualFeature();
 
-    expect(url('/en/blog/'.$post->slug))->toEqual($post->url());
+    expect(url('/en/blog/'.$post->categories->first()->slug.'/'.$post->slug))->toEqual($post->url());
 });
 
 test('post can be accessible in other language than the default one', function () {
     $this->enableMultilingualFeature();
     $post = $this->createFrenchTranslationPost();
 
-    expect(url('/fr/blog/'.$post->slug))->toEqual($post->url());
+    expect(url('/fr/blog/'.$post->categories->first()->slug.'/'.$post->slug))->toEqual($post->url());
 
     $this->get($post->url())
         ->assertOk();
@@ -60,6 +62,8 @@ test('two posts can share the same slug if not in the same lang', function () {
     $postSlug = 'post-slug';
     $postInEnglish = $this->createPostInEnglish(['slug' => $postSlug]);
     $postInFrench = $this->createFrenchTranslationPost(['slug' => $postSlug]);
+    #$postInFrenchCategory = $this->createFrenchCategory(['slug' => $postInEnglish->categories->first()->slug]);
+    #$postInFrench->categories()->attach($postInFrenchCategory);
 
     expect(Langs::EN)->toEqual($postInEnglish->lang)
         ->and(Langs::FR)->toEqual($postInFrench->lang)
