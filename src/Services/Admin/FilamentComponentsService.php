@@ -34,7 +34,7 @@ class FilamentComponentsService
         }
 
         return Builder::make('content')
-            ->blockPickerColumns(4)
+            ->blockPickerColumns(3)
             ->blocks($blocks)
             ->blockNumbers(false)
             ->addActionLabel(__('Add a component'))

@@ -54,7 +54,7 @@ class CategoryRepository
         return $this->model->newQuery()->whereNull('lang')->count();
     }
 
-    public function allFromDefaultLanguageWithoutTranslationForLang(Langs $lang): Collection
+    public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
     {
         return $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query

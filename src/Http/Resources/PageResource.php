@@ -47,6 +47,7 @@ class PageResource extends JsonResource
             'deleted_at' => $this->resource->deleted_at,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
+            'translations' => $this->whenLoaded('translations') ? PageResource::collection($this->resource->translations) : [],
         ];
     }
 
