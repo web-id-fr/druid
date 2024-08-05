@@ -112,6 +112,7 @@ class DefaultFilamentFieldsProvider
                         ->options(
                             collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
+                        ->required()
                         ->live()
                         ->placeholder(__('Select a language')),
                     'translation_origin_model_id' => Select::make('translation_origin_model_id')
@@ -225,6 +226,7 @@ class DefaultFilamentFieldsProvider
                             collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
+                        ->required()
                         ->placeholder(__('Select a language')),
                     'translation_origin_model_id' => Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))

@@ -15,4 +15,12 @@ trait CategoryCreator
 
         return $category;
     }
+
+    public function createEnglishCategory(array $params = []): Category
+    {
+        /** @var Category $category */
+        $category = CategoryFactory::new()->create([...$params, 'lang' => Langs::EN->value]);
+
+        return $category;
+    }
 }

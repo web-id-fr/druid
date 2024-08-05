@@ -15,7 +15,7 @@ class CheckLanguageExist
     {
         $lang = $request->route('lang');
 
-        if (! array_key_exists($lang, Druid::getLocales())) {
+        if (! is_string($lang) || ! array_key_exists($lang, Druid::getLocales())) {
             abort(404);
         }
 

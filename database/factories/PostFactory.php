@@ -62,7 +62,7 @@ class PostFactory extends Factory
             $post->update(['translation_origin_model_id' => $post->getKey()]);
 
             if ($post->categories()->count() === 0) {
-                $category = Category::factory()->create();
+                $category = CategoryFactory::new()->create();
                 $post->categories()->attach($category);
             }
         });
