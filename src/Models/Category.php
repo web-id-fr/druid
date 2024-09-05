@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
  * @property string $name
  * @property string $slug
- * @property string $lang
+ * @property ?Langs $lang
  * @property int|null $translation_origin_model_id
+ * @property-read Category $translationOriginModel
  * @property-read Collection|Post[] $posts
  */
 class Category extends Model
@@ -29,6 +31,11 @@ class Category extends Model
         'name',
         'slug',
         'lang',
+        'translation_origin_model_id',
+    ];
+
+    protected $casts = [
+        'lang' => Langs::class,
     ];
 
     public function posts(): BelongsToMany
@@ -37,5 +44,11 @@ class Category extends Model
         $model = Druid::getModel('post');
 
         return $this->belongsToMany($model, 'category_post', 'category_id', 'post_id');
+    }
+
+    public function resolveRouteBinding($value, $field = null): Category
+    {
+        return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
+            $this->where('slug', $value)->firstOrFail();
     }
 }

@@ -22,12 +22,11 @@
 
     </div>
 
-
-    @if (isset($page->translations))
+    @if ($page->translations->count() > 0)
         Translations :
         <ul>
             @foreach($page->translations as $translation)
-                <li>{{ $translation->title }}</li>
+                <li><a href="{{ $translation->url() }}">{{ $translation->title }}</a></li>
             @endforeach
         </ul>
     @endif

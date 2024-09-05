@@ -2,8 +2,10 @@
 
 namespace Webid\Druid\Tests\Helpers;
 
+use Webid\Druid\Database\Factories\CategoryFactory;
 use Webid\Druid\Database\Factories\PostFactory;
 use Webid\Druid\Enums\Langs;
+use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
 
 trait PostCreator
@@ -12,6 +14,17 @@ trait PostCreator
     {
         /** @var Post $post */
         $post = PostFactory::new()->create($params);
+
+        return $post;
+    }
+
+    protected function createPostWithCategory(array $postParams = [], array $categoryParams = []): Post
+    {
+        /** @var Category $category */
+        $category = CategoryFactory::new()->create($categoryParams);
+
+        /** @var Post $post */
+        $post = PostFactory::new()->forCategory($category)->create($postParams);
 
         return $post;
     }

@@ -48,6 +48,7 @@ class PostResource extends JsonResource
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'translations' => $this->whenLoaded('translations') ? PostResource::collection($this->resource->translations) : [],
         ];
     }
 
