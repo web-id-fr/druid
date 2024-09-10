@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Webid\Druid\Enums\Langs;
+use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
@@ -58,87 +59,103 @@ class PostRepository
         return $this->model->newQuery()->whereNull('lang')->count();
     }
 
-    /**
-     * @param  array<string>  $relations
-     */
-    public function allExceptForPageId(?int $postId, array $relations = []): Collection
+    public function allFromDefaultLanguageWithoutTranslationForLang(string $lang, ?callable $queryModifier = null): Collection
     {
-        return $this->model->newQuery()
-            ->with($relations)
-            ->published()
-            ->whereNot($this->model->getKeyName(), $postId)
-            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
-            ->get();
-    }
-
-    public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
-    {
-        return $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
+        $query = $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query
                 ->where('lang', $lang))
-            ->get();
+            ->where('status', PostStatus::PUBLISHED)
+            ->orderBy('published_at', 'DESC');
+
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->get();
     }
 
     /**
      * @param  array<string>  $relations
      */
-    public function allPaginated(int $perPage, array $relations = []): LengthAwarePaginator
+    public function allPaginated(int $perPage, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->with($relations)
-            ->published()
-            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
-            ->paginate($perPage);
+            ->where('status', PostStatus::PUBLISHED)
+            ->orderBy('published_at', 'DESC');
+
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**
      * @param  array<string>  $relations
      */
-    public function allByCategoryPaginated(Category $category, int $perPage, array $relations = []): LengthAwarePaginator
+    public function allByCategoryPaginated(Category $category, int $perPage, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->whereRelation('categories', 'slug', $category->slug)
             ->with($relations)
-            ->published()
-            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
-            ->paginate($perPage);
+            ->where('status', PostStatus::PUBLISHED)
+            ->orderBy('published_at', 'DESC');
+
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**
      * @param  array<string>  $relations
      */
-    public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
+    public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->with($relations)
-            ->published()
-            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
             ->where('lang', $lang)
-            ->paginate($perPage);
+            ->where('status', PostStatus::PUBLISHED)
+            ->orderBy('published_at', 'DESC');
+
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**
      * @param  array<string>  $relations
      */
-    public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
+    public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->whereRelation('categories', 'slug', $category->slug)
             ->with($relations)
-            ->published()
-            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
             ->where('lang', $lang)
-            ->paginate($perPage);
+            ->where('status', PostStatus::PUBLISHED)
+            ->orderBy('published_at', 'DESC');
+
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->paginate($perPage);
     }
 
-    public function findBySlug(string $slug): Post
+    public function findBySlug(string $slug, ?callable $queryModifier = null): Post
     {
-        /** @var Post $post */
-        $post = $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->where('slug', $slug)
-            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
-            ->firstOrFail();
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()));
 
-        return $post;
+        if ($queryModifier) {
+            $queryModifier($query);
+        }
+
+        return $query->firstOrFail();
     }
 }

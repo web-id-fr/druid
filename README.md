@@ -244,6 +244,19 @@ You can use the `Settings` model to store the homepage id and retrieve it in you
 
     Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 ```
+## Scheduled Commands
+
+Dru^ID comes with a scheduled command that check if articles have status scheduled_published and publish them if the publication date is reached.
+
+To enable this feature, you need to add a schedule for this command : 
+
+```php
+druid:publish-scheduled-posts
+```
+
+Laravel 11 doc to add command to scheduler :
+https://laravel.com/docs/11.x/scheduling#defining-schedules
+
 
 ## Credits
 

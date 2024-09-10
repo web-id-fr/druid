@@ -5,7 +5,6 @@ namespace Webid\Druid\Models;
 use App\Models\User;
 use Awcodes\Curator\Models\Media;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,8 +50,6 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property-read Collection<int, Post> $translations
  * @property-read string $fullUrlPath
  * @property-read string $url
- *
- * @method static Builder|Post published()
  */
 class Post extends Model implements IsMenuable
 {
@@ -137,15 +134,5 @@ class Post extends Model implements IsMenuable
     {
         return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
-    }
-
-    public function scopePublished(Builder $query): Builder
-    {
-        return $query
-            ->where('status', PostStatus::PUBLISHED)
-            ->where(function ($query) {
-                $query->orWhere('published_at', '<', Carbon::now())
-                    ->orWhereNull('published_at');
-            });
     }
 }
