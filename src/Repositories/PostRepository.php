@@ -58,9 +58,17 @@ class PostRepository
         return $this->model->newQuery()->whereNull('lang')->count();
     }
 
-    public function allExceptForPageId(?int $postId): Collection
+    /**
+     * @param  array<string>  $relations
+     */
+    public function allExceptForPageId(?int $postId, array $relations = []): Collection
     {
-        return $this->model->newQuery()->whereNot($this->model->getKeyName(), $postId)->get();
+        return $this->model->newQuery()
+            ->with($relations)
+            ->published()
+            ->whereNot($this->model->getKeyName(), $postId)
+            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
+            ->get();
     }
 
     public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
@@ -76,7 +84,11 @@ class PostRepository
      */
     public function allPaginated(int $perPage, array $relations = []): LengthAwarePaginator
     {
-        return $this->model->newQuery()->with($relations)->paginate($perPage);
+        return $this->model->newQuery()
+            ->with($relations)
+            ->published()
+            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
+            ->paginate($perPage);
     }
 
     /**
@@ -87,6 +99,8 @@ class PostRepository
         return $this->model->newQuery()
             ->whereRelation('categories', 'slug', $category->slug)
             ->with($relations)
+            ->published()
+            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
             ->paginate($perPage);
     }
 
@@ -95,7 +109,12 @@ class PostRepository
      */
     public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = []): LengthAwarePaginator
     {
-        return $this->model->newQuery()->with($relations)->where('lang', $lang)->paginate($perPage);
+        return $this->model->newQuery()
+            ->with($relations)
+            ->published()
+            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
+            ->where('lang', $lang)
+            ->paginate($perPage);
     }
 
     /**
@@ -106,6 +125,8 @@ class PostRepository
         return $this->model->newQuery()
             ->whereRelation('categories', 'slug', $category->slug)
             ->with($relations)
+            ->published()
+            ->orderByRaw('CASE WHEN published_at IS NULL THEN created_at ELSE published_at END DESC')
             ->where('lang', $lang)
             ->paginate($perPage);
     }
