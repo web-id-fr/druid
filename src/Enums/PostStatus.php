@@ -9,6 +9,7 @@ enum PostStatus: string implements HasLabel
     case DRAFT = 'draft';
     case PUBLISHED = 'published';
     case ARCHIVED = 'archived';
+    case SCHEDULED_PUBLISH = 'scheduled_publish';
 
     public function getLabel(): string
     {
@@ -16,6 +17,7 @@ enum PostStatus: string implements HasLabel
             self::DRAFT => __('Draft'),
             self::PUBLISHED => __('Published'),
             self::ARCHIVED => __('Archived'),
+            self::SCHEDULED_PUBLISH => __('Scheduled publish'),
         };
     }
 }

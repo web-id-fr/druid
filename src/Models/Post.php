@@ -48,6 +48,8 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property-read Post $translationOriginModel
  * @property-read ?Media $thumbnail
  * @property-read Collection<int, Post> $translations
+ * @property-read string $fullUrlPath
+ * @property-read string $url
  */
 class Post extends Model implements IsMenuable
 {

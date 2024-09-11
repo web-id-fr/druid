@@ -5,6 +5,7 @@ namespace Webid\Druid\Services;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -99,6 +100,7 @@ class DefaultFilamentFieldsProvider
                 ->required(),
             'published_at' => DatePicker::make('published_at')
                 ->label(__('Published at'))
+                ->native(false)
                 ->default(now())
                 ->required(),
         ];
@@ -195,10 +197,13 @@ class DefaultFilamentFieldsProvider
                 ->label(__('Status'))
                 ->options(PostStatus::class)
                 ->default(PostStatus::PUBLISHED)
+                ->live()
                 ->required(),
-            'published_at' => DatePicker::make('published_at')
+            'published_at' => DateTimePicker::make('published_at')
                 ->label(__('Published at'))
+                ->native(false)
                 ->default(now())
+                ->minDate(fn (Get $get) => $this->getStatusValue($get('status')) === PostStatus::SCHEDULED_PUBLISH->value ? now()->startOfDay() : null)
                 ->required(),
             'slug' => TextInput::make('slug')
                 ->label(__('Slug'))
@@ -264,5 +269,10 @@ class DefaultFilamentFieldsProvider
                     'seo' => Tabs\Tab::make(__('SEO'))->schema(CommonFields::getCommonSeoFields())->columns(2),
                 ])->columnSpanFull(),
         ];
+    }
+
+    protected function getStatusValue(mixed $status): mixed
+    {
+        return $status instanceof PostStatus ? $status->value : $status;
     }
 }
