@@ -38,7 +38,10 @@ return new class extends Migration
             $table->longText('meta_keywords')->nullable();
             $table->longText('opengraph_title')->nullable();
             $table->longText('opengraph_description')->nullable();
-            $table->string('opengraph_picture')->nullable();
+            $table->unsignedBigInteger('opengraph_picture')->nullable();
+            $table->foreign('opengraph_picture')
+                ->references('id')
+                ->on('media');
             $table->longText('opengraph_picture_alt')->nullable();
 
             $table->dateTime('published_at')->nullable();

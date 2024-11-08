@@ -96,7 +96,7 @@ class BlogController
 
     public function show(Category $category, Post $post): View|PostResource
     {
-        $post->loadMissing('thumbnail');
+        $post->loadMissing(['thumbnail', 'openGraphPicture']);
         $type = config('cms.views.type');
 
         if ($type === 'api') {

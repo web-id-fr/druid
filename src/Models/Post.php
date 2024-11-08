@@ -21,7 +21,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property int $id
  * @property string $title
  * @property string $slug
- * @property string|null $thumbnail_id
+ * @property int|null $thumbnail_id
  * @property string|null $thumbnail_alt
  * @property PostStatus $status
  * @property ?Langs $lang
@@ -37,7 +37,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property string|null $meta_keywords
  * @property string|null $opengraph_title
  * @property string|null $opengraph_description
- * @property string|null $opengraph_picture
+ * @property int|null $opengraph_picture
  * @property string|null $opengraph_picture_alt
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property Carbon|null $created_at
@@ -118,6 +118,11 @@ class Post extends Model implements IsMenuable
     public function thumbnail(): BelongsTo
     {
         return $this->belongsTo(Druid::getModel('media'), 'thumbnail_id', 'id');
+    }
+
+    public function openGraphPicture(): BelongsTo
+    {
+        return $this->belongsTo(Druid::getModel('media'), 'opengraph_picture', 'id');
     }
 
     public function users(): BelongsToMany

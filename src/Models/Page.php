@@ -32,7 +32,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property string|null $meta_keywords
  * @property string|null $opengraph_title
  * @property string|null $opengraph_description
- * @property string|null $opengraph_picture
+ * @property int|null $opengraph_picture
  * @property string|null $opengraph_picture_alt
  * @property Carbon|null $published_at
  * @property Carbon|null $created_at
@@ -68,6 +68,15 @@ class Page extends Model implements IsMenuable
         $model = Druid::getModel('page');
 
         return $this->belongsTo($model, 'parent_page_id');
+    }
+
+    public function openGraphPicture(): BelongsTo
+    {
+        /** @var class-string<Model> $model
+         */
+        $model = Druid::getModel('media');
+
+        return $this->belongsTo($model, 'opengraph_picture', 'id');
     }
 
     public function fullUrlPath(): string
