@@ -14,7 +14,7 @@ class PageController extends Controller
     public function show(Page $page): View
     {
         if (Druid::isMultilingualEnabled()) {
-            $page->loadMissing('translations');
+            $page->loadMissing(['translations', 'openGraphPicture']);
         }
 
         return view('druid::page.page', [

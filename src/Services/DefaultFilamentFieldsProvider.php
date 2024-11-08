@@ -189,7 +189,8 @@ class DefaultFilamentFieldsProvider
             'thumbnail_id' => CuratorPicker::make('thumbnail_id')
                 ->label(__('Image'))
                 ->preserveFilenames()
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->required(),
             'thumbnail_alt' => TextInput::make('thumbnail_alt')
                 ->label(__('Image alt'))
                 ->columnSpanFull(),

@@ -46,7 +46,7 @@ class PageResource extends JsonResource
             'meta_keywords' => $this->resource->meta_keywords,
             'opengraph_title' => $this->resource->opengraph_title,
             'opengraph_description' => $this->resource->opengraph_description,
-            'opengraph_picture' => MediaResource::make($this->whenLoaded('openGraphPicture')),
+            'opengraph_picture' => MediaResource::make(optional($this->whenLoaded('openGraphPicture'))),
             'opengraph_picture_alt' => $this->resource->opengraph_picture_alt,
             'deleted_at' => $this->resource->deleted_at,
             'created_at' => $this->resource->created_at,
