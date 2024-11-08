@@ -4,6 +4,7 @@ namespace Webid\Druid\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webid\Druid\Models\Post;
+use Webid\Druid\Repositories\MediaRepository;
 use Webid\Druid\Services\ComponentDisplayContentExtractor;
 
 class PostResource extends JsonResource
@@ -27,6 +28,9 @@ class PostResource extends JsonResource
         /** @var ComponentDisplayContentExtractor $componentDisplayContentExtractor */
         $componentDisplayContentExtractor = app()->make(ComponentDisplayContentExtractor::class);
 
+        /** @var MediaRepository $mediaRepository */
+        $mediaRepository = app()->make(MediaRepository::class);
+
         return [
             'id' => $this->resource->getKey(),
             'title' => $this->resource->title,
@@ -42,7 +46,7 @@ class PostResource extends JsonResource
             'meta_keywords' => $this->resource->meta_keywords,
             'opengraph_title' => $this->resource->opengraph_title,
             'opengraph_description' => $this->resource->opengraph_description,
-            'opengraph_picture' => $this->resource->opengraph_picture,
+            'opengraph_picture' => MediaResource::make($this->whenLoaded('openGraphPicture')),
             'opengraph_picture_alt' => $this->resource->opengraph_picture_alt,
             'deleted_at' => $this->resource->deleted_at,
             'created_at' => $this->resource->created_at,
