@@ -40,7 +40,7 @@ class PageResource extends Resource
                 ->label(__('Title'))
                 ->color('primary')
                 ->url(
-                    url: fn (Page $record) => $record->loadMissing(['parent'])->url(),
+                    url: fn (Page $record) => $record->url(),
                     shouldOpenInNewTab: true
                 )
                 ->searchable(),
@@ -67,6 +67,7 @@ class PageResource extends Resource
         }
 
         return $table
+            ->query(fn () => Page::query()->with('parent'))
             ->columns($columns)
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
@@ -77,6 +78,7 @@ class PageResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->selectCurrentPageOnly()
             ->striped();
     }
 
@@ -88,11 +90,5 @@ class PageResource extends Resource
             'view' => Pages\ViewPage::route('/{record}'),
             'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
-    }
-
-    public static function getNavigationBadge(): ?string
-    {
-        // @phpstan-ignore-next-line
-        return static::getModel()::count();
     }
 }

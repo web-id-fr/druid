@@ -54,6 +54,8 @@ class ReusableComponentResource extends Resource
                             collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
+                        ->required()
+                        ->default(Druid::getDefaultLocaleKey())
                         ->placeholder(__('Select a language')),
                     Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
