@@ -85,7 +85,9 @@ class PostResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->striped();
+            ->selectCurrentPageOnly()
+            ->striped()
+            ->deferLoading();
     }
 
     public static function getPages(): array
@@ -96,12 +98,6 @@ class PostResource extends Resource
             'view' => PostResource\Pages\ViewPost::route('/{record}'),
             'edit' => PostResource\Pages\EditPost::route('/{record}/edit'),
         ];
-    }
-
-    public static function getNavigationBadge(): ?string
-    {
-        // @phpstan-ignore-next-line
-        return static::getModel()::count();
     }
 
     public static function canAccess(): bool

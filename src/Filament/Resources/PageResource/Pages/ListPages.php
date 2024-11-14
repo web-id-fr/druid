@@ -5,6 +5,7 @@ namespace Webid\Druid\Filament\Resources\PageResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource;
@@ -49,5 +50,10 @@ class ListPages extends ListRecords
         }
 
         return $tabs;
+    }
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return $query->simplePaginate(($this->getTableRecordsPerPage() === 'all') ? $query->count() : $this->getTableRecordsPerPage());
     }
 }
