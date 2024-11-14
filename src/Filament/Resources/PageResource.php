@@ -79,7 +79,8 @@ class PageResource extends Resource
                 ]),
             ])
             ->selectCurrentPageOnly()
-            ->striped();
+            ->striped()
+            ->deferLoading();
     }
 
     public static function getPages(): array

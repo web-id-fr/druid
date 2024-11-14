@@ -86,7 +86,8 @@ class PostResource extends Resource
                 ]),
             ])
             ->selectCurrentPageOnly()
-            ->striped();
+            ->striped()
+            ->deferLoading();
     }
 
     public static function getPages(): array
