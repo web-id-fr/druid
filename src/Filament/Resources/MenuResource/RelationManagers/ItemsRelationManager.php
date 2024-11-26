@@ -51,12 +51,13 @@ class ItemsRelationManager extends RelationManager
                     ->default(MenuItemTarget::SELF->value),
                 TextInput::make('label')
                     ->label(__('Label'))
-                    ->nullable(),
+                    ->required(),
                 Section::make('link')
                     ->schema([
                         Select::make('type')
                             ->label(__('Type'))
                             ->live()
+                            ->required()
                             ->options(
                                 [
                                     'page' => __('Link to an existing page'),
@@ -65,11 +66,12 @@ class ItemsRelationManager extends RelationManager
                             ),
                         TextInput::make('custom_url')
                             ->url()
-                            ->nullable()
+                            ->required(fn (Get $get) => $get('type') === 'custom')
                             ->visible(fn (Get $get) => $get('type') === 'custom'),
                         MorphToSelect::make('model')
                             ->label(__('Model'))
                             ->visible(fn (Get $get) => $get('type') === 'page')
+                            ->required(fn (Get $get) => $get('type') === 'page')
                             ->types([
                                 MorphToSelect\Type::make(Page::class)
                                     ->titleAttribute('title'),

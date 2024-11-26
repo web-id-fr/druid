@@ -30,6 +30,7 @@ class Menu extends Model
     protected $fillable = [
         'title',
         'slug',
+        'lang',
     ];
 
     protected $casts = [
