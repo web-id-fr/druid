@@ -31,6 +31,8 @@ class MenuItemResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         /** @var MenuRepository $menuRepository */
@@ -66,6 +68,7 @@ class MenuItemResource extends Resource
                     ->default(MenuItemTarget::SELF->value),
                 TextInput::make('label')
                     ->label(__('Label'))
+                    ->required()
                     ->nullable(),
                 Section::make('link')
                     ->schema([
