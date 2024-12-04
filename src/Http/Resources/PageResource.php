@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Http\Resources;
 
-use Webid\Druid\Http\Resources\MediaResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Repositories\MediaRepository;
