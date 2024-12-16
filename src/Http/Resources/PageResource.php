@@ -48,6 +48,7 @@ class PageResource extends JsonResource
             'opengraph_description' => $this->resource->opengraph_description,
             'opengraph_picture' => $this->resource->opengraph_picture ? MediaResource::make($mediaRepository->findById($this->resource->opengraph_picture)) : null,
             'opengraph_picture_alt' => $this->resource->opengraph_picture_alt,
+            'canonical' => $this->resource->url(),
             'deleted_at' => $this->resource->deleted_at,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
