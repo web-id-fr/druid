@@ -29,12 +29,14 @@ class FilamentComponentsService
 
             $blocks[] =
                 Builder\Block::make($componentClass::fieldName())
+                    ->icon($componentClass::imagePreview())
                     // @phpstan-ignore-next-line
                     ->schema($componentClass::blockSchema());
         }
 
         return Builder::make('content')
-            ->blockPickerColumns(3)
+            ->blockPickerColumns(2)
+            ->blockPickerWidth('2xl')
             ->blocks($blocks)
             ->blockNumbers(false)
             ->addActionLabel(__('Add a component'))

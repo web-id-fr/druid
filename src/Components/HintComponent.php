@@ -51,4 +51,9 @@ class HintComponent implements ComponentInterface
 
         return strip_tags($content);
     }
+
+    public static function imagePreview(): string
+    {
+        return '/resources/images/components/hint_component.png';
+    }
 }

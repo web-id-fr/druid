@@ -86,4 +86,9 @@ class ReusableComponent implements ComponentInterface
 
         return $reusableComponent;
     }
+
+    public static function imagePreview(): string
+    {
+        return '/cms/images/components/reusable_component.png';
+    }
 }

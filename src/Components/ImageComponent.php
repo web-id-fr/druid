@@ -47,4 +47,9 @@ class ImageComponent implements ComponentInterface
     {
         return '';
     }
+
+    public static function imagePreview(): string
+    {
+        return '/resources/images/components/image_component.png';
+    }
 }

@@ -52,4 +52,9 @@ class TextImageComponent implements ComponentInterface
     {
         return '';
     }
+
+    public static function imagePreview(): string
+    {
+        return '/resources/images/components/text_image_component.png';
+    }
 }

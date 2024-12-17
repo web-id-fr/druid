@@ -22,4 +22,6 @@ interface ComponentInterface
      * @param  array<string, mixed>  $data
      */
     public static function toSearchableContent(array $data): string;
+
+    public static function imagePreview(): ?string;
 }

@@ -42,4 +42,9 @@ class TextComponent implements ComponentInterface
 
         return strip_tags($content);
     }
+
+    public static function imagePreview(): string
+    {
+        return '/resources/images/components/text_component.png';
+    }
 }
