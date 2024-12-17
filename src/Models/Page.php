@@ -94,7 +94,11 @@ class Page extends Model implements IsMenuable
             $path .= $this->lang ? $this->lang->value.'/' : '';
         }
 
-        $path .= $parentsPath.$this->slug;
+        $path .= $parentsPath;
+
+        if ($this->slug !== 'index') {
+            $path .= $this->slug;
+        }
 
         return $path;
     }
