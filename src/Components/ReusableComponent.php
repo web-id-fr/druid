@@ -89,6 +89,6 @@ class ReusableComponent implements ComponentInterface
 
     public static function imagePreview(): string
     {
-        return '/cms/images/components/reusable_component.png';
+        return '/vendor/druid/cms/images/components/reusable_component.png';
     }
 }

@@ -54,6 +54,6 @@ class HintComponent implements ComponentInterface
 
     public static function imagePreview(): string
     {
-        return '/resources/images/components/hint_component.png';
+        return '/vendor/druid/cms/images/components/hint_component.png';
     }
 }

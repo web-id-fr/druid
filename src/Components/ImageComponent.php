@@ -50,6 +50,6 @@ class ImageComponent implements ComponentInterface
 
     public static function imagePreview(): string
     {
-        return '/resources/images/components/image_component.png';
+        return '/vendor/druid/cms/images/components/image_component.png';
     }
 }

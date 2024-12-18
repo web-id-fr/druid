@@ -45,6 +45,6 @@ class TextComponent implements ComponentInterface
 
     public static function imagePreview(): string
     {
-        return '/resources/images/components/text_component.png';
+        return '/vendor/druid/cms/images/components/text_component.png';
     }
 }

@@ -23,5 +23,5 @@ interface ComponentInterface
      */
     public static function toSearchableContent(array $data): string;
 
-    public static function imagePreview(): ?string;
+    public static function imagePreview(): string;
 }
