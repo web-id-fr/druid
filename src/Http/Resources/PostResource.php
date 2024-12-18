@@ -48,6 +48,7 @@ class PostResource extends JsonResource
             'opengraph_description' => $this->resource->opengraph_description,
             'opengraph_picture' => MediaResource::make(optional($this->whenLoaded('openGraphPicture'))),
             'opengraph_picture_alt' => $this->resource->opengraph_picture_alt,
+            'canonical' => $this->resource->url(),
             'deleted_at' => $this->resource->deleted_at,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,

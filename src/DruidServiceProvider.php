@@ -23,6 +23,7 @@ class DruidServiceProvider extends PackageServiceProvider
             ->name('druid')
             ->hasConfigFile('cms')
             ->hasViews()
+            ->hasAssets()
             ->hasRoute('routes')
             ->hasCommands([DemoSeeder::class, CheckIfPostNeedsToBePublished::class])
             ->hasMigrations([
@@ -39,6 +40,7 @@ class DruidServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
+                    ->publishAssets()
                     ->publishMigrations()
                     ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('web-id-fr/druid');
