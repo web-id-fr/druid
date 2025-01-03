@@ -47,4 +47,9 @@ class ImageComponent implements ComponentInterface
     {
         return '';
     }
+
+    public static function imagePreview(): string
+    {
+        return '/vendor/druid/cms/images/components/image_component.png';
+    }
 }
