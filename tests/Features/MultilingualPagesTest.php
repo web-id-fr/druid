@@ -116,14 +116,18 @@ test('we are not redirected when accessing page by its slug and has homepage as 
 });
 
 test('we cannot access to the page with incorrect lang parameter', function () {
+    $this->enableMultilingualFeature();
+
     $this->createFrenchTranslationPage([
         'slug' => 'fr-slug',
     ]);
 
-    $this->get('en/mon-slug')->assertNotFound();
+    $this->get('en/fr-slug')->assertNotFound();
 });
 
 test('we are redirected if we access to child page with only its slug', function () {
+    $this->enableMultilingualFeature();
+
     $grandParentPage = $this->createFrenchTranslationPage([
         'slug' => 'grand-parent',
     ]);
