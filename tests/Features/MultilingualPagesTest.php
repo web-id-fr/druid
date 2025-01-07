@@ -122,7 +122,7 @@ test('we cannot access to the page with incorrect lang parameter', function () {
         'slug' => 'fr-slug',
     ]);
 
-    $this->get('en/fr-slug')->assertNotFound();
+    $this->get('it/fr-slug')->assertNotFound();
 });
 
 test('we are redirected if we access to child page with only its slug', function () {
