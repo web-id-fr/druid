@@ -90,7 +90,7 @@ class Page extends Model implements IsMenuable
             $parent = $parent->parent;
         }
 
-        if (Druid::isMultilingualEnabled()) {
+        if (Druid::isMultilingualEnabled() && $this->slug !== 'index') {
             $path .= $this->lang ? $this->lang->value.'/' : '';
         }
 
