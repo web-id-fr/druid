@@ -86,7 +86,10 @@ class Page extends Model implements IsMenuable
         $parent = $this->parent;
         $parentsPath = '';
         while ($parent) {
-            $parentsPath = $parent->slug.'/'.$parentsPath;
+            if ($parent->slug != 'index') {
+                $parentsPath = $parent->slug.'/'.$parentsPath;
+            }
+
             $parent = $parent->parent;
         }
 

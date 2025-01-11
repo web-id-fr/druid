@@ -96,3 +96,56 @@ test('a page can have translations', function () {
 
     expect($originPage->translations)->toHaveCount(3);
 });
+
+test('we are not redirected when accessing page by its slug and has homepage as parent', function () {
+    $this->enableMultilingualFeature();
+
+    $homepage = $this->createFrenchTranslationPage([
+        'slug' => 'index',
+    ]);
+    $this->createFrenchTranslationPage([
+        'slug' => 'ma-page',
+        'parent_page_id' => $homepage->id,
+    ]);
+
+    $this->get('/fr/ma-page')
+        ->assertOk();
+
+    $this->get('/fr/index/ma-page')
+        ->assertRedirect('/fr/ma-page');
+});
+
+test('we cannot access to the page with incorrect lang parameter', function () {
+    $this->enableMultilingualFeature();
+
+    $this->createFrenchTranslationPage([
+        'slug' => 'fr-slug',
+    ]);
+
+    $this->get('it/fr-slug')->assertNotFound();
+});
+
+test('we are redirected if we access to child page with only its slug', function () {
+    $this->enableMultilingualFeature();
+
+    $grandParentPage = $this->createFrenchTranslationPage([
+        'slug' => 'grand-parent',
+    ]);
+    $parentPage = $this->createFrenchTranslationPage([
+        'slug' => 'parent',
+        'parent_page_id' => $grandParentPage->id,
+    ]);
+    $childPage = $this->createFrenchTranslationPage([
+        'slug' => 'child',
+        'parent_page_id' => $parentPage->id,
+    ]);
+
+    $this->get('/fr/child')
+        ->assertRedirect('/fr/grand-parent/parent/child');
+
+    $this->get('/fr/parent/child')
+        ->assertRedirect('/fr/grand-parent/parent/child');
+
+    $this->get('/fr/grand-parent/parent/child')
+        ->assertOk();
+});
