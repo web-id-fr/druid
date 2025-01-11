@@ -25,11 +25,15 @@ class RedirectionParentChild
         Assert::string($lastSegment);
         Assert::string($lang);
 
-        if (Druid::isMultilingualEnabled() && ! array_key_exists($lang, Druid::getLocales())) {
-            abort(404);
-        }
-
         $page = $this->pageRepository->findOrFailBySlug($lastSegment);
+
+        if (Druid::isMultilingualEnabled()) {
+            if (! array_key_exists($lang, Druid::getLocales())) {
+                abort(404);
+            }
+
+            $page = $this->pageRepository->findOrFailBySlugAndLang($lastSegment, $lang);
+        }
 
         $path = $request->path();
         $fullPath = $page->fullUrlPath();
