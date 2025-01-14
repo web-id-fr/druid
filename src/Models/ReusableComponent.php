@@ -12,6 +12,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property string $title
  * @property array<int, array<int, mixed>> $content
  * @property-read ReusableComponent|null $translationOriginModel
+ * @property string $lang
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -25,6 +26,7 @@ class ReusableComponent extends Model
         'title',
         'content',
         'searchable_content',
+        'lang',
     ];
 
     protected $casts = [
