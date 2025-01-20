@@ -27,6 +27,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property int|null $parent_page_id
  * @property int|null $translation_origin_model_id
  * @property bool $indexation
+ * @property bool $follow
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property string|null $meta_keywords

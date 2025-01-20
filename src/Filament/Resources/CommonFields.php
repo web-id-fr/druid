@@ -29,6 +29,10 @@ class CommonFields
                         ->label(__('Indexation'))
                         ->helperText(__('Allow search engines to index this page'))
                         ->required(),
+                    Toggle::make('follow')
+                        ->label(__('Follow'))
+                        ->helperText(__('Allow search engines to follow links on this page'))
+                        ->required(),
                 ])
                 ->columns(1),
 
