@@ -76,6 +76,7 @@ class PostResource extends Resource
 
         return $table
             ->columns($columns)
+            ->defaultSort('published_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
