@@ -47,6 +47,7 @@ class PostFactory extends Factory
             'opengraph_description' => null,
             'opengraph_picture' => null,
             'indexation' => 1,
+            'follow' => 1,
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
