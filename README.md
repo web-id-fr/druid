@@ -1,4 +1,4 @@
-# Dru^ID CMS
+![img.png](img.png)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webid/druid.svg?style=flat-square)](https://packagist.org/packages/webid/druid)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/web-id-fr/druid/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/webid/druid/actions?query=workflow%3Arun-tests+branch%3Amain)
