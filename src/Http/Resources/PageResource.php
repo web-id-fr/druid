@@ -40,7 +40,7 @@ class PageResource extends JsonResource
             'searchable_content' => $this->resource->searchable_content,
             'status' => $this->resource->status->value,
             'parent_page_id' => $this->resource->parent_page_id,
-            'indexation' => $this->resource->indexation,
+            'indexation' => $this->getIndexationAndFollowValue($this->resource->indexation, $this->resource->follow),
             'meta_title' => $this->resource->meta_title,
             'meta_description' => $this->resource->meta_description,
             'meta_keywords' => $this->resource->meta_keywords,
@@ -59,5 +59,22 @@ class PageResource extends JsonResource
     public function toObject(): object
     {
         return (object) $this->toArrayWithoutRequestContext();
+    }
+
+    private function getIndexationAndFollowValue(int|bool $indexation, int|bool $follow): string
+    {
+        if ($indexation) {
+            $indexationValue = 'index';
+        } else {
+            $indexationValue = 'noindex';
+        }
+
+        if ($follow) {
+            $followValue = 'follow';
+        } else {
+            $followValue = 'nofollow';
+        }
+
+        return "$indexationValue,$followValue";
     }
 }

@@ -58,6 +58,7 @@ return new class extends Migration
 
             // SEO
             $table->boolean('indexation')->default(0);
+            $table->boolean('follow')->default(1);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();
@@ -107,7 +108,7 @@ return new class extends Migration
             $table->boolean('is_top_article')->default(false);
 
             $table->boolean('indexation')->default(false);
-            $table->boolean('follow')->default(false);
+            $table->boolean('follow')->default(true);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();

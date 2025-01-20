@@ -27,6 +27,7 @@ return new class extends Migration
 
             // SEO
             $table->boolean('indexation')->default(0);
+            $table->boolean('follow')->default(1);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();

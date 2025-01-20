@@ -55,6 +55,9 @@ class PageResource extends Resource
             Tables\Columns\IconColumn::make('indexation')
                 ->boolean()
                 ->label(__('Indexation')),
+            Tables\Columns\IconColumn::make('follow')
+                ->boolean()
+                ->label(__('Follow')),
             Tables\Columns\TextColumn::make('parent_page_id')
                 ->default('-')
                 ->label(__('Parent page')),

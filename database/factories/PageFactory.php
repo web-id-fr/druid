@@ -22,6 +22,7 @@ class PageFactory extends Factory
             'content' => $this->fakeContent(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'indexation' => 1,
+            'follow' => 1,
             'lang' => 'en',
         ];
     }
