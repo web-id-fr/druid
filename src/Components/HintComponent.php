@@ -2,8 +2,8 @@
 
 namespace Webid\Druid\Components;
 
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Contracts\View\View;
 use Webmozart\Assert\Assert;
 
@@ -19,7 +19,7 @@ class HintComponent implements ComponentInterface
                     'danger' => __('Danger'),
                 ])
                 ->default('information'),
-            RichEditor::make('content')
+            TiptapEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
         ];

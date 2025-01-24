@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\Components;
 
-use Filament\Forms\Components\RichEditor;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Contracts\View\View;
 use Webmozart\Assert\Assert;
 
@@ -11,7 +11,7 @@ class TextComponent implements ComponentInterface
     public static function blockSchema(): array
     {
         return [
-            RichEditor::make('content')
+            TiptapEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
         ];
