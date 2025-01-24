@@ -3,7 +3,7 @@
 namespace Webid\Druid\Components;
 
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms\Components\RichEditor;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Contracts\View\View;
 use Webid\Druid\Http\Resources\MediaResource;
 use Webid\Druid\Repositories\MediaRepository;
@@ -13,7 +13,7 @@ class TextImageComponent implements ComponentInterface
     public static function blockSchema(): array
     {
         return [
-            RichEditor::make('content')
+            TiptapEditor::make('content')
                 ->label(__('Content'))
                 ->required(),
             CuratorPicker::make('image')
