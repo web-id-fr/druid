@@ -39,7 +39,7 @@ Please follow the installation process
 - For Curator here: https://github.com/awcodes/filament-curator
 
 ```
-composer require webid/druid"
+composer require webid/druid
 ```
 
 ```
@@ -80,7 +80,7 @@ If you want to seed a demo dataset, simply run the following command in a fresh 
 
 ## The admin panel
 
-Dru^ID has been built on top of the Filament package which means than by default, you'll find the administration panel to hte `/admin` route.
+Dru^ID has been built on top of the Filament package which means than by default, you'll find the administration panel to the `/admin` route.
 
 The [Filament documentation](https://filamentphp.com/docs/3.x/panels/installation) will help you create your first admin if you're not already
 using it inside your project.
@@ -260,8 +260,8 @@ https://laravel.com/docs/11.x/scheduling#defining-schedules
 
 ## Credits
 
-- [Web^ID Team](https://github.com/webid)
-- [All Contributors](../../contributors)
+- [Web^ID Team](https://web-id.fr/fr/agence-web-lyon)
+- [All Contributors](https://github.com/web-id-fr/druid/graphs/contributors)
 
 ## License
 
