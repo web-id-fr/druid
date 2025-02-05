@@ -31,6 +31,7 @@ class CreatePost extends CreateRecord
 
         $post->save();
     }
+
     protected function getActions(): array
     {
         return [
