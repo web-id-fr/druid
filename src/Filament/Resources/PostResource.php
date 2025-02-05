@@ -6,6 +6,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Pboivin\FilamentPeek\Pages\Concerns\HasPreviewModal;
+use Pboivin\FilamentPeek\Tables\Actions\ListPreviewAction;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Post;
@@ -13,6 +15,8 @@ use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
 
 class PostResource extends Resource
 {
+    use HasPreviewModal;
+
     public static function getModel(): string
     {
         return Druid::getModel('post');
@@ -80,6 +84,7 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
+                ListPreviewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
