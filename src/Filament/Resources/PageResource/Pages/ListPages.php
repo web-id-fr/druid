@@ -7,12 +7,16 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Pboivin\FilamentPeek\Pages\Concerns\HasPreviewModal;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource;
 use Webid\Druid\Repositories\PageRepository;
+use Webid\Druid\Services\ComponentDisplayContentExtractor;
 
 class ListPages extends ListRecords
 {
+    use HasPreviewModal;
+
     protected static string $resource = PageResource::class;
 
     protected function getHeaderActions(): array
@@ -55,5 +59,25 @@ class ListPages extends ListRecords
     protected function paginateTableQuery(Builder $query): Paginator
     {
         return $query->simplePaginate(($this->getTableRecordsPerPage() === 'all') ? $query->count() : $this->getTableRecordsPerPage());
+    }
+
+    protected function getPreviewModalView(): ?string
+    {
+        return 'preview.page';
+    }
+
+    protected function getPreviewModalDataRecordKey(): ?string
+    {
+        return 'page';
+    }
+
+    protected function mutatePreviewModalData(array $data): array
+    {
+        /** @var ComponentDisplayContentExtractor $componentDisplayContentExtractor */
+        $componentDisplayContentExtractor = app()->make(ComponentDisplayContentExtractor::class);
+
+        $data['content'] = $componentDisplayContentExtractor->getContentFromBlocks($data['page']['content']);
+
+        return $data;
     }
 }
