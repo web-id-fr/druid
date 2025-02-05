@@ -140,4 +140,18 @@ class Post extends Model implements IsMenuable
         return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
     }
+
+    public function incrementSlug(string $slug, ?Langs $lang = null): string
+    {
+        $original = $slug;
+        $count = 2;
+
+        while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
+            $query->where('lang', $lang);
+        })->exists()) {
+            $slug = "{$original}-".$count++;
+        }
+
+        return $slug;
+    }
 }

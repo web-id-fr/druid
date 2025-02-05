@@ -3,6 +3,7 @@
 namespace Webid\Druid\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -132,5 +133,19 @@ class Page extends Model implements IsMenuable
 
             $model->searchable_content = $searchableContentExtractor->extractSearchableContentFromBlocks($model->content);
         });
+    }
+
+    public function incrementSlug(string $slug, ?Langs $lang = null): string
+    {
+        $original = $slug;
+        $count = 2;
+
+        while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
+            $query->where('lang', $lang);
+        })->exists()) {
+            $slug = "{$original}-".$count++;
+        }
+
+        return $slug;
     }
 }
