@@ -6,6 +6,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Post;
@@ -80,6 +81,24 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ReplicateAction::make()
+                    ->form(fn (Form $form) => static::form($form->model(static::$model))->columns(2))
+                    ->fillForm(function (Page $record): array {
+                        /** @var string $slug */
+                        $slug = $record['slug'];
+                        /** @var Langs|null $lang */
+                        $lang = $record['lang'];
+
+                        if (Post::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
+                            $query->where('lang', $lang);
+                        })->exists()) {
+                            $slug = $record->incrementSlug($slug, $lang);
+                        }
+
+                        $record['slug'] = $slug;
+
+                        return $record->toArray();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
