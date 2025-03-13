@@ -63,7 +63,8 @@ class PageResource extends Resource
                 ->default('-')
                 ->label(__('Parent page')),
             Tables\Columns\TextColumn::make('published_at')
-                ->label(__('Published at')),
+                ->label(__('Published at'))
+                ->sortable(),
         ];
 
         if (Druid::isMultilingualEnabled()) {
@@ -73,6 +74,7 @@ class PageResource extends Resource
         return $table
             ->query(fn () => Page::query()->with('parent'))
             ->columns($columns)
+            ->defaultSort('published_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
