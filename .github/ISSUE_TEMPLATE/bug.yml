@@ -2,6 +2,11 @@ name: Bug Report
 description: Report an Issue or Bug with the Package
 title: "[Bug]: "
 labels: ["bug"]
+projects: ["web-id-fr/druid"]
+assignees:
+  - benjaminniess
+  - E-Liegeois
+  - CLEMREP
 body:
     - type: markdown
       attributes:
