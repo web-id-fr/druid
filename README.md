@@ -17,6 +17,7 @@ Essentially out of the box you'll get a Filament based admin panel where you can
 - Posts
 - Navigation menus
 - Reusable blocks
+- Settings
 
 You'll also find helpers and services to manage multilingual and navigation menu features in your codebase.
 
@@ -43,7 +44,11 @@ composer require webid/druid
 ```
 
 ```
-php artisan druid:install
+php artisan vendor:publish --provider="Webid\Druid\DruidServiceProvider"
+```
+
+```
+php artisan migrate
 ```
 
 Create a first admin
@@ -101,6 +106,12 @@ and use it multiple times wherever you like afterward. This is what we call a re
 
 You can manually group and nest your contents inside navigation menus in the admin panel. You can choose between internal content
 (page and posts) and external URLs. You can nest your menu items up to 3 levels for advanced menus usage.
+
+### Settings
+
+You can define some settings in the admin panel that you can use in your codebase using the `Settings` helper.
+It's possible to build your own settings form page using the `SettingsInterface` class. When you're done, you have to
+add the class to the `config/cms.php` file `settings.settings_form`.
 
 ## Druid Facade
 
