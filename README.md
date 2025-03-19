@@ -24,7 +24,7 @@ You'll also find helpers and services to manage multilingual and navigation menu
 ## Requirements
 
 * PHP >= 8.2
-* Laravel >= 10
+* Laravel >= 11
 * Composer 2
 * MariaDB / MySQL
 * [Laravel Filament 3.x](https://filamentphp.com/docs/3.x/panels/installation)
@@ -72,6 +72,7 @@ Open the `app/Providers/Filament/AdminPanelProvider.php` file and add the follow
         in: base_path('vendor/webid/druid/src/Filament/Pages'),
         for: 'Webid\\Druid\\Filament\\Pages'
 )
+->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
 ```
 
 Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
