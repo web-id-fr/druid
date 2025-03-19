@@ -33,13 +33,13 @@ class ReusableComponent implements ComponentInterface
 
                         return $reusableComponentsRepository->allForLang(Langs::from($lang))
                             // @phpstan-ignore-next-line
-                            ->mapWithKeys(fn(ReusableComponentModel $reusableComponent) => [
+                            ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
                                 $reusableComponent->getKey() => $reusableComponent->title,
                             ]);
                     } else {
                         return $reusableComponentsRepository->all()
                             // @phpstan-ignore-next-line
-                            ->mapWithKeys(fn(ReusableComponentModel $reusableComponent) => [
+                            ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
                                 $reusableComponent->getKey() => $reusableComponent->title,
                             ]);
                     }
