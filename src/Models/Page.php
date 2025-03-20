@@ -20,7 +20,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property int $id
  * @property string $title
  * @property string $slug
- * @property array $content
+ * @property array<int, array<mixed>> $content
  * @property string|null $searchable_content
  * @property PageStatus $status
  * @property Langs|null $lang

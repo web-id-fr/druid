@@ -26,7 +26,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property PostStatus $status
  * @property ?Langs $lang
  * @property string|null $excerpt
- * @property array $content
+ * @property array<int, array<mixed>> $content
  * @property string|null $searchable_content
  * @property bool $is_top_article
  * @property bool $indexation

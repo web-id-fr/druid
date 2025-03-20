@@ -76,7 +76,7 @@ class DefaultFilamentFieldsProvider
                 ->label(__('Title'))
                 ->live(onBlur: true)
                 ->afterStateUpdated(
-                    fn (string $operation, $state, Set $set) => $operation === 'create'
+                    fn (string $operation, string $state, Set $set) => $operation === 'create'
                         ? $set('slug', Str::slug($state)) : null
                 )
                 ->required(),
@@ -112,7 +112,7 @@ class DefaultFilamentFieldsProvider
                     'lang' => Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn (array $item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->required()
                         ->live()
@@ -176,7 +176,7 @@ class DefaultFilamentFieldsProvider
                 ->label(__('Title'))
                 ->live(onBlur: true)
                 ->afterStateUpdated(
-                    fn (string $operation, $state, Set $set) => $operation === 'create'
+                    fn (string $operation, string $state, Set $set) => $operation === 'create'
                         ? $set('slug', Str::slug($state)) : null
                 )
                 ->required(),
@@ -229,7 +229,7 @@ class DefaultFilamentFieldsProvider
                     'lang' => Select::make('lang')
                         ->label(__('Language'))
                         ->options(
-                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                            collect(Druid::getLocales())->mapWithKeys(fn (array $item, $key) => [$key => $item['label'] ?? __('No label')])
                         )
                         ->live()
                         ->required()

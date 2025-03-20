@@ -10,7 +10,7 @@ use Webid\Druid\Facades\Druid;
 class LanguageSwitcher
 {
     /**
-     * @return Collection<LangLink>
+     * @return Collection<(int|string), mixed>
      */
     public function getLinks(): Collection
     {

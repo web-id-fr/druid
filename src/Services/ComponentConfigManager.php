@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 class ComponentConfigManager
 {
     /**
-     * @return Collection<ComponentConfiguration>
+     * @return Collection<(int|string), mixed>
      *
      * @throws ClassNotFoundException
      */
@@ -23,6 +23,7 @@ class ComponentConfigManager
             return $componentCollection;
         }
 
+        /** @var array<string, mixed> $componentConfig */
         foreach ($components as $componentConfig) {
             $componentCollection->push(ComponentConfiguration::fromArray($componentConfig));
         }

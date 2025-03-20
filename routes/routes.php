@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Http\Controllers\BlogController;
@@ -17,7 +18,7 @@ if (Druid::isMultilingualEnabled()) {
 if (Druid::isBlogModuleEnabled()) {
     if (Druid::isBlogDefaultRoutesEnabled()) {
         if (Druid::isMultilingualEnabled()) {
-            Route::prefix('{lang}/'.config('cms.blog.prefix'))
+            Route::prefix('{lang}/'. Config::string('cms.blog.prefix'))
                 ->name('posts.multilingual.')
                 ->middleware(['multilingual-required', 'language-is-valid', 'web'])
                 ->group(function () {

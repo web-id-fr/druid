@@ -28,9 +28,6 @@ class PostResource extends JsonResource
         /** @var ComponentDisplayContentExtractor $componentDisplayContentExtractor */
         $componentDisplayContentExtractor = app()->make(ComponentDisplayContentExtractor::class);
 
-        /** @var MediaRepository $mediaRepository */
-        $mediaRepository = app()->make(MediaRepository::class);
-
         return [
             'id' => $this->resource->getKey(),
             'title' => $this->resource->title,
