@@ -10,7 +10,8 @@ class ComponentDisplayContentExtractor
     public function __construct(private readonly ComponentConfigManager $componentConfigManager) {}
 
     /**
-     * @param array<int, array<mixed>> $contentBlocks
+     * @param  array<int, array<mixed>>  $contentBlocks
+     *
      * @throws ClassNotFoundException
      */
     public function getContentFromBlocks(array $contentBlocks): string

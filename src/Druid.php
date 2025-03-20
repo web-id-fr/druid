@@ -5,7 +5,6 @@ namespace Webid\Druid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Webid\Druid\Dto\LangLink;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;

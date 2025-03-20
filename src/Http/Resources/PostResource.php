@@ -4,7 +4,6 @@ namespace Webid\Druid\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webid\Druid\Models\Post;
-use Webid\Druid\Repositories\MediaRepository;
 use Webid\Druid\Services\ComponentDisplayContentExtractor;
 
 class PostResource extends JsonResource

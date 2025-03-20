@@ -3,7 +3,6 @@
 namespace Webid\Druid\Services;
 
 use Illuminate\Support\Collection;
-use Webid\Druid\Dto\LangLink;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 
