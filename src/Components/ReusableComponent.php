@@ -27,14 +27,22 @@ class ReusableComponent implements ComponentInterface
                 ->label(__('Reusable component'))
                 ->placeholder(__('Select a component'))
                 ->options(function (Get $get) use ($reusableComponentsRepository) {
-                    $lang = $get('../../../lang') ?? Druid::getDefaultLocaleKey();
-                    Assert::string($lang);
+                    if (Druid::isMultilingualEnabled()) {
+                        $lang = $get('../../../lang') ?? Druid::getDefaultLocaleKey();
+                        Assert::string($lang);
 
-                    return $reusableComponentsRepository->allForLang(Langs::from($lang))
-                        // @phpstan-ignore-next-line
-                        ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
-                            $reusableComponent->getKey() => $reusableComponent->title,
-                        ]);
+                        return $reusableComponentsRepository->allForLang(Langs::from($lang))
+                            // @phpstan-ignore-next-line
+                            ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
+                                $reusableComponent->getKey() => $reusableComponent->title,
+                            ]);
+                    } else {
+                        return $reusableComponentsRepository->all()
+                            // @phpstan-ignore-next-line
+                            ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
+                                $reusableComponent->getKey() => $reusableComponent->title,
+                            ]);
+                    }
                 })
                 ->searchable(),
         ];
