@@ -14,7 +14,6 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
-use Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Webid\Druid\Models\Menu;
 use Webid\Druid\Repositories\MenuRepository;
 use Webmozart\Assert\Assert;
@@ -121,7 +120,7 @@ class MenuResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ItemsRelationManager::class,
+            Druid::menuItemsRelationManager(),
         ];
     }
 

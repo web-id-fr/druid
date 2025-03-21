@@ -89,6 +89,11 @@ class Druid
         return $reusableComponent;
     }
 
+    public function menuItemsRelationManager(): string
+    {
+        return config('cms.menu.menu_items_relation_manager');
+    }
+
     public function isBlogModuleEnabled(): bool
     {
         return config('cms.enable_blog_module') === true;
