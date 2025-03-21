@@ -91,7 +91,10 @@ class Druid
 
     public function menuItemsRelationManager(): string
     {
-        return config('cms.menu.menu_items_relation_manager');
+        /** @var string $menuItemRelationManager */
+        $menuItemRelationManager = config('cms.menu.menu_items_relation_manager');
+
+        return $menuItemRelationManager;
     }
 
     public function isBlogModuleEnabled(): bool
