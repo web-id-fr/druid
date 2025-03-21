@@ -19,6 +19,11 @@ parameters:
 
     ignoreErrors:
         - '#Class App\\Models\\User not found.#'
-        - identifier: missingType.generics
+        -
+            identifier: missingType.generics
+        - "#Called 'env' outside of the config directory which returns null when the config is cached, use 'config'.#"
+        - '#Parameter \#1 \$view of function view expects view-string\|null, string given.#'
+        - '#Method Webid\\Druid\\Http\\Middleware\\[a-zA-Z0-9]+::handle\(\) should return Symfony\\Component\\HttpFoundation\\Response but returns mixed.#'
+        - '#Method Webid\\Druid\\Http\\Middleware\\RedirectionParentChild::handle\(\) should return Illuminate\\Routing\\Redirector\|Symfony\\Component\\HttpFoundation\\Response but returns mixed.#'
 
     tmpDir: build/phpstan

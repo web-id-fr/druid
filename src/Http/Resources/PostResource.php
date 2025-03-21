@@ -4,7 +4,6 @@ namespace Webid\Druid\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webid\Druid\Models\Post;
-use Webid\Druid\Repositories\MediaRepository;
 use Webid\Druid\Services\ComponentDisplayContentExtractor;
 
 class PostResource extends JsonResource
@@ -27,9 +26,6 @@ class PostResource extends JsonResource
     {
         /** @var ComponentDisplayContentExtractor $componentDisplayContentExtractor */
         $componentDisplayContentExtractor = app()->make(ComponentDisplayContentExtractor::class);
-
-        /** @var MediaRepository $mediaRepository */
-        $mediaRepository = app()->make(MediaRepository::class);
 
         return [
             'id' => $this->resource->getKey(),

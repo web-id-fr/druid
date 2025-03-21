@@ -2,6 +2,7 @@
 
 namespace Webid\Druid\Services;
 
+use Webid\Druid\Exceptions\ClassNotFoundException;
 use Webmozart\Assert\Assert;
 
 class ComponentDisplayContentExtractor
@@ -10,6 +11,8 @@ class ComponentDisplayContentExtractor
 
     /**
      * @param  array<int, array<mixed>>  $contentBlocks
+     *
+     * @throws ClassNotFoundException
      */
     public function getContentFromBlocks(array $contentBlocks): string
     {

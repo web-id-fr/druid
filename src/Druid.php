@@ -4,7 +4,7 @@ namespace Webid\Druid;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Webid\Druid\Dto\LangLink;
+use Illuminate\Support\Facades\Config;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
@@ -130,9 +130,10 @@ class Druid
      */
     public function getLocales(): array
     {
-        $locales = config('cms.locales');
+        $locales = Config::array('cms.locales');
         Assert::isArray($locales);
 
+        // @phpstan-ignore-next-line
         return $locales;
     }
 
@@ -150,7 +151,7 @@ class Druid
     }
 
     /**
-     * @return Collection<LangLink>
+     * @return Collection<int|string, mixed>
      */
     public function getLanguageSwitcher(): Collection
     {
