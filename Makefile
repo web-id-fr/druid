@@ -6,6 +6,11 @@ test:
 	composer run analyse
 	composer run test
 
+ci:
+	composer run format
+	composer run phpstan
+	composer run test
+
 phpstan:
 	composer run phpstan
 
