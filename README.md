@@ -256,6 +256,18 @@ You can use the `Settings` model to store the homepage id and retrieve it in you
 
     Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 ```
+
+## Customizing menu items
+
+You can customize the menu items to add more attributes. Here's how to do it
+
+1. Override the `'menu_items_relation_manager' => \Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager::class,` in the `config/cms.php` file.
+
+Then you have two ways to update the database schema :
+
+1. Update the current migration to add the new fields in the `menu_items` table.
+2. Create a new migration to add the new fields in the `menu_items` table. You can also create a new model and override the `'menu_item' => \Webid\Druid\Models\MenuItem::class,` model in the `config/cms.php` file.
+
 ## Scheduled Commands
 
 Dru^ID comes with a scheduled command that check if articles have status scheduled_published and publish them if the publication date is reached.
