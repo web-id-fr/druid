@@ -160,6 +160,14 @@ so you can use the `getCurrentLocale()` helper function to dynamize the method c
 
 `$mainMenuInCurrentLanguage = $menuManager->getBySlugAndLang('main', getCurrentLocale());`
 
+
+## Customizing menu items
+
+You can customize the menu items to add more attributes. Here's how to do it
+
+1. Override the `'menu_items_relation_manager' => \Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager::class,` in the `config/cms.php` file.
+2. Add the new fields in the `menu_items` table.
+
 ### Language switcher
 
 When using the multilingual feature, you certainly need to display a language switcher component that helps redirecting users
@@ -256,17 +264,6 @@ You can use the `Settings` model to store the homepage id and retrieve it in you
 
     Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 ```
-
-## Customizing menu items
-
-You can customize the menu items to add more attributes. Here's how to do it
-
-1. Override the `'menu_items_relation_manager' => \Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager::class,` in the `config/cms.php` file.
-
-Then you have two ways to update the database schema :
-
-1. Update the current migration to add the new fields in the `menu_items` table.
-2. Create a new migration to add the new fields in the `menu_items` table. You can also create a new model and override the `'menu_item' => \Webid\Druid\Models\MenuItem::class,` model in the `config/cms.php` file.
 
 ## Scheduled Commands
 
