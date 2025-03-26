@@ -54,6 +54,8 @@ if (Druid::isBlogModuleEnabled()) {
     }
 }
 
-Route::middleware(['web', RedirectionParentChild::class])->group(function () {
-    Route::fallback([FallbackController::class, 'show']);
-});
+if (Druid::isPageModuleEnabled()) {
+    Route::middleware(['web', RedirectionParentChild::class])->group(function () {
+        Route::fallback([FallbackController::class, 'show']);
+    });
+}

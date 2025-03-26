@@ -108,6 +108,12 @@ You can define some settings in the admin panel that you can use in your codebas
 It's possible to build your own settings form page using the `SettingsInterface` class. When you're done, you have to
 add the class to the `config/cms.php` file `settings.settings_form`.
 
+## Configuration
+
+The `config/cms.php` file contains all the configuration options for the Dru^ID package.
+Is it recommended to publish the configuration file and customize it to fit your needs.
+It is possible to disable some modules or features if you don't need them.
+
 ## Druid Facade
 
 ### Multilingual helpers
