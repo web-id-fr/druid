@@ -3,6 +3,7 @@
 namespace Webid\Druid\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Webid\Druid\Facades\Druid;
 
 class TestServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,7 @@ class TestServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->loadMigrationsFrom(package_base_path('vendor/orchestra/testbench-core/laravel/migrations'));
-        $this->loadMigrationsFrom(package_base_path('tests/Database/Migrations'));
+        $this->loadMigrationsFrom(Druid::package_base_path('vendor/orchestra/testbench-core/laravel/migrations'));
+        $this->loadMigrationsFrom(Druid::package_base_path('tests/Database/Migrations'));
     }
 }

@@ -138,4 +138,9 @@ class ReusableComponentResource extends Resource
             'edit' => EditReusableComponent::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return Druid::isPageModuleEnabled();
+    }
 }

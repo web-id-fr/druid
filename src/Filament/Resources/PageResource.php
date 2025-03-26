@@ -116,4 +116,9 @@ class PageResource extends Resource
             'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return Druid::isPageModuleEnabled();
+    }
 }

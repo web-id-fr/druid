@@ -132,4 +132,9 @@ class MenuResource extends Resource
             'edit' => MenuResource\Pages\EditMenu::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return Druid::isMenuModuleEnabled();
+    }
 }

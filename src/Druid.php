@@ -158,6 +158,11 @@ class Druid
         return $langParam;
     }
 
+    public function isMenuModuleEnabled(): bool
+    {
+        return config('cms.enable_menu_module') === true;
+    }
+
     /**
      * @return Collection<int|string, mixed>
      */
@@ -218,6 +223,11 @@ class Druid
         $settingsRepository = app(SettingsRepository::class);
 
         return $settingsRepository->all();
+    }
+
+    public function isPageModuleEnabled(): bool
+    {
+        return config('cms.enable_page_module') === true;
     }
 
     public function package_base_path(string $path = ''): string

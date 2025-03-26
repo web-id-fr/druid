@@ -38,52 +38,64 @@ class CategoryResource extends Resource
         /** @var CategoryRepository $categoryRepository */
         $categoryRepository = app(CategoryRepository::class);
 
+        $schema = [
+            TextInput::make('name')
+                ->label(__('Title'))
+                ->live(onBlur: true)
+                ->afterStateUpdated(
+                    fn (string $operation, $state, Set $set) => $operation === 'create'
+                        ? $set('slug', Str::slug($state)) : null
+                )
+                ->required(),
+            TextInput::make('slug')
+                ->label(__('Slug'))
+                ->required(),
+        ];
+
+        if (Druid::isMultilingualEnabled()) {
+            $schema = array_merge(
+                $schema,
+                [
+                    'lang' => Select::make('lang')
+                        ->label(__('Language'))
+                        ->options(
+                            collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
+                        )
+                        ->required()
+                        ->live()
+                        ->placeholder(__('Select a language')),
+                    'translation_origin_model_id' => Select::make('translation_origin_model_id')
+                        ->label(__('Translation origin'))
+                        ->options(function (Get $get, ?Category $category) use ($categoryRepository) {
+                            $lang = $get('lang');
+                            Assert::string($lang);
+
+                            $allDefaultLanguagePosts = $categoryRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
+                                // @phpstan-ignore-next-line
+                                ->mapWithKeys(fn (Category $mapCatagory) => [$mapCatagory->getKey() => $mapCatagory->name]);
+
+                            if ($category) {
+                                $allDefaultLanguagePosts->put($category->id, __('#No origin model'));
+                            }
+
+                            if ($category?->translationOriginModel?->isNot($category)) {
+                                $allDefaultLanguagePosts->put($category->translationOriginModel->id, $category->translationOriginModel->name);
+                            }
+
+                            return $allDefaultLanguagePosts;
+                        })
+                        ->searchable()
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->live(),
+                ]
+            );
+        }
+
         return $form
             ->schema([
                 Section::make(__('Parameters'))
-                    ->schema([
-                        TextInput::make('name')
-                            ->label(__('Title'))
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(
-                                fn (string $operation, $state, Set $set) => $operation === 'create'
-                                    ? $set('slug', Str::slug($state)) : null
-                            )
-                            ->required(),
-                        TextInput::make('slug')
-                            ->label(__('Slug'))
-                            ->required(),
-                        'lang' => Select::make('lang')
-                            ->label(__('Language'))
-                            ->options(
-                                collect(Druid::getLocales())->mapWithKeys(fn ($item, $key) => [$key => $item['label'] ?? __('No label')])
-                            )
-                            ->live()
-                            ->placeholder(__('Select a language')),
-                        'translation_origin_model_id' => Select::make('translation_origin_model_id')
-                            ->label(__('Translation origin'))
-                            ->options(function (Get $get, ?Category $category) use ($categoryRepository) {
-                                $lang = $get('lang');
-                                Assert::string($lang);
-
-                                $allDefaultLanguagePosts = $categoryRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
-                                    // @phpstan-ignore-next-line
-                                    ->mapWithKeys(fn (Category $mapCatagory) => [$mapCatagory->getKey() => $mapCatagory->name]);
-
-                                if ($category) {
-                                    $allDefaultLanguagePosts->put($category->id, __('#No origin model'));
-                                }
-
-                                if ($category?->translationOriginModel?->isNot($category)) {
-                                    $allDefaultLanguagePosts->put($category->translationOriginModel->id, $category->translationOriginModel->name);
-                                }
-
-                                return $allDefaultLanguagePosts;
-                            })
-                            ->searchable()
-                            ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
-                            ->live(),
-                    ])->columns(2),
+                    ->schema($schema)
+                    ->columns(2),
             ]);
     }
 
