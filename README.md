@@ -60,19 +60,13 @@ php artisan make:filament-user
 
 https://filamentphp.com/docs/3.x/panels/installation
 
-Open the `app/Providers/Filament/AdminPanelProvider.php` file and add the following code after `$panel->default()->id('admin')`
+Open the `app/Providers/Filament/AdminPanelProvider.php` file and register Druid in plugins like that :`
 
 ```php
-->discoverResources(
-        in: base_path('vendor/webid/druid/src/Filament/Resources'),
-        for: 'Webid\\Druid\\Filament\\Resources'
-    )
-    ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-    ->discoverPages(
-        in: base_path('vendor/webid/druid/src/Filament/Pages'),
-        for: 'Webid\\Druid\\Filament\\Pages'
-)
-->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+return $panel
+        ->plugins([
+                DruidPlugin::make(),
+            ]);
 ```
 
 Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
