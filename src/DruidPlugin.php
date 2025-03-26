@@ -9,6 +9,7 @@ class DruidPlugin implements Plugin
 {
     public static function make(): static
     {
+        /** @var static */
         return app(static::class);
     }
 
