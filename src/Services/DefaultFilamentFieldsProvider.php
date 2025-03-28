@@ -220,8 +220,7 @@ class DefaultFilamentFieldsProvider
                 ->relationship('categories', 'name'),
             'users' => Select::make('users')
                 ->multiple()
-                ->options(Druid::getModel('user')::all()->pluck('name', 'id'))
-                ->default([Auth::user()->getKey()])
+                ->default([Auth::user()?->getKey()])
                 ->relationship('users', 'name'),
         ];
 
