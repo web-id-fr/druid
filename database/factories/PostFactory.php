@@ -69,6 +69,15 @@ class PostFactory extends Factory
         });
     }
 
+    public function draft(): static
+    {
+        return $this->state(function () {
+            return [
+                'status' => PostStatus::DRAFT->value,
+            ];
+        });
+    }
+
     public function asATranslationFrom(Post $post, Langs $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $post) {

@@ -16,6 +16,16 @@ trait PageCreator
         return $page;
     }
 
+    protected function createDraftPage(array $params = []): Page
+    {
+        /** @var Page $page */
+        $page = PageFactory::new()
+            ->draft()
+            ->create($params);
+
+        return $page;
+    }
+
     protected function createPageInEnglish(array $params = []): Page
     {
         /** @var Page $page */

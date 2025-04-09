@@ -39,6 +39,15 @@ class PageFactory extends Factory
         });
     }
 
+    public function draft(): static
+    {
+        return $this->state(function () {
+            return [
+                'status' => PageStatus::DRAFT->value,
+            ];
+        });
+    }
+
     public function asATranslationFrom(Page $page, Langs $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $page) {

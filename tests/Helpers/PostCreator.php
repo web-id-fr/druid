@@ -18,6 +18,14 @@ trait PostCreator
         return $post;
     }
 
+    protected function createDraftPost(array $params = []): Post
+    {
+        /** @var Post $post */
+        $post = PostFactory::new()->draft()->create($params);
+
+        return $post;
+    }
+
     protected function createPostWithCategory(array $postParams = [], array $categoryParams = []): Post
     {
         /** @var Category $category */

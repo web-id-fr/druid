@@ -35,7 +35,6 @@ if (Druid::isBlogModuleEnabled()) {
                         });
                 });
         }
-
         // @phpstan-ignore-next-line
         Route::prefix(config('cms.blog.prefix'))
             ->name('posts.')
@@ -46,6 +45,7 @@ if (Druid::isBlogModuleEnabled()) {
                 Route::get('/{category:slug}', [BlogController::class, 'indexByCategory'])
                     ->name('indexByCategory');
                 Route::get('/{category:slug}/{post:slug}', [BlogController::class, 'show'])
+                    ->middleware('can:view,post')
                     ->name('show')
                     ->missing(function (Request $request) {
                         abort(404);

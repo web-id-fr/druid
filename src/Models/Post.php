@@ -154,4 +154,9 @@ class Post extends Model implements IsMenuable
 
         return $slug;
     }
+
+    public function isPublished(): bool
+    {
+        return $this->status === PostStatus::PUBLISHED;
+    }
 }

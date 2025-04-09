@@ -57,6 +57,13 @@ test('post url without lang leads to a 404', function () {
         ->assertStatus(404);
 });
 
+test('draft post is forbidden to visitors', function () {
+    $post = $this->createDraftPost();
+
+    $this->get($post->url())
+        ->assertStatus(403);
+});
+
 test('two posts can share the same slug if not in the same lang', function () {
     $this->enableApiMode();
     $this->enableMultilingualFeature();

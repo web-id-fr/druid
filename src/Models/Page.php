@@ -147,4 +147,9 @@ class Page extends Model implements IsMenuable
 
         return $slug;
     }
+
+    public function isPublished(): bool
+    {
+        return $this->status === PageStatus::PUBLISHED;
+    }
 }
