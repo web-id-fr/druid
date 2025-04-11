@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\Console\Commands;
 
-use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Webid\Druid\database\seeders\DatabaseSeeder;
+use Webid\Druid\Facades\Druid;
 
 class DemoSeeder extends Command
 {
@@ -16,10 +16,9 @@ class DemoSeeder extends Command
     public function handle(): void
     {
         try {
-            // @phpstan-ignore-next-line
-            $firstUser = User::query()->firstOrFail();
+            Druid::User()->query()->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            $this->call('make:filament-user', ['--name' => 'admin', '--email' => 'admin@test.com',  '--password' => 'password']);
+            $this->call('make:filament-user', ['--name' => 'admin', '--email' => 'admin@test.com', '--password' => 'password']);
         }
 
         $this->info('Start seeding data');
