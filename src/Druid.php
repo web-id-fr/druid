@@ -2,6 +2,7 @@
 
 namespace Webid\Druid;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -31,6 +32,14 @@ class Druid
         $model = config("cms.models.$model");
 
         return $model;
+    }
+
+    public function User(): Authenticatable
+    {
+        /** @var Authenticatable $user */
+        $user = new (config('cms.models.user'));
+
+        return $user;
     }
 
     public function Page(): Page
