@@ -1,0 +1,22 @@
+name: New feature
+description: Request a new feature
+title: "[Feature]: "
+labels: [ "feature" ]
+projects: [ "web-id-fr/38" ]
+assignees:
+  - benjaminniess
+  - E-Liegeois
+  - CLEMREP
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the new feature with as many details as possible.
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Description
+      description: What do you expect from this new feature?
+    validations:
+      required: true
+  
