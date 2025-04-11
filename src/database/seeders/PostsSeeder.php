@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Webid\Druid\database\seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Webid\Druid\Database\Factories\CategoryFactory;
@@ -13,14 +12,14 @@ use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
+use Webmozart\Assert\Assert;
 
 class PostsSeeder extends Seeder
 {
     public function run(): void
     {
-        /** @var User $user */
-        // @phpstan-ignore-next-line
-        $user = User::query()->first();
+        $user = Druid::User()->query()->first();
+        Assert::notNull($user);
 
         foreach ($this->getCategoriesStructure() as $categoryByLocale) {
             if (! isset($categoryByLocale[Druid::getDefaultLocaleKey()])) {

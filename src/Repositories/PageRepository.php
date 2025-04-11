@@ -5,7 +5,6 @@ namespace Webid\Druid\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Page;
 
@@ -42,7 +41,6 @@ class PageRepository
         /** @var Page $model */
         $model = $this->model->newQuery()
             ->where('slug', $slug)
-            ->where('status', PageStatus::PUBLISHED->value)
             ->firstOrFail();
 
         return $model;
@@ -58,7 +56,7 @@ class PageRepository
             ->where([
                 'slug' => $slug,
                 'lang' => $langCode,
-            ])->where('status', PageStatus::PUBLISHED->value)
+            ])
             ->firstOrFail();
 
         return $model;

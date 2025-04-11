@@ -6,6 +6,7 @@ use Webid\Druid\Database\Factories\CategoryFactory;
 use Webid\Druid\Database\Factories\PostFactory;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\Category;
+use Webid\Druid\Models\Dummy\DummyUser;
 use Webid\Druid\Models\Post;
 
 trait PostCreator
@@ -16,6 +17,18 @@ trait PostCreator
         $post = PostFactory::new()->create($params);
 
         return $post;
+    }
+
+    protected function createDraftPost(array $params = [], ?DummyUser $forUser = null): Post
+    {
+        $postFactory = PostFactory::new()->draft();
+
+        if ($forUser) {
+            $postFactory = $postFactory->forUser($forUser);
+        }
+
+        /** @var Post */
+        return $postFactory->create($params);
     }
 
     protected function createPostWithCategory(array $postParams = [], array $categoryParams = []): Post

@@ -4,6 +4,7 @@ namespace Webid\Druid\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Webid\Druid\Enums\RenderType;
 use Webid\Druid\Facades\Druid;
@@ -37,6 +38,8 @@ class FallbackController extends Controller
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
+
+        Gate::authorize('view', $page);
 
         if ($type === RenderType::API->value) {
             return $this->pageController->showApi($page);
