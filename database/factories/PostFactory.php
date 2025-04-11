@@ -2,8 +2,8 @@
 
 namespace Webid\Druid\Database\Factories;
 
-use App\Models\User;
 use Awcodes\Curator\Models\Media;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\Enums\Langs;
@@ -97,7 +97,7 @@ class PostFactory extends Factory
         });
     }
 
-    public function forUser(User $user): static
+    public function forUser(Authenticatable $user): static
     {
         return $this->afterCreating(function (Model $post) use ($user): void {
             /** @var Post $post */

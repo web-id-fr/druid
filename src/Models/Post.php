@@ -2,9 +2,9 @@
 
 namespace Webid\Druid\Models;
 
-use App\Models\User;
 use Awcodes\Curator\Models\Media;
 use Carbon\Carbon;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,7 +44,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection|Category[] $categories
- * @property-read Collection|User[] $users
+ * @property-read Collection|Authenticatable[] $users
  * @property-read Post $translationOriginModel
  * @property-read ?Media $thumbnail
  * @property-read Collection<int, Post> $translations

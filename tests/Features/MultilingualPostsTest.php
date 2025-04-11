@@ -57,11 +57,22 @@ test('post url without lang leads to a 404', function () {
         ->assertStatus(404);
 });
 
-test('draft post is forbidden to visitors', function () {
-    $post = $this->createDraftPost();
+test('draft post preview is only allowed to post author', function () {
+    $postAuthor = $this->createDummyUser();
+    $otherUser = $this->createDummyUser();
+
+    $post = $this->createDraftPost(forUser: $postAuthor);
 
     $this->get($post->url())
         ->assertStatus(403);
+
+    $this->actingAs($otherUser)
+        ->get($post->url())
+        ->assertForbidden();
+
+    $this->actingAs($postAuthor)
+        ->get($post->url())
+        ->assertOk();
 });
 
 test('two posts can share the same slug if not in the same lang', function () {

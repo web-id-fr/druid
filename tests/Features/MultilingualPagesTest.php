@@ -115,11 +115,17 @@ test('we are not redirected when accessing page by its slug and has homepage as 
         ->assertRedirect('/fr/ma-page');
 });
 
-test('draft page is forbidden to visitors', function () {
-    $page = $this->createDraftPage();
+test('draft post preview is only allowed to logged users', function () {
+    $user = $this->createDummyUser();
 
-    $this->get($page->url())
+    $post = $this->createDraftPage();
+
+    $this->get($post->url())
         ->assertStatus(403);
+
+    $this->actingAs($user)
+        ->get($post->url())
+        ->assertOk();
 });
 
 test('we cannot access to the page with incorrect lang parameter', function () {

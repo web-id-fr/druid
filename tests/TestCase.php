@@ -15,6 +15,7 @@ use Webid\Druid\DruidServiceProvider;
 use Webid\Druid\Dto\LangLink;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
+use Webid\Druid\Models\Dummy\DummyUser;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\Services\LanguageSwitcher;
 
@@ -40,6 +41,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         config()->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+        config()->set('cms.models.user', DummyUser::class);
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Webid\\Druid\\Database\\Factories\\'.class_basename($modelName).'Factory'
