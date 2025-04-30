@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\Langs;
@@ -50,6 +51,8 @@ class Page extends Model implements IsMenuable
     use IsTranslatable;
     use SoftDeletes;
 
+    //use HasRecursiveRelationships;
+
     protected $table = 'pages';
 
     protected $guarded = [
@@ -63,12 +66,25 @@ class Page extends Model implements IsMenuable
         'lang' => Langs::class,
     ];
 
+    public function getParentKeyName(): string
+    {
+        return 'parent_page_id';
+    }
+
     public function parent(): BelongsTo
     {
         /** @var class-string<Model> $model */
         $model = Druid::getModel('page');
 
         return $this->belongsTo($model, 'parent_page_id');
+    }
+
+    public function children(): HasMany
+    {
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('page');
+
+        return $this->hasMany($model, 'parent_page_id');
     }
 
     public function openGraphPicture(): BelongsTo
@@ -88,14 +104,14 @@ class Page extends Model implements IsMenuable
         $parentsPath = '';
         while ($parent) {
             if ($parent->slug != 'index') {
-                $parentsPath = $parent->slug.'/'.$parentsPath;
+                $parentsPath = $parent->slug . '/' . $parentsPath;
             }
 
             $parent = $parent->parent;
         }
 
         if (Druid::isMultilingualEnabled() && $this->slug !== 'index') {
-            $path .= $this->lang ? $this->lang->value.'/' : '';
+            $path .= $this->lang ? $this->lang->value . '/' : '';
         }
 
         $path .= $parentsPath;
@@ -142,7 +158,7 @@ class Page extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-".$count++;
+            $slug = "{$original}-" . $count++;
         }
 
         return $slug;

@@ -22,6 +22,13 @@ class PageRepository
         return $this->model->all();
     }
 
+    public function allByHierarchy(): Collection
+    {
+        return $this->model->newQuery()
+            ->whereNull('parent_page_id')
+            ->get();
+    }
+
     /**
      * @throws ModelNotFoundException
      */

@@ -5,10 +5,13 @@ namespace Webid\Druid\Filament\Resources\PageResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Grouping\Group;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource;
+use Webid\Druid\Models\Page;
 use Webid\Druid\Repositories\PageRepository;
 
 class ListPages extends ListRecords
@@ -22,9 +25,22 @@ class ListPages extends ListRecords
         ];
     }
 
+    public function table(Table $table): Table
+    {
+        return parent::table($table)
+            ->groups([Group::make('parent_page_id')
+                ->getTitleFromRecordUsing(fn (Page $record): string => $record->parent?->title ? ucfirst($record->parent?->title) : 'Root')
+                ->collapsible()
+                ->label('Parent')])
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->orderBy('parent_page_id')
+                ->with('children')
+            );
+    }
+
     public function getTabs(): array
     {
-        if (! Druid::isMultilingualEnabled()) {
+        if (!Druid::isMultilingualEnabled()) {
             return [];
         }
 
