@@ -104,14 +104,14 @@ class Page extends Model implements IsMenuable
         $parentsPath = '';
         while ($parent) {
             if ($parent->slug != 'index') {
-                $parentsPath = $parent->slug . '/' . $parentsPath;
+                $parentsPath = $parent->slug.'/'.$parentsPath;
             }
 
             $parent = $parent->parent;
         }
 
         if (Druid::isMultilingualEnabled() && $this->slug !== 'index') {
-            $path .= $this->lang ? $this->lang->value . '/' : '';
+            $path .= $this->lang ? $this->lang->value.'/' : '';
         }
 
         $path .= $parentsPath;
@@ -158,7 +158,7 @@ class Page extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-" . $count++;
+            $slug = "{$original}-".$count++;
         }
 
         return $slug;

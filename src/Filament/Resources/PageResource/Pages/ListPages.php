@@ -40,7 +40,7 @@ class ListPages extends ListRecords
 
     public function getTabs(): array
     {
-        if (!Druid::isMultilingualEnabled()) {
+        if (! Druid::isMultilingualEnabled()) {
             return [];
         }
 
