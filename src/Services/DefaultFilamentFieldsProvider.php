@@ -217,7 +217,8 @@ class DefaultFilamentFieldsProvider
                 ->options($categoryRepository->allFromDefaultLanguageWithoutTranslationForLang(Druid::getDefaultLocaleKey())->pluck('name', 'id'))
                 ->multiple()
                 ->required()
-                ->relationship('categories', 'name'),
+                ->relationship('categories', 'name')
+                ->preload(),
             'users' => Select::make('users')
                 ->multiple()
                 ->default([Auth::user()?->getKey()])
