@@ -17,6 +17,7 @@ use Webid\Druid\Models\Contracts\IsMenuable;
  * @property string|null $label
  * @property string|null $custom_url
  * @property MenuItemTarget $target
+ * @property string $type
  * @property-read Menu $menu
  * @property-read IsMenuable|null $model
  * @property-read Collection<int, MenuItem> $children
