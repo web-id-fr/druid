@@ -4,26 +4,20 @@ declare(strict_types=1);
 
 namespace Webid\Druid\Http\Controllers;
 
-use Illuminate\View\View;
 use Webid\Druid\Facades\Druid;
-use Webid\Druid\Http\Resources\PageResource;
 use Webid\Druid\Models\Page;
+use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 
 class PageController extends Controller
 {
-    public function show(Page $page): View
+    public function __construct(private readonly ContentRenderer $contentRenderer) {}
+
+    public function show(Page $page): mixed
     {
         if (Druid::isMultilingualEnabled()) {
             $page->loadMissing(['translations', 'openGraphPicture']);
         }
 
-        return view('druid::page.page', [
-            'page' => PageResource::make($page)->toObject(),
-        ]);
-    }
-
-    public function showApi(Page $page): PageResource
-    {
-        return PageResource::make($page);
+        return $this->contentRenderer->render('page.show', ['page' => $page]);
     }
 }

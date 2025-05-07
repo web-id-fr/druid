@@ -5,10 +5,7 @@ namespace Webid\Druid\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\View\View;
-use Webid\Druid\Enums\RenderType;
 use Webid\Druid\Facades\Druid;
-use Webid\Druid\Http\Resources\PageResource;
 use Webid\Druid\Repositories\PageRepository;
 use Webmozart\Assert\Assert;
 
@@ -19,10 +16,8 @@ class FallbackController extends Controller
         private readonly PageController $pageController,
     ) {}
 
-    public function show(Request $request): PageResource|View
+    public function show(Request $request): mixed
     {
-        $type = config('cms.views.type');
-
         $requestSegments = $request->segments();
         $firstSegment = head($requestSegments);
         $lastSegment = last($requestSegments);
@@ -40,10 +35,6 @@ class FallbackController extends Controller
         }
 
         Gate::authorize('view', $page);
-
-        if ($type === RenderType::API->value) {
-            return $this->pageController->showApi($page);
-        }
 
         return $this->pageController->show($page);
     }

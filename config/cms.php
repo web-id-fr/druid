@@ -8,9 +8,9 @@ use Webid\Druid\Components\ReusableComponent;
 use Webid\Druid\Components\TextComponent;
 use Webid\Druid\Components\TextImageComponent;
 use Webid\Druid\Enums\Langs;
-use Webid\Druid\Enums\RenderType;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsForm;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
+use Webid\Druid\Services\ContentRenderer\BladeRenderer;
 
 return [
     /*
@@ -104,11 +104,11 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Views
+     | Contents renderer
      |--------------------------------------------------------------------------
      */
-    'views' => [
-        'type' => RenderType::BLADE->value,
+    'content-renderer' => [
+        'type' => BladeRenderer::class,
     ],
 
     /*
