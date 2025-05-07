@@ -5,11 +5,12 @@ namespace Webid\Druid\Filament\Resources;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Post;
+use Webid\Druid\Repositories\PostRepository;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
 
 class PostResource extends Resource
@@ -39,6 +40,9 @@ class PostResource extends Resource
 
     public static function table(Table $table): Table
     {
+        /** @var PostRepository $postRepository */
+        $postRepository = app()->make(PostRepository::class);
+
         $columns = [
             Tables\Columns\TextColumn::make('title')
                 ->label(__('Title'))
@@ -81,24 +85,11 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ReplicateAction::make()
-                    ->form(fn (Form $form) => static::form($form->model(static::$model))->columns(2))
-                    ->fillForm(function (Page $record): array {
-                        /** @var string $slug */
-                        $slug = $record['slug'];
-                        /** @var Langs|null $lang */
-                        $lang = $record['lang'];
-
-                        if (Post::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
-                            $query->where('lang', $lang);
-                        })->exists()) {
-                            $slug = $record->incrementSlug($slug, $lang);
-                        }
-
-                        $record['slug'] = $slug;
-
-                        return $record->toArray();
-                    }),
+                Action::make('replicate')
+                    ->label(__('Replicate'))
+                    ->icon('heroicon-o-document-duplicate')
+                    ->action(fn (Post $record) => $postRepository->replicate($record))
+                    ->requiresConfirmation()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
