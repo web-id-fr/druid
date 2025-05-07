@@ -22,7 +22,7 @@ class PostRepository
     }
 
     /**
-     * @param array<string> $relations
+     * @param  array<string>  $relations
      */
     public function all(array $relations = []): Collection
     {
@@ -75,7 +75,7 @@ class PostRepository
     }
 
     /**
-     * @param array<string> $relations
+     * @param  array<string>  $relations
      */
     public function allPaginated(int $perPage, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
@@ -92,7 +92,7 @@ class PostRepository
     }
 
     /**
-     * @param array<string> $relations
+     * @param  array<string>  $relations
      */
     public function allByCategoryPaginated(Category $category, int $perPage, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
@@ -110,7 +110,7 @@ class PostRepository
     }
 
     /**
-     * @param array<string> $relations
+     * @param  array<string>  $relations
      */
     public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
@@ -128,7 +128,7 @@ class PostRepository
     }
 
     /**
-     * @param array<string> $relations
+     * @param  array<string>  $relations
      */
     public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
@@ -163,7 +163,7 @@ class PostRepository
     {
         $replica = $post->replicate();
         $replica->slug = $post->incrementSlug($post->slug, $post->lang);
-        $replica->title = __('[Copy]') . ' ' . $post->title;
+        $replica->title = __('[Copy]').' '.$post->title;
         $replica->status = PostStatus::DRAFT;
         $replica->save();
         $replica->categories()->attach($post->categories->pluck('id'));

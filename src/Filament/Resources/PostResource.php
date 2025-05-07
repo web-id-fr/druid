@@ -89,7 +89,7 @@ class PostResource extends Resource
                     ->label(__('Replicate'))
                     ->icon('heroicon-o-document-duplicate')
                     ->action(fn (Post $record) => $postRepository->replicate($record))
-                    ->requiresConfirmation()
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
