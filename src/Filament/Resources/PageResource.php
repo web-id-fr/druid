@@ -5,12 +5,13 @@ namespace Webid\Druid\Filament\Resources;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource\Pages;
 use Webid\Druid\Models\Page;
+use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 
 class PageResource extends Resource
@@ -36,6 +37,9 @@ class PageResource extends Resource
 
     public static function table(Table $table): Table
     {
+        /** @var PageRepository $pageRepository */
+        $pageRepository = app()->make(PageRepository::class);
+
         $columns = [
             Tables\Columns\TextColumn::make('title')
                 ->label(__('Title'))
@@ -78,24 +82,11 @@ class PageResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ReplicateAction::make()
-                    ->form(fn (Form $form) => static::form($form->model(static::$model))->columns(2))
-                    ->fillForm(function (Page $record): array {
-                        /** @var string $slug */
-                        $slug = $record['slug'];
-                        /** @var Langs|null $lang */
-                        $lang = $record['lang'];
-
-                        if (Page::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
-                            $query->where('lang', $lang);
-                        })->exists()) {
-                            $slug = $record->incrementSlug($slug, $lang);
-                        }
-
-                        $record['slug'] = $slug;
-
-                        return $record->toArray();
-                    }),
+                Action::make('replicate')
+                    ->label(__('Replicate'))
+                    ->icon('heroicon-o-document-duplicate')
+                    ->action(fn (Page $record) => $pageRepository->replicate($record))
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

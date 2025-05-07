@@ -158,4 +158,15 @@ class PostRepository
 
         return $query->firstOrFail();
     }
+
+    public function replicate(Post $post): void
+    {
+        $replica = $post->replicate();
+        $replica->slug = $post->incrementSlug($post->slug, $post->lang);
+        $replica->title = __('[Copy]').' '.$post->title;
+        $replica->status = PostStatus::DRAFT;
+        $replica->save();
+        $replica->categories()->attach($post->categories->pluck('id'));
+        $replica->users()->attach($post->users->pluck('id'));
+    }
 }

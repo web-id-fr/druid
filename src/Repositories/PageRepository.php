@@ -5,6 +5,7 @@ namespace Webid\Druid\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Page;
 
@@ -99,5 +100,14 @@ class PageRepository
             ->firstOrFail();
 
         return $page;
+    }
+
+    public function replicate(Page $page): void
+    {
+        $replica = $page->replicate();
+        $replica->slug = $page->incrementSlug($page->slug, $page->lang);
+        $replica->title = __('[Copy]').' '.$page->title;
+        $replica->status = PageStatus::DRAFT;
+        $replica->save();
     }
 }
