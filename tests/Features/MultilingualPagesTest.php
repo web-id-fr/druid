@@ -24,14 +24,14 @@ test('current language shows up in url when multilingual feature is enabled', fu
 
     $this->enableMultilingualFeature();
 
-    expect(url('/en/'.$page->slug))->toEqual($page->url());
+    expect(url('/en/' . $page->slug))->toEqual($page->url());
 });
 
 test('page can be accessible in other language than the default one', function () {
     $this->enableMultilingualFeature();
     $page = $this->createFrenchTranslationPage();
 
-    expect(url('/fr/'.$page->slug))->toEqual($page->url());
+    expect(url('/fr/' . $page->slug))->toEqual($page->url());
 
     $this->get($page->url())
         ->assertOk();

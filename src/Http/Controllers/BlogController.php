@@ -2,39 +2,35 @@
 
 namespace Webid\Druid\Http\Controllers;
 
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\View\View;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
-use Webid\Druid\Http\Resources\PostResource;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
 use Webid\Druid\Repositories\CategoryRepository;
 use Webid\Druid\Repositories\PostRepository;
+use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 
 class BlogController
 {
     public function __construct(
         private readonly PostRepository $postRepository,
         private readonly CategoryRepository $categoryRepository,
-    ) {}
+        private readonly ContentRenderer $contentRenderer,
+    ) {
+    }
 
-    public function indexMultilingual(Langs $lang): View|AnonymousResourceCollection
+    public function indexMultilingual(Langs $lang): mixed
     {
         $posts = $this->postRepository->allPaginatedByLang(Druid::getPostsPerPage(), $lang, ['categories']);
         $categories = $this->categoryRepository->allByLang($lang);
 
-        if (config('cms.views.type') === 'api') {
-            return PostResource::collection($posts);
-        }
-
-        return view('druid::blog.index', [
+        return $this->contentRenderer->render('blog.index', [
             'posts' => $posts,
             'categories' => $categories,
         ]);
     }
 
-    public function indexByCategoryMultilingual(Langs $lang, Category $category): View|AnonymousResourceCollection
+    public function indexByCategoryMultilingual(Langs $lang, Category $category): mixed
     {
         /** @var Category $category */
         $category = $this->categoryRepository->categoryByLang($category, $lang);
@@ -42,79 +38,48 @@ class BlogController
         $posts = $this->postRepository->allByCategoryAndLangPaginated($category, Druid::getPostsPerPage(), $lang, ['categories']);
         $categories = $this->categoryRepository->allByLang($lang);
 
-        if (config('cms.views.type') === 'api') {
-            return PostResource::collection($posts);
-        }
-
-        return view('druid::blog.index', [
+        return $this->contentRenderer->render('blog.index', [
             'category' => $category,
             'posts' => $posts,
             'categories' => $categories,
         ]);
     }
 
-    public function showMultilingual(Langs $lang, Category $category, Post $post): View|PostResource
+    public function showMultilingual(Langs $lang, Category $category, Post $post): mixed
     {
-        $type = config('cms.views.type');
-
-        if ($type === 'api') {
-            return $this->showApi($post);
-        }
-
-        return $this->showBlade($post);
+        return $this->contentRenderer->render('blog.show', [
+            'post' => $post,
+        ]);
     }
 
-    public function index(): View|AnonymousResourceCollection
+    public function index(): mixed
     {
         $posts = $this->postRepository->allPaginated(Druid::getPostsPerPage(), ['categories']);
         $categories = $this->categoryRepository->all();
 
-        if (config('cms.views.type') === 'api') {
-            return PostResource::collection($posts);
-        }
-
-        return view('druid::blog.index', [
+        return $this->contentRenderer->render('blog.index', [
             'posts' => $posts,
             'categories' => $categories,
         ]);
     }
 
-    public function indexByCategory(Category $category): View|AnonymousResourceCollection
+    public function indexByCategory(Category $category): mixed
     {
         $posts = $this->postRepository->allByCategoryPaginated($category, Druid::getPostsPerPage(), ['categories']);
         $categories = $this->categoryRepository->all();
 
-        if (config('cms.views.type') === 'api') {
-            return PostResource::collection($posts);
-        }
-
-        return view('druid::blog.index', [
+        return $this->contentRenderer->render('blog.index', [
             'posts' => $posts,
             'categories' => $categories,
         ]);
     }
 
-    public function show(Category $category, Post $post): View|PostResource
+    public function show(Category $category, Post $post): mixed
     {
         $post->loadMissing(['thumbnail', 'openGraphPicture']);
-        $type = config('cms.views.type');
 
-        if ($type === 'api') {
-            return $this->showApi($post);
-        }
-
-        return $this->showBlade($post);
-    }
-
-    public function showApi(Post $post): PostResource
-    {
-        return PostResource::make($post->load('categories'));
-    }
-
-    public function showBlade(Post $post): View
-    {
-        return view('druid::blog.show', [
-            'post' => PostResource::make($post->load('categories'))->toObject(),
+        return $this->contentRenderer->render('blog.show', [
+            'post' => $post,
         ]);
     }
 }

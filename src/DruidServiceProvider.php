@@ -2,9 +2,12 @@
 
 namespace Webid\Druid;
 
+use App\Services\S3\BucketInteractor;
+use App\Services\S3\S3BucketInteractor;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Tests\Fakes\BucketInteractor\NullBucketInteractor;
 use Webid\Druid\Console\Commands\CheckIfPostNeedsToBePublished;
 use Webid\Druid\Console\Commands\DemoSeeder;
 use Webid\Druid\Http\Middleware\CheckLanguageExist;
@@ -13,7 +16,9 @@ use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentSettingsFieldsBuilder;
+use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 use Webid\Druid\Services\DefaultFilamentFieldsProvider;
+use Webmozart\Assert\Assert;
 
 class DruidServiceProvider extends PackageServiceProvider
 {
@@ -96,6 +101,11 @@ class DruidServiceProvider extends PackageServiceProvider
 
             return $builder;
         });
+
+        $renderType = config('cms.content-renderer.type');
+        Assert::string($renderType);
+
+        $this->app->bind(ContentRenderer::class, $renderType);
 
         return $this;
     }
