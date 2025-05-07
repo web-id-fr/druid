@@ -2,12 +2,9 @@
 
 namespace Webid\Druid;
 
-use App\Services\S3\BucketInteractor;
-use App\Services\S3\S3BucketInteractor;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tests\Fakes\BucketInteractor\NullBucketInteractor;
 use Webid\Druid\Console\Commands\CheckIfPostNeedsToBePublished;
 use Webid\Druid\Console\Commands\DemoSeeder;
 use Webid\Druid\Http\Middleware\CheckLanguageExist;

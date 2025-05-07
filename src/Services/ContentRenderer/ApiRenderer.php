@@ -9,9 +9,8 @@ use Webid\Druid\Http\Resources\PostResource;
 
 class ApiRenderer implements ContentRenderer
 {
-
     /**
-     * @param array<string, mixed> $context
+     * @param  array<string, mixed>  $context
      */
     public function render(string $view, array $context): AnonymousResourceCollection|PostResource|PageResource
     {

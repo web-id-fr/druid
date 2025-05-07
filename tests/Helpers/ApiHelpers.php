@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Tests\Helpers;
 
-use Modules\RealEstate\Services\Api\Program\ProgramApiInteractor;
 use Webid\Druid\Services\ContentRenderer\ApiRenderer;
 use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 
