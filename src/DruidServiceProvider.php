@@ -99,7 +99,7 @@ class DruidServiceProvider extends PackageServiceProvider
             return $builder;
         });
 
-        $renderType = config('cms.content-renderer.type');
+        $renderType = config('cms.content_renderer.type');
         Assert::string($renderType);
 
         $this->app->bind(ContentRenderer::class, $renderType);

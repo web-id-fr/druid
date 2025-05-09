@@ -52,15 +52,13 @@ class PageRepository
      */
     public function findOrFailBySlugAndLang(string $slug, string $langCode): Page
     {
-        /** @var Page $model */
-        $model = $this->model->newQuery()
+        /** @var Page */
+        return $this->model->newQuery()
             ->where([
                 'slug' => $slug,
                 'lang' => $langCode,
             ])
             ->firstOrFail();
-
-        return $model;
     }
 
     public function countAll(): int
@@ -106,7 +104,7 @@ class PageRepository
     {
         $replica = $page->replicate();
         $replica->slug = $page->incrementSlug($page->slug, $page->lang);
-        $replica->title = __('[Copy]').' '.$page->title;
+        $replica->title = __('[Copy]') . ' ' . $page->title;
         $replica->status = PageStatus::DRAFT;
         $replica->save();
     }

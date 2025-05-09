@@ -15,7 +15,7 @@ class PagesSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->getPagesStructure() as $pageStructure) {
-            if (! isset($pageStructure[Druid::getDefaultLocaleKey()])) {
+            if (!isset($pageStructure[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
@@ -98,7 +98,7 @@ class PagesSeeder extends Seeder
                 ],
                 'fr' => [
                     'title' => 'Nous contacter',
-                    'slug' => 'nous contacter',
+                    'slug' => 'nous-contacter',
                 ],
                 'de' => [
                     'title' => 'Kontaktiere uns',

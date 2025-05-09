@@ -16,7 +16,8 @@ class BlogController
         private readonly PostRepository $postRepository,
         private readonly CategoryRepository $categoryRepository,
         private readonly ContentRenderer $contentRenderer,
-    ) {}
+    ) {
+    }
 
     public function indexMultilingual(Langs $lang): mixed
     {
@@ -46,6 +47,8 @@ class BlogController
 
     public function showMultilingual(Langs $lang, Category $category, Post $post): mixed
     {
+        $post->load(['thumbnail', 'openGraphPicture']);
+
         return $this->contentRenderer->render('blog.show', [
             'post' => $post,
         ]);
@@ -75,7 +78,7 @@ class BlogController
 
     public function show(Category $category, Post $post): mixed
     {
-        $post->loadMissing(['thumbnail', 'openGraphPicture']);
+        $post->load(['thumbnail', 'openGraphPicture']);
 
         return $this->contentRenderer->render('blog.show', [
             'post' => $post,

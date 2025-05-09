@@ -10,15 +10,21 @@ uses(\Webid\Druid\Tests\Helpers\PageCreator::class);
 
 uses(\Webid\Druid\Tests\Helpers\PostCreator::class);
 
-const SWITCHER_ROUTE_NAME = 'switch_lang';
-
 beforeEach(function () {
     $this->enableMultilingualFeature();
     $this->setLocalesList();
 });
 
 test('language switcher shows the list of locales in the same order as config file', function () {
-    $links = $this->getLanguageSwitcher()->getLinks();
+    $page = $this->createPageInEnglish();
+
+    $this->get('en/' . $page->slug)
+        ->assertViewHas('languageSwitcher', function ($langs) {
+            return is_array($langs)
+                && count($langs) === 3
+                && $langs[0] === 'http://blabla.com';
+        });
+
 
     expect($links)->toHaveCount(3)
         ->and(Langs::EN)->toEqual($links->first())
@@ -27,12 +33,13 @@ test('language switcher shows the list of locales in the same order as config fi
 });
 
 test('user can update locale with switch to the same page in other lang', function () {
-    $pageSlug = 'page-slug';
-    $pageInEnglish = $this->createPageInEnglish(['slug' => $pageSlug]);
-    $pageInFrench = $this->createFrenchTranslationPage(['slug' => $pageSlug]);
+    $englishSlug = 'page-slug-in-english';
+    $frenchSlug = 'page-slug-in-french';
+    $pageInEnglish = $this->createPageInEnglish(['slug' => $englishSlug]);
+    $pageInFrench = $this->createFrenchTranslationPage(['slug' => $frenchSlug]);
 
-    expect($pageSlug)->toEqual($pageInEnglish->slug)
-        ->and($pageSlug)->toEqual($pageInFrench->slug);
+    expect($englishSlug)->toEqual($pageInEnglish->slug)
+        ->and($frenchSlug)->toEqual($pageInFrench->slug);
 
     $this->from($pageInEnglish->url())
         ->get(route(SWITCHER_ROUTE_NAME, [

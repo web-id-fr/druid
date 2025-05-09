@@ -7,10 +7,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    <div class="container">
-        @include('druid::includes.main-menu')
+<div class="container">
+    <h1 class="title"><a href="/">{{ config('app.name') }}</a></h1>
 
-        @yield('content')
-    </div>
+    @include('druid::includes.main-menu')
+
+    @yield('content')
+
+    @include('druid::includes.footer')
+</div>
 </body>
 </html>

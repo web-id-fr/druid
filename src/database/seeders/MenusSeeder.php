@@ -10,25 +10,47 @@ use Webid\Druid\Database\Factories\MenuItemFactory;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Menu;
 use Webid\Druid\Models\Page;
+use Webmozart\Assert\Assert;
 
 class MenusSeeder extends Seeder
 {
     public function run(): void
     {
         foreach ($this->getMenusStructure() as $menuStructureByLocale) {
-            if (! isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
+            if (!isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
+            /** @var Menu $menu */
             $menu = MenuFactory::new()->create([
                 ...$menuStructureByLocale[Druid::getDefaultLocaleKey()],
                 'lang' => Druid::getDefaultLocaleKey(),
             ]);
 
-            Page::query()->where('lang', Druid::getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
-                /** @var Menu $menu */
-                MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create();
-            });
+            $order = 1;
+            Page::query()
+                ->where('lang', Druid::getDefaultLocaleKey())
+                ->orderBy('id')
+                ->each(function (Page $page) use ($menu, &$order) {
+                    /** @var Menu $menu */
+                    MenuItemFactory::new()
+                        ->forExistingPage($page)
+                        ->forMenu($menu)
+                        ->create(['order' => $order]);
+                    $order++;
+                });
+
+            /** @phpstan-ignore-next-line */
+            $blogUrl = config('app.url') . '/';
+            if (Druid::isMultilingualEnabled()) {
+                $blogUrl .= Druid::getDefaultLocaleKey() . '/';
+            }
+            $blogUrl .= Druid::getBlogPrefix();
+
+            MenuItemFactory::new()
+                ->forCustomUrl($blogUrl, 'Blog')
+                ->forMenu($menu)
+                ->create(['order' => $order]);
 
             if (Druid::isMultilingualEnabled()) {
                 foreach ($menuStructureByLocale as $menuLocale => $menuData) {
@@ -36,15 +58,26 @@ class MenusSeeder extends Seeder
                         continue;
                     }
 
+                    /** @var Menu $menu */
                     $menu = MenuFactory::new()->create([
                         ...$menuData,
                         'lang' => $menuLocale,
                     ]);
 
-                    Page::query()->where('lang', Druid::getDefaultLocaleKey())->each(function (Page $page) use ($menu) {
-                        /** @var Menu $menu */
-                        MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create();
-                    });
+                    $order = 1;
+                    Page::query()->where('lang', $menuLocale)
+                        ->each(function (Page $page) use ($menu, &$order) {
+                            /** @var Menu $menu */
+                            MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create(['order' => $order]);
+                            $order++;
+                        });
+
+                    $appUrl = config('app.url');
+                    Assert::string($appUrl);
+                    MenuItemFactory::new()
+                        ->forCustomUrl($appUrl . '/' . $menuLocale . '/' . Druid::getBlogPrefix(), 'Blog')
+                        ->forMenu($menu)
+                        ->create(['order' => $order]);
                 }
             }
         }
@@ -63,11 +96,11 @@ class MenusSeeder extends Seeder
                 ],
                 'fr' => [
                     'title' => 'Menu principal',
-                    'slug' => 'menu-principal',
+                    'slug' => 'main-menu',
                 ],
                 'de' => [
                     'title' => 'Hauptmenü',
-                    'slug' => 'hauptmenu',
+                    'slug' => 'main-menu',
                 ],
             ],
             [
@@ -77,11 +110,11 @@ class MenusSeeder extends Seeder
                 ],
                 'fr' => [
                     'title' => 'Menu pied de page',
-                    'slug' => 'menu-pied-de-page',
+                    'slug' => 'footer-menu',
                 ],
                 'de' => [
                     'title' => 'Fußzeilenmenü',
-                    'slug' => 'fußzeilenmenu',
+                    'slug' => 'footer-menu',
                 ],
             ],
         ];
