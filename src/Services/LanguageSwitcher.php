@@ -7,10 +7,7 @@ use Webid\Druid\Facades\Druid;
 
 class LanguageSwitcher
 {
-    public function __construct(private readonly EnvironmentGuesserService $environmentGuesserService)
-    {
-
-    }
+    public function __construct(private readonly EnvironmentGuesserService $environmentGuesserService) {}
 
     /**
      * @return Collection<(int|string), mixed>
@@ -21,7 +18,7 @@ class LanguageSwitcher
         foreach (Druid::getLocales() as $locale => $details) {
             $links->push([
                 'label' => $details['label'],
-                'url' => $this->environmentGuesserService->getCurrentUrlForLang($locale)
+                'url' => $this->environmentGuesserService->getCurrentUrlForLang($locale),
             ]);
         }
 

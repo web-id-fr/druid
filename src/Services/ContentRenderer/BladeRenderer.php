@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 class BladeRenderer implements ContentRenderer
 {
     /**
-     * @param array<string, mixed> $context
+     * @param  array<string, mixed>  $context
      */
     public function render(string $view, array $context): mixed
     {

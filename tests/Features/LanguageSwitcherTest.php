@@ -18,13 +18,12 @@ beforeEach(function () {
 test('language switcher shows the list of locales in the same order as config file', function () {
     $page = $this->createPageInEnglish();
 
-    $this->get('en/' . $page->slug)
+    $this->get('en/'.$page->slug)
         ->assertViewHas('languageSwitcher', function ($langs) {
             return is_array($langs)
                 && count($langs) === 3
                 && $langs[0] === 'http://blabla.com';
         });
-
 
     expect($links)->toHaveCount(3)
         ->and(Langs::EN)->toEqual($links->first())

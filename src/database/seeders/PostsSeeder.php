@@ -22,7 +22,7 @@ class PostsSeeder extends Seeder
         Assert::notNull($user);
 
         foreach ($this->getCategoriesStructure() as $categoryByLocale) {
-            if (!isset($categoryByLocale[Druid::getDefaultLocaleKey()])) {
+            if (! isset($categoryByLocale[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 

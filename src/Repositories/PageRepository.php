@@ -104,7 +104,7 @@ class PageRepository
     {
         $replica = $page->replicate();
         $replica->slug = $page->incrementSlug($page->slug, $page->lang);
-        $replica->title = __('[Copy]') . ' ' . $page->title;
+        $replica->title = __('[Copy]').' '.$page->title;
         $replica->status = PageStatus::DRAFT;
         $replica->save();
     }

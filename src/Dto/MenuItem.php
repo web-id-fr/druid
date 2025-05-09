@@ -34,7 +34,7 @@ class MenuItem
         ];
 
         foreach ($menuItem->getAttributes() as $key => $value) {
-            if (!array_key_exists($key, $attributes)) {
+            if (! array_key_exists($key, $attributes)) {
                 $attributes[$key] = $value;
             }
         }
