@@ -1,10 +1,6 @@
-@if (isset($mainMenu))
+@if (isset($menus['main-menu']))
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-            </a>
-
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -14,7 +10,7 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                @foreach ($mainMenu->items as $menuItem)
+                @foreach ($menus['main-menu']->items as $menuItem)
                     @if ($menuItem->children && $menuItem->children->isNotEmpty())
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a href="#" class="navbar-link">
@@ -40,13 +36,13 @@
                 @if (isset($languageSwitcher))
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a href="#" class="navbar-link">
-                            {{$currentLocale->getName()}}
+                            {{\Webid\Druid\Facades\Druid::getCurrentLocale()->getName()}}
                         </a>
 
                         <div class="navbar-dropdown">
                             @foreach ($languageSwitcher as $lang)
-                                <a href="{{ route('switch_lang', ['locale' => $lang]) }}" class="navbar-item">
-                                    {{$lang->getName()}}
+                                <a href="{{ $lang['url'] }}" class="navbar-item">
+                                    {{$lang['label']}}
                                 </a>
                             @endforeach
                         </div>

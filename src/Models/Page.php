@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\Langs;
@@ -41,6 +42,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property Carbon|null $deleted_at
  * @property-read Page|null $parent
  * @property-read Page $translationOriginModel
+ * @property-read Page $translationOrigin
  * @property-read Collection<int, Page> $translations
  */
 class Page extends Model implements IsMenuable
@@ -71,6 +73,27 @@ class Page extends Model implements IsMenuable
         return $this->belongsTo($model, 'parent_page_id');
     }
 
+    public function translationOrigin(): BelongsTo
+    {
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('page');
+
+        return $this->belongsTo($model, 'translation_origin_model_id');
+    }
+
+    public function translations(): HasMany
+    {
+        /** @var class-string<Model> $model */
+        $model = Druid::getModel('page');
+
+        return $this->hasMany($model, 'translation_origin_model_id');
+    }
+
+    public function translationForLang(Langs $locale): Page
+    {
+        return $this->translations->where('lang', $locale)->firstOrFail();
+    }
+
     public function openGraphPicture(): BelongsTo
     {
         /** @var class-string<Model> $model
@@ -88,22 +111,20 @@ class Page extends Model implements IsMenuable
         $parentsPath = '';
         while ($parent) {
             if ($parent->slug != 'index') {
-                $parentsPath = $parent->slug.'/'.$parentsPath;
+                $parentsPath = $parent->slug . '/' . $parentsPath;
             }
 
             $parent = $parent->parent;
         }
 
         if (Druid::isMultilingualEnabled() && $this->slug !== 'index') {
-            $path .= $this->lang ? $this->lang->value.'/' : '';
+            $path .= $this->lang ? $this->lang->value . '/' : '';
         }
 
         $path .= $parentsPath;
-
         if ($this->slug !== 'index') {
             $path .= $this->slug;
         }
-
         return $path;
     }
 
@@ -142,7 +163,7 @@ class Page extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-".$count++;
+            $slug = "{$original}-" . $count++;
         }
 
         return $slug;

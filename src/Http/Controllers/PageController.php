@@ -10,7 +10,9 @@ use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 
 class PageController extends Controller
 {
-    public function __construct(private readonly ContentRenderer $contentRenderer) {}
+    public function __construct(private readonly ContentRenderer $contentRenderer)
+    {
+    }
 
     public function show(Page $page): mixed
     {

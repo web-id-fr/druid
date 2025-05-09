@@ -33,7 +33,7 @@ class MenuItemFactory extends Factory
     }
 
     /**
-     * @param  array<string, mixed>  $params
+     * @param array<string, mixed> $params
      */
     public function withPageItem(array $params = []): self
     {
@@ -55,6 +55,18 @@ class MenuItemFactory extends Factory
                 'model_id' => $page->getKey(),
                 'model_type' => $page->getMorphClass(),
                 'label' => null,
+            ];
+        });
+    }
+
+    public function forCustomUrl(string $url, string $label): self
+    {
+        return $this->state(function () use ($url, $label) {
+            return [
+                'model_id' => null,
+                'model_type' => null,
+                'custom_url' => $url,
+                'label' => $label,
             ];
         });
     }

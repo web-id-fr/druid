@@ -107,7 +107,7 @@ return [
      | Contents renderer
      |--------------------------------------------------------------------------
      */
-    'content-renderer' => [
+    'content_renderer' => [
         'type' => BladeRenderer::class,
     ],
 

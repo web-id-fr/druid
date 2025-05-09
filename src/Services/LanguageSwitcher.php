@@ -3,11 +3,15 @@
 namespace Webid\Druid\Services;
 
 use Illuminate\Support\Collection;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 
 class LanguageSwitcher
 {
+    public function __construct(private readonly EnvironmentGuesserService $environmentGuesserService)
+    {
+
+    }
+
     /**
      * @return Collection<(int|string), mixed>
      */
@@ -15,7 +19,10 @@ class LanguageSwitcher
     {
         $links = collect();
         foreach (Druid::getLocales() as $locale => $details) {
-            $links->push(Langs::from($locale));
+            $links->push([
+                'label' => $details['label'],
+                'url' => $this->environmentGuesserService->getCurrentUrlForLang($locale)
+            ]);
         }
 
         return $links;
