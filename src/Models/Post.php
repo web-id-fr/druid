@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
@@ -98,9 +99,9 @@ class Post extends Model implements IsMenuable
             $path .= '/';
         }
 
-        $path .= config('cms.blog.prefix').'/';
+        $path .= config('cms.blog.prefix') . '/';
 
-        $path .= $this->categories->first()->slug.'/'.$this->slug;
+        $path .= $this->categories->first()->slug . '/' . $this->slug;
 
         return $path;
     }
@@ -108,6 +109,15 @@ class Post extends Model implements IsMenuable
     public function url(): string
     {
         return url($this->fullUrlPath());
+    }
+
+    public function excerpt(): string
+    {
+        if ($this->excerpt) {
+            return $this->excerpt;
+        }
+
+        return Str::words(strip_tags($this->searchable_content), 100);
     }
 
     public function categories(): BelongsToMany
@@ -149,7 +159,7 @@ class Post extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-".$count++;
+            $slug = "{$original}-" . $count++;
         }
 
         return $slug;

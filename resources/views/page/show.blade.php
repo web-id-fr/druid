@@ -1,10 +1,15 @@
 @extends('druid::layouts.app')
 
 @section('content')
-    <h1>{{ $page->title }}</h1>
+    <section class="section">
+        <div class="container">
 
-    {!! $page->content !!}
+            <div class="content">
+                <h1 class="title">{{ $page->title }}</h1>
 
-    <p>Created at: {{ $page->created_at }}</p>
-    <p>Updated at: {{ $page->updated_at }}</p>
+                {!! $page->content !!}
+            </div>
+        </div>
+    </section>
+
 @endsection

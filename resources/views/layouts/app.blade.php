@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="title"><a href="/">{{ config('app.name') }}</a></h1>
+    <h1 class="title mt-5"><a href="/">{{ config('app.name') }}</a></h1>
 
     @include('druid::includes.main-menu')
 

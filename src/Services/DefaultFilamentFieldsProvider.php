@@ -6,9 +6,9 @@ use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
@@ -140,7 +140,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePages;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => !$get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -181,7 +181,7 @@ class DefaultFilamentFieldsProvider
                         ? $set('slug', Str::slug($state)) : null
                 )
                 ->required(),
-            'excerpt' => RichEditor::make('excerpt')
+            'excerpt' => Textarea::make('excerpt')
                 ->label(__('Excerpt')),
             $filamentComponentService->getFlexibleContentFieldsForModel(Druid::getModel('post')),
         ];
@@ -259,7 +259,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePosts;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => !$get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
