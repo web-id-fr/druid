@@ -15,7 +15,7 @@ class PagesSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->getPagesStructure() as $pageStructure) {
-            if (!isset($pageStructure[Druid::getDefaultLocaleKey()])) {
+            if (! isset($pageStructure[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 

@@ -27,7 +27,7 @@ class CommonFields
                         ->label(__('Meta keywords')),
                     Toggle::make('disable_indexation')
                         ->label(__('Disable indexation'))
-                        ->helperText(__('Disable search engines indexation for this page'))
+                        ->helperText(__('Disable search engines indexation for this page')),
                 ])
                 ->columns(1),
 

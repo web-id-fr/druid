@@ -140,7 +140,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePages;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => !$get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );
@@ -259,7 +259,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePosts;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => !$get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
                         ->live(),
                 ]
             );

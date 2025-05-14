@@ -15,19 +15,19 @@ test('page meta show up in head section', function () {
     $html = $response->getContent();
 
     $this->assertStringContainsString(
-        "<title>" . $page->meta_title . " - Laravel</title>",
+        '<title>'.$page->meta_title.' - Laravel</title>',
         $html
     );
 
-    $this->assertStringContainsString('<meta name="description" content="' . $page->meta_description . '">', $html);
-    $this->assertStringContainsString('<meta name="keywords" content="' . $page->meta_keywords . '">', $html);
+    $this->assertStringContainsString('<meta name="description" content="'.$page->meta_description.'">', $html);
+    $this->assertStringContainsString('<meta name="keywords" content="'.$page->meta_keywords.'">', $html);
 
-    $this->assertStringContainsString('<link rel="canonical" href="' . $page->url() . '"/>', $html);
+    $this->assertStringContainsString('<link rel="canonical" href="'.$page->url().'"/>', $html);
 
-    $this->assertStringContainsString('<meta property="og:title" content="' . $page->opengraph_title . '">', $html);
-    $this->assertStringContainsString('<meta property="og:description" content="' . $page->opengraph_description . '">', $html);
+    $this->assertStringContainsString('<meta property="og:title" content="'.$page->opengraph_title.'">', $html);
+    $this->assertStringContainsString('<meta property="og:description" content="'.$page->opengraph_description.'">', $html);
     $this->assertStringContainsString('<meta property="og:type" content="website">', $html);
-    $this->assertStringContainsString('<meta property="og:url" content="' . $page->url() . '">', $html);
+    $this->assertStringContainsString('<meta property="og:url" content="'.$page->url().'">', $html);
 });
 
 test('page meta show up with resource in api mode', function () {
@@ -78,4 +78,3 @@ test('robots meta reflects page settings only if not disabled from global config
 
     $this->assertStringContainsString('<meta name="robots" content="nofollow,noindex">', $html);
 });
-

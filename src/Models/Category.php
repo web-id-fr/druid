@@ -57,7 +57,7 @@ class Category extends Model
         if (Druid::isMultilingualEnabled()) {
             return route('posts.multilingual.indexByCategory', [
                 'category' => $this->slug,
-                'lang' => Druid::getCurrentLocale()
+                'lang' => Druid::getCurrentLocale(),
             ]);
         }
 

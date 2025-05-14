@@ -25,7 +25,7 @@ class PageFactory extends Factory
             'lang' => 'en',
             'meta_title' => $this->faker->text(30),
             'meta_description' => $this->faker->text(50),
-            'meta_keywords' => $this->faker->word . ',' . $this->faker->word,
+            'meta_keywords' => $this->faker->word.','.$this->faker->word,
             'opengraph_title' => $this->faker->text(30),
             'opengraph_description' => $this->faker->text(30),
         ];
@@ -71,20 +71,20 @@ class PageFactory extends Factory
             [
                 'type' => 'text',
                 'data' => [
-                    'content' => '<p>' . $this->faker->text(300) . '</p>',
+                    'content' => '<p>'.$this->faker->text(300).'</p>',
                 ],
             ],
             [
                 'type' => 'textImage',
                 'data' => [
-                    'content' => '<p>' . $this->faker->text(900) . '</p>',
+                    'content' => '<p>'.$this->faker->text(900).'</p>',
                     'image' => Media::factory()->create()->getKey(),
                 ],
             ],
             [
                 'type' => 'text',
                 'data' => [
-                    'content' => '<h2>' . $this->faker->text(30) . '</h2><p>' . $this->faker->text(900) . '</p>',
+                    'content' => '<h2>'.$this->faker->text(30).'</h2><p>'.$this->faker->text(900).'</p>',
                 ],
             ],
         ];

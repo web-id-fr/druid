@@ -55,7 +55,7 @@ class PageResource extends JsonResource
             'updated_at' => $this->resource->updated_at,
             'translations' => $this->whenLoaded('translations', function () {
                 return PageResource::collection(
-                /** @phpstan-ignore-next-line */
+                    /** @phpstan-ignore-next-line */
                     $this->resource->translations->makeHidden('translations')
                 );
             }),

@@ -12,8 +12,7 @@ class Menu
         readonly public string $title,
         readonly public string $slug,
         readonly public Collection $items,
-    ) {
-    }
+    ) {}
 
     public static function fromMenu(MenuModel $menu): self
     {
@@ -22,7 +21,7 @@ class Menu
             $menu->slug,
             $menu->level0Items
                 ->filter(function ($item) {
-                    return $item->custom_url !== null || ($item->model !== null && !optional($item->model)->trashed());
+                    return $item->custom_url !== null || ($item->model !== null && ! optional($item->model)->trashed());
                 })
                 ->map(fn (MenuItemModel $item) => MenuItem::fromMenuItem($item))
         );

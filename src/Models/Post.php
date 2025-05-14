@@ -98,9 +98,9 @@ class Post extends Model implements IsMenuable
             $path .= '/';
         }
 
-        $path .= config('cms.blog.prefix') . '/';
+        $path .= config('cms.blog.prefix').'/';
 
-        $path .= $this->categories->first()->slug . '/' . $this->slug;
+        $path .= $this->categories->first()->slug.'/'.$this->slug;
 
         return $path;
     }
@@ -158,7 +158,7 @@ class Post extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-" . $count++;
+            $slug = "{$original}-".$count++;
         }
 
         return $slug;

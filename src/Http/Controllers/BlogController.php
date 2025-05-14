@@ -16,8 +16,7 @@ class BlogController
         private readonly PostRepository $postRepository,
         private readonly CategoryRepository $categoryRepository,
         private readonly ContentRenderer $contentRenderer,
-    ) {
-    }
+    ) {}
 
     public function indexMultilingual(Langs $lang): mixed
     {

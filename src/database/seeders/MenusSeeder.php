@@ -17,7 +17,7 @@ class MenusSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->getMenusStructure() as $menuStructureByLocale) {
-            if (!isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
+            if (! isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
                 return;
             }
 
@@ -41,9 +41,9 @@ class MenusSeeder extends Seeder
                 });
 
             /** @phpstan-ignore-next-line */
-            $blogUrl = config('app.url') . '/';
+            $blogUrl = config('app.url').'/';
             if (Druid::isMultilingualEnabled()) {
-                $blogUrl .= Druid::getDefaultLocaleKey() . '/';
+                $blogUrl .= Druid::getDefaultLocaleKey().'/';
             }
             $blogUrl .= Druid::getBlogPrefix();
 
@@ -75,7 +75,7 @@ class MenusSeeder extends Seeder
                     $appUrl = config('app.url');
                     Assert::string($appUrl);
                     MenuItemFactory::new()
-                        ->forCustomUrl($appUrl . '/' . $menuLocale . '/' . Druid::getBlogPrefix(), 'Blog')
+                        ->forCustomUrl($appUrl.'/'.$menuLocale.'/'.Druid::getBlogPrefix(), 'Blog')
                         ->forMenu($menu)
                         ->create(['order' => $order]);
                 }
