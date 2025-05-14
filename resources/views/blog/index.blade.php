@@ -1,5 +1,7 @@
 @extends('druid::layouts.app')
 
+@section('title', __('Blog') . ' - ' . config('app.name', 'Laravel') )
+
 @section('content')
     <section class="section">
         <div class="container">
@@ -13,7 +15,7 @@
                                 <div class="media">
                                     <div class="media-content">
                                         @if ($post->thumbnail)
-                                            <div class="w-64 aspect-video">
+                                            <div class="w-64 aspect-video" style="max-height: 400px; overflow: hidden;">
                                                 <a href="{{ $post->url()  }}">
                                                     <x-curator-glider
                                                         class="object-cover w-auto"
@@ -48,9 +50,7 @@
                     <div class="card">
                         <div class="card-content">
                             <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-4">{{__('Categories')}}</p>
-                                </div>
+                                <p class="title is-4">{{__('Categories')}}</p>
                             </div>
 
                             <div class="content">

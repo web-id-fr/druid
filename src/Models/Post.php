@@ -30,8 +30,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property array<int, array<mixed>> $content
  * @property string|null $searchable_content
  * @property bool $is_top_article
- * @property bool $indexation
- * @property bool $follow
+ * @property bool $disable_indexation
  * @property int $translation_origin_model_id
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -69,8 +68,7 @@ class Post extends Model implements IsMenuable
         'lang',
         'excerpt',
         'content',
-        'indexation',
-        'follow',
+        'disable_indexation',
         'meta_title',
         'meta_description',
         'meta_keywords',
@@ -88,6 +86,7 @@ class Post extends Model implements IsMenuable
         'content' => 'array',
         'status' => PostStatus::class,
         'lang' => Langs::class,
+        'disable_indexation' => 'boolean',
     ];
 
     public function fullUrlPath(): string

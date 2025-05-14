@@ -57,12 +57,9 @@ class PageResource extends Resource
                     'danger' => PageStatus::ARCHIVED,
                 ])
                 ->label(__('Status')),
-            Tables\Columns\IconColumn::make('indexation')
-                ->boolean()
-                ->label(__('Indexation')),
-            Tables\Columns\IconColumn::make('follow')
-                ->boolean()
-                ->label(__('Follow')),
+            Tables\Columns\IconColumn::make('disable_indexation')
+                ->label(__('Disable indexation'))
+                ->boolean(),
             Tables\Columns\TextColumn::make('parent_page_id')
                 ->default('-')
                 ->label(__('Parent page')),

@@ -63,11 +63,8 @@ class PostResource extends Resource
             Tables\Columns\IconColumn::make('is_top_article')
                 ->label(__('Top article'))
                 ->boolean(),
-            Tables\Columns\IconColumn::make('indexation')
-                ->label(__('Indexation'))
-                ->boolean(),
-            Tables\Columns\IconColumn::make('follow')
-                ->label(__('Follow'))
+            Tables\Columns\IconColumn::make('disable_indexation')
+                ->label(__('Disable indexation'))
                 ->boolean(),
             Tables\Columns\TextColumn::make('published_at')
                 ->label(__('Published at'))

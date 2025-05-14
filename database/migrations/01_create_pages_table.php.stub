@@ -26,8 +26,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             // SEO
-            $table->boolean('indexation')->default(0);
-            $table->boolean('follow')->default(1);
+            $table->boolean('disable_indexation')->default(0);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();

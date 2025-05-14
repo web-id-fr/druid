@@ -1,6 +1,7 @@
 @if (isset($menus['main-menu']))
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
+            <h1 class="title m-5"><a href="/">{{ config('app.name') }}</a></h1>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -53,3 +54,15 @@
         </div>
     </nav>
 @endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const burger = document.querySelector('.navbar-burger');
+        const menu = document.getElementById(burger.dataset.target);
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+        });
+    });
+</script>

@@ -27,8 +27,7 @@ use Webid\Druid\Services\ComponentSearchContentExtractor;
  * @property Langs|null $lang
  * @property int|null $parent_page_id
  * @property int|null $translation_origin_model_id
- * @property bool $indexation
- * @property bool $follow
+ * @property bool $disable_indexation
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property string|null $meta_keywords
@@ -63,6 +62,7 @@ class Page extends Model implements IsMenuable
         'content' => 'array',
         'status' => PageStatus::class,
         'lang' => Langs::class,
+        'disable_indexation' => 'boolean',
     ];
 
     public function parent(): BelongsTo
