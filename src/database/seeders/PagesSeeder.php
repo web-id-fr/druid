@@ -6,7 +6,6 @@ namespace Webid\Druid\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Webid\Druid\Database\Factories\PageFactory;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Page;
 
@@ -15,25 +14,25 @@ class PagesSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->getPagesStructure() as $pageStructure) {
-            if (! isset($pageStructure[Druid::getDefaultLocaleKey()])) {
+            if (! isset($pageStructure[Druid::getDefaultLocale()])) {
                 return;
             }
 
             /** @var Page $mainPage */
             $mainPage = PageFactory::new()
                 ->create([
-                    'lang' => Druid::getDefaultLocaleKey(),
-                    'title' => $pageStructure[Druid::getDefaultLocaleKey()]['title'],
-                    'slug' => $pageStructure[Druid::getDefaultLocaleKey()]['slug'],
+                    'lang' => Druid::getDefaultLocale(),
+                    'title' => $pageStructure[Druid::getDefaultLocale()]['title'],
+                    'slug' => $pageStructure[Druid::getDefaultLocale()]['slug'],
                 ]);
 
             if (Druid::isMultilingualEnabled()) {
                 foreach ($pageStructure as $locale => $structure) {
-                    if ($locale === Druid::getDefaultLocaleKey()) {
+                    if ($locale === Druid::getDefaultLocale()) {
                         continue;
                     }
 
-                    PageFactory::new()->asATranslationFrom($mainPage, Langs::from($locale))
+                    PageFactory::new()->asATranslationFrom($mainPage, $locale)
                         ->create([
                             'title' => $structure['title'],
                             'slug' => $structure['slug'],

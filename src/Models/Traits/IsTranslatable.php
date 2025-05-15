@@ -4,10 +4,9 @@ namespace Webid\Druid\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webid\Druid\Enums\Langs;
 
 /**
- * @property Langs $lang
+ * @property string $lang
  */
 trait IsTranslatable
 {

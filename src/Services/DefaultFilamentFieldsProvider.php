@@ -140,7 +140,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePages;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
                 ]
             );
@@ -190,8 +190,7 @@ class DefaultFilamentFieldsProvider
             'thumbnail_id' => CuratorPicker::make('thumbnail_id')
                 ->label(__('Image'))
                 ->preserveFilenames()
-                ->columnSpanFull()
-                ->required(),
+                ->columnSpanFull(),
             'thumbnail_alt' => TextInput::make('thumbnail_alt')
                 ->label(__('Image alt'))
                 ->columnSpanFull(),
@@ -214,7 +213,7 @@ class DefaultFilamentFieldsProvider
                 ->label(__('Top article'))
                 ->helperText(__('Display this article in the top article section')),
             'categories' => Select::make('categories')
-                ->options($categoryRepository->allFromDefaultLanguageWithoutTranslationForLang(Druid::getDefaultLocaleKey())->pluck('name', 'id'))
+                ->options($categoryRepository->allFromDefaultLanguageWithoutTranslationForLang(Druid::getDefaultLocale())->pluck('name', 'id'))
                 ->multiple()
                 ->required()
                 ->relationship('categories', 'name')
@@ -259,7 +258,7 @@ class DefaultFilamentFieldsProvider
                             return $allDefaultLanguagePosts;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
                 ]
             );

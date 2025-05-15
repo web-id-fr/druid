@@ -13,7 +13,6 @@ use Webid\Druid\Components\TextComponent;
 use Webid\Druid\Components\TextImageComponent;
 use Webid\Druid\DruidServiceProvider;
 use Webid\Druid\Dto\LangLink;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Dummy\DummyUser;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
@@ -32,7 +31,7 @@ class TestCase extends Orchestra
 
         if (Druid::isMultilingualEnabled()) {
             View::share('languageSwitcher', $this->getLanguageSwitcher());
-            View::share('currentLocale', Druid::getCurrentLocale());
+            View::share('currentLocale', Druid::getCurrentLocaleKey());
         }
     }
 
@@ -64,7 +63,7 @@ class TestCase extends Orchestra
         $app['config']->set('cms.blog.prefix', 'blog');
         $app['config']->set('cms.enable_multilingual_feature', true);
         $app['config']->set('cms.enable_default_blog_routes', true);
-        $app['config']->set('cms.default_locale', Langs::EN->value);
+        $app['config']->set('cms.default_locale', 'en');
         $app['config']->set('cms.components', [
             [
                 'class' => TextComponent::class,
@@ -80,13 +79,13 @@ class TestCase extends Orchestra
             ],
         ]);
         $app['config']->set('cms.locales', [
-            Langs::EN->value => [
+            'en' => [
                 'label' => 'English',
             ],
-            Langs::FR->value => [
+            'fr' => [
                 'label' => 'Français',
             ],
-            Langs::DE->value => [
+            'de' => [
                 'label' => 'German',
             ],
         ]);

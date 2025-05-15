@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Webid\Druid\Dto\Menu;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Services\NavigationMenuManager;
 
 uses(\Webid\Druid\Tests\Helpers\MenuCreator::class);
@@ -15,7 +14,7 @@ beforeEach(function () {
 
 test('a wrong menu slug throws an exception', function () {
     try {
-        $this->navigationMenuManager->getBySlugAndLang('inexisting-slug', Langs::FR);
+        $this->navigationMenuManager->getBySlugAndLang('inexisting-slug', 'fr');
     } catch (ModelNotFoundException $e) {
         expect(true)->toBeTrue();
 
@@ -27,7 +26,7 @@ test('a wrong menu slug throws an exception', function () {
 
 test('a menu dto is returned when menu slug exists', function () {
     $this->createMenuWithSlug('footer');
-    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
+    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', 'en');
 
     expect($menuResource)->not->toBeEmpty()
         ->and($menuResource)->toBeInstanceOf(Menu::class);
@@ -37,7 +36,7 @@ test('menu items label can be set manually', function () {
     $menu = $this->createMenuWithSlug('footer');
     $this->addPageItemToMenu($menu, ['label' => 'Custom Label']);
 
-    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
+    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', 'en');
 
     expect('Custom Label')->toEqual($menuResource->items->first()->label);
 });
@@ -47,7 +46,7 @@ test('the model title overrides label if empty', function () {
     $menuItem = $this->addPageItemToMenu($menu, ['label' => null]);
     $this->addPageItemToMenu($menu, ['parent_item_id' => $menuItem->getKey()]);
 
-    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
+    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', 'en');
     expect($menu->level0Items->first()->model->title)->toEqual($menuResource->items->first()->label);
 });
 
@@ -65,7 +64,7 @@ it('ems are sorted by order param asc', function () {
     $subMenuItemLevel2NoOrder = $this->addPageItemToMenu($menu, ['parent_item_id' => $subMenuItemOrder5->getKey(), 'order' => null]);
     $subMenuItemLevel2Order20 = $this->addPageItemToMenu($menu, ['parent_item_id' => $subMenuItemOrder5->getKey(), 'order' => 20]);
 
-    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', Langs::EN);
+    $menuResource = $this->navigationMenuManager->getBySlugAndLang('footer', 'en');
     expect($menuItemNoOrder->getKey())->toEqual($menuResource->items->first()->id)
         ->and($menuItemOrder5->getKey())->toEqual($menuResource->items->get(1)->id)
         ->and($menuItemOrder20->getKey())->toEqual($menuResource->items->get(2)->id)

@@ -2,7 +2,6 @@
 
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\App;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 
 uses(\Webid\Druid\Tests\Helpers\ApiHelpers::class);
@@ -35,7 +34,7 @@ test('current language shows up in url when multilingual feature is enabled', fu
 test('post can be accessible in other language than the default one', function () {
     $this->enableMultilingualFeature();
 
-    $post = $this->createPostWithCategory(['lang' => Langs::FR->value], ['lang' => Langs::FR->value]);
+    $post = $this->createPostWithCategory(['lang' => 'fr'], ['lang' => 'fr']);
 
     expect(url('/fr/blog/'.$post->categories->first()->slug.'/'.$post->slug))->toEqual($post->url());
 
@@ -82,21 +81,21 @@ test('two posts can share the same slug if not in the same lang', function () {
     $postSlug = 'post-slug';
     $categorySlug = 'category-slug';
 
-    $englishPost = $this->createPostWithCategory(['slug' => $postSlug, 'lang' => Langs::EN->value], ['slug' => $categorySlug, 'lang' => Langs::EN->value]);
-    $frenchPost = $this->createPostWithCategory(['slug' => $postSlug, 'lang' => Langs::FR->value], ['slug' => $categorySlug, 'lang' => Langs::FR->value]);
+    $englishPost = $this->createPostWithCategory(['slug' => $postSlug, 'lang' => 'en'], ['slug' => $categorySlug, 'lang' => 'en']);
+    $frenchPost = $this->createPostWithCategory(['slug' => $postSlug, 'lang' => 'fr'], ['slug' => $categorySlug, 'lang' => 'fr']);
 
-    expect(Langs::EN)->toEqual($englishPost->lang)
-        ->and(Langs::FR)->toEqual($frenchPost->lang)
+    expect('en')->toEqual($englishPost->lang)
+        ->and('fr')->toEqual($frenchPost->lang)
         ->and($postSlug)->toEqual($englishPost->slug)
         ->and($postSlug)->toEqual($frenchPost->slug);
 
     $this->get($englishPost->url())->assertJsonFragment(['id' => $englishPost->getKey()]);
-    $this->get($englishPost->url())->assertJsonFragment(['lang' => Langs::EN->value]);
+    $this->get($englishPost->url())->assertJsonFragment(['lang' => 'en']);
 
-    App::setLocale(Langs::FR->value);
+    App::setLocale('fr');
 
     $this->get($frenchPost->url())->assertJsonFragment(['id' => $frenchPost->getKey()]);
-    $this->get($frenchPost->url())->assertJsonFragment(['lang' => Langs::FR->value]);
+    $this->get($frenchPost->url())->assertJsonFragment(['lang' => 'fr']);
 });
 
 test('two posts cannot share the same slug and lang', function () {

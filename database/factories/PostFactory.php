@@ -6,7 +6,6 @@ use Awcodes\Curator\Models\Media;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
@@ -23,7 +22,7 @@ class PostFactory extends Factory
             'thumbnail_id' => Media::factory()->create()->getKey(),
             'thumbnail_alt' => fake()->words(3, true),
             'status' => PostStatus::PUBLISHED,
-            'lang' => Langs::EN,
+            'lang' => 'en',
             'excerpt' => fake()->text,
             'content' => [
                 [
@@ -77,7 +76,7 @@ class PostFactory extends Factory
         });
     }
 
-    public function asATranslationFrom(Post $post, Langs $lang): static
+    public function asATranslationFrom(Post $post, string $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $post) {
             return [

@@ -5,7 +5,6 @@ namespace Webid\Druid\Components;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\Repositories\ReusableComponentsRepository;
@@ -28,10 +27,10 @@ class ReusableComponent implements ComponentInterface
                 ->placeholder(__('Select a component'))
                 ->options(function (Get $get) use ($reusableComponentsRepository) {
                     if (Druid::isMultilingualEnabled()) {
-                        $lang = $get('../../../lang') ?? Druid::getDefaultLocaleKey();
+                        $lang = $get('../../../lang') ?? Druid::getDefaultLocale();
                         Assert::string($lang);
 
-                        return $reusableComponentsRepository->allForLang(Langs::from($lang))
+                        return $reusableComponentsRepository->allForLang($lang)
                             // @phpstan-ignore-next-line
                             ->mapWithKeys(fn (ReusableComponentModel $reusableComponent) => [
                                 $reusableComponent->getKey() => $reusableComponent->title,

@@ -2,16 +2,14 @@
 
 namespace Webid\Druid\Dto;
 
-use Webid\Druid\Enums\Langs;
-
 class LangLink
 {
     private function __construct(
         readonly public string $url,
-        readonly public Langs $lang,
+        readonly public string $lang,
     ) {}
 
-    public static function make(string $url, Langs $lang): self
+    public static function make(string $url, string $lang): self
     {
         return new self(
             $url,

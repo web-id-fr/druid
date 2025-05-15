@@ -1,6 +1,5 @@
 <?php
 
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 
 uses(\Webid\Druid\Tests\Helpers\ApiHelpers::class);
@@ -21,12 +20,12 @@ test('multilingual feature can be enabled and disabled using config', function (
 
 test('default locale can be set using config', function () {
     $this->setDefaultLanguageKey('fr');
-    expect('fr')->toEqual(Druid::getDefaultLocaleKey());
+    expect('fr')->toEqual(Druid::getDefaultLocale());
     $this->setDefaultLanguageKey('de');
-    expect(Langs::DE)->toEqual(Druid::getDefaultLocale());
+    expect('de')->toEqual(Druid::getDefaultLocale());
 });
 
 test('current locale can be found anytime with a fallback value', function () {
     $this->setDefaultLanguageKey('fr');
-    expect(Langs::FR)->toEqual(Druid::getCurrentLocale());
+    expect('fr')->toEqual(Druid::getCurrentLocaleKey());
 });

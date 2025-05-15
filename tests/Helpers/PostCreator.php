@@ -4,7 +4,6 @@ namespace Webid\Druid\Tests\Helpers;
 
 use Webid\Druid\Database\Factories\CategoryFactory;
 use Webid\Druid\Database\Factories\PostFactory;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Dummy\DummyUser;
 use Webid\Druid\Models\Post;
@@ -45,7 +44,7 @@ trait PostCreator
     protected function createPostInEnglish(array $params = []): Post
     {
         /** @var Post $post */
-        $post = PostFactory::new()->create([...$params, 'lang' => Langs::EN->value]);
+        $post = PostFactory::new()->create([...$params, 'lang' => 'en']);
 
         return $post;
     }
@@ -57,7 +56,7 @@ trait PostCreator
         }
 
         /** @var Post $post */
-        $post = PostFactory::new()->create([...$params, 'lang' => Langs::FR->value]);
+        $post = PostFactory::new()->create([...$params, 'lang' => 'fr']);
 
         return $post;
     }
@@ -69,7 +68,7 @@ trait PostCreator
         }
 
         /** @var Post $post */
-        $post = PostFactory::new()->create([...$params, 'lang' => Langs::DE->value]);
+        $post = PostFactory::new()->create([...$params, 'lang' => 'de']);
 
         return $post;
     }

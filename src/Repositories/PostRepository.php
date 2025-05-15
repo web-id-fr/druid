@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Category;
@@ -112,7 +111,7 @@ class PostRepository
     /**
      * @param  array<string>  $relations
      */
-    public function allPaginatedByLang(int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
+    public function allPaginatedByLang(int $perPage, string $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
         $query = $this->model->newQuery()
             ->with($relations)
@@ -130,7 +129,7 @@ class PostRepository
     /**
      * @param  array<string>  $relations
      */
-    public function allByCategoryAndLangPaginated(Category $category, int $perPage, Langs $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
+    public function allByCategoryAndLangPaginated(Category $category, int $perPage, string $lang, array $relations = [], ?callable $queryModifier = null): LengthAwarePaginator
     {
         $query = $this->model->newQuery()
             ->whereRelation('categories', 'slug', $category->slug)
@@ -150,7 +149,7 @@ class PostRepository
     {
         $query = $this->model->newQuery()
             ->where('slug', $slug)
-            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()));
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocaleKey()));
 
         if ($queryModifier) {
             $queryModifier($query);

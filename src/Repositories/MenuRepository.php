@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Menu;
 
@@ -33,7 +32,7 @@ class MenuRepository
     /**
      * @throws ModelNotFoundException
      */
-    public function findOrFailBySlugAndLang(string $slug, Langs $lang): Menu
+    public function findOrFailBySlugAndLang(string $slug, string $lang): Menu
     {
         /** @var Menu $model */
         $model = $this->model->newQuery()
@@ -69,7 +68,7 @@ class MenuRepository
         return $this->model->newQuery()->count();
     }
 
-    public function countAllHavingLang(Langs $lang): int
+    public function countAllHavingLang(string $lang): int
     {
         return $this->model->newQuery()->where('lang', $lang)->count();
     }
@@ -79,7 +78,7 @@ class MenuRepository
         return $this->model->newQuery()->whereNull('lang')->count();
     }
 
-    public function allFromDefaultLanguageWithoutTranslationForLang(Langs $lang): Collection
+    public function allFromDefaultLanguageWithoutTranslationForLang(string $lang): Collection
     {
         return $this->model->newQuery()->where(['lang' => Druid::getDefaultLocale()])
             ->whereDoesntHave('translations', fn (Builder $query) => $query

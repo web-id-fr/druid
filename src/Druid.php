@@ -6,9 +6,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use ValueError;
+use Webid\Druid\Dto\Lang;
 use Webid\Druid\Dto\Menu;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\MenuItem;
@@ -25,7 +24,7 @@ class Druid
 {
     public function getModel(string $model): string
     {
-        if (! config("cms.models.$model")) {
+        if (!config("cms.models.$model")) {
             throw new \RuntimeException("Model $model not found in config file.");
         }
 
@@ -143,17 +142,12 @@ class Druid
         return config('cms.enable_multilingual_feature') === true;
     }
 
-    public function getDefaultLocale(): Langs
+    public function getDefaultLocale(): string
     {
         $defaultLanguage = config('cms.default_locale');
         Assert::string($defaultLanguage);
 
-        return Langs::from($defaultLanguage);
-    }
-
-    public function getDefaultLocaleKey(): string
-    {
-        return $this->getDefaultLocale()->value;
+        return $defaultLanguage;
     }
 
     /**
@@ -168,28 +162,30 @@ class Druid
         return $locales;
     }
 
-    public function getCurrentLocale(): Langs
+    public function getCurrentLocaleKey(): string
     {
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
-        if (! isset($segments[0]) || ! is_string($segments[0])) {
+        if (!isset($segments[0]) || !is_string($segments[0])) {
             return $defaultLocale;
         }
 
-        try {
-            $langParam = Langs::from($segments[0]);
-        } catch (ValueError) {
-            return $defaultLocale;
-        }
+        Assert::string($segments[0]);
 
-        Assert::isInstanceOf($langParam, Langs::class);
+        return $segments[0];
+    }
 
-        return $langParam;
+    public function getCurrentLocale(): Lang
+    {
+        $currentLocaleKey = $this->getCurrentLocaleKey();
+        $localeLabel = Config::string('cms.locales.' . $currentLocaleKey . '.label');
+
+        return Lang::make($currentLocaleKey, $localeLabel);
     }
 
     public function getHomeUrlForLocal(string $locale): string
     {
-        return '/'.$locale;
+        return '/' . $locale;
     }
 
     public function isMenuModuleEnabled(): bool
@@ -216,7 +212,7 @@ class Druid
         return $navigationMenuManager->getBySlug($slug);
     }
 
-    public function getNavigationMenuBySlugAndLang(string $slug, Langs $lang): Menu
+    public function getNavigationMenuBySlugAndLang(string $slug, string $lang): Menu
     {
         /** @var NavigationMenuManager $navigationMenuManager */
         $navigationMenuManager = app()->make(NavigationMenuManager::class);
@@ -234,11 +230,11 @@ class Druid
         /** @var string $className */
         $className = config('cms.settings.settings_form');
 
-        if (! class_exists($className)) {
+        if (!class_exists($className)) {
             throw new \RuntimeException("$className does not exist.");
         }
 
-        if (! is_subclass_of($className, SettingsInterface::class)) {
+        if (!is_subclass_of($className, SettingsInterface::class)) {
             throw new \RuntimeException("$className needs to implement SettingsInterface.");
         }
 
@@ -268,6 +264,6 @@ class Druid
     {
         $path = ltrim($path, '/');
 
-        return __DIR__."/../../{$path}";
+        return __DIR__ . "/../../{$path}";
     }
 }

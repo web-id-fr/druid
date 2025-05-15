@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Http\Controllers;
 
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\Post;
@@ -18,7 +17,7 @@ class BlogController
         private readonly ContentRenderer $contentRenderer,
     ) {}
 
-    public function indexMultilingual(Langs $lang): mixed
+    public function indexMultilingual(string $lang): mixed
     {
         $posts = $this->postRepository->allPaginatedByLang(Druid::getPostsPerPage(), $lang, ['categories']);
         $categories = $this->categoryRepository->allByLang($lang);
@@ -29,7 +28,7 @@ class BlogController
         ]);
     }
 
-    public function indexByCategoryMultilingual(Langs $lang, Category $category): mixed
+    public function indexByCategoryMultilingual(string $lang, Category $category): mixed
     {
         /** @var Category $category */
         $category = $this->categoryRepository->categoryByLang($category, $lang);
@@ -44,7 +43,7 @@ class BlogController
         ]);
     }
 
-    public function showMultilingual(Langs $lang, Category $category, Post $post): mixed
+    public function showMultilingual(string $lang, Category $category, Post $post): mixed
     {
         $post->load(['thumbnail', 'openGraphPicture']);
 

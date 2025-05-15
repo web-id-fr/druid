@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Contracts\IsMenuable;
@@ -25,7 +24,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property int|null $thumbnail_id
  * @property string|null $thumbnail_alt
  * @property PostStatus $status
- * @property ?Langs $lang
+ * @property ?string $lang
  * @property string|null $excerpt
  * @property array<int, array<mixed>> $content
  * @property string|null $searchable_content
@@ -85,7 +84,6 @@ class Post extends Model implements IsMenuable
         'published_at' => 'datetime',
         'content' => 'array',
         'status' => PostStatus::class,
-        'lang' => Langs::class,
         'disable_indexation' => 'boolean',
     ];
 
@@ -94,7 +92,7 @@ class Post extends Model implements IsMenuable
         $path = '';
 
         if (Druid::isMultilingualEnabled()) {
-            $path .= $this->lang ? $this->lang->value : config('cms.default_locale');
+            $path .= $this->lang ?? config('cms.default_locale');
             $path .= '/';
         }
 
@@ -146,11 +144,11 @@ class Post extends Model implements IsMenuable
 
     public function resolveRouteBinding($value, $field = null): Post
     {
-        return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocale())->firstOrFail() :
+        return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocaleKey())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
     }
 
-    public function incrementSlug(string $slug, ?Langs $lang = null): string
+    public function incrementSlug(string $slug, ?string $lang = null): string
     {
         $original = $slug;
         $count = 2;

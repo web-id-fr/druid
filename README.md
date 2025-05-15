@@ -122,9 +122,9 @@ It is possible to disable some modules or features if you don't need them.
 |----------------------------------------------|------------------------------------------------------------------------------------|
 | `Druid::isMultilingualEnabled(): bool`       | Returns `true` if `enable_multilingual_feature` is set to true in `config/cms.php` |
 | `Druid::getDefaultLocale() : Langs`          | Return the default `Lang` Enum set in `config/cms.php`                             |
-| `Druid::getDefaultLocaleKey() : string`      | Same as previous but returns the local key                                         |
+| `Druid::getDefaultLocale() : string`         | Same as previous but returns the local key                                         |
 | `Druid::getLocales() : array`                | Returns an array of locale data defined in `config/cms.php`                        |
-| `Druid::getCurrentLocale() : Lang`           | Returns the current Lang chosen by the visitor                                     |
+| `Druid::getCurrentLocaleKey() : Lang`        | Returns the current Lang chosen by the visitor                                     |
 | `Druid::getLanaguageSwitcher() : Collection` | Returns a Collection of links in different languages to switch to                  |
 
 ### Navigation menus helpers
@@ -156,10 +156,9 @@ Once you have your menu manager instance, you can request a menu by slug and lan
 `$mainMenu = $menuManager->getBySlug('main');`
 
 If you use the multilingual feature, you can have the same menu `slug` for several language
-so you can use the `getCurrentLocale()` helper function to dynamize the method call.
+so you can use the `getCurrentLocaleKey()` helper function to dynamize the method call.
 
-`$mainMenuInCurrentLanguage = $menuManager->getBySlugAndLang('main', getCurrentLocale());`
-
+`$mainMenuInCurrentLanguage = $menuManager->getBySlugAndLang('main', getCurrentLocaleKey());`
 
 ## Customizing menu items
 
@@ -269,7 +268,7 @@ You can use the `Settings` model to store the homepage id and retrieve it in you
 
 Dru^ID comes with a scheduled command that check if articles have status scheduled_published and publish them if the publication date is reached.
 
-To enable this feature, you need to add a schedule for this command : 
+To enable this feature, you need to add a schedule for this command :
 
 ```php
 druid:publish-scheduled-posts
@@ -277,7 +276,6 @@ druid:publish-scheduled-posts
 
 Laravel 11 doc to add command to scheduler :
 https://laravel.com/docs/11.x/scheduling#defining-schedules
-
 
 ## Credits
 

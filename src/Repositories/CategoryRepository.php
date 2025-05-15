@@ -5,7 +5,6 @@ namespace Webid\Druid\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Category;
 
@@ -28,13 +27,13 @@ class CategoryRepository
         /** @var Category $category */
         $category = $this->model->newQuery()
             ->where('slug', $slug)
-            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocaleKey()))
             ->firstOrFail();
 
         return $category;
     }
 
-    public function allByLang(Langs $lang): Collection
+    public function allByLang(string $lang): Collection
     {
         return $this->model->newQuery()->where('lang', $lang)->get();
     }
@@ -44,7 +43,7 @@ class CategoryRepository
         return $this->model->newQuery()->count();
     }
 
-    public function countAllHavingLang(Langs $lang): int
+    public function countAllHavingLang(string $lang): int
     {
         return $this->model->newQuery()->where('lang', $lang)->count();
     }
@@ -62,7 +61,7 @@ class CategoryRepository
             ->get();
     }
 
-    public function categoryByLang(Category $category, Langs $lang): Model
+    public function categoryByLang(Category $category, string $lang): Model
     {
         return $this->model->newQuery()
             ->where([

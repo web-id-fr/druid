@@ -7,7 +7,6 @@ use Webid\Druid\Components\ImageComponent;
 use Webid\Druid\Components\ReusableComponent;
 use Webid\Druid\Components\TextComponent;
 use Webid\Druid\Components\TextImageComponent;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsForm;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\Services\ContentRenderer\BladeRenderer;
@@ -57,17 +56,17 @@ return [
      */
     'enable_multilingual_feature' => false,
     'locales' => [
-        Langs::EN->value => [
+        'en' => [
             'label' => 'English',
         ],
-        Langs::FR->value => [
-            'label' => 'Français',
+        'fr' => [
+            'label' => 'French',
         ],
-        Langs::DE->value => [
+        'de' => [
             'label' => 'German',
         ],
     ],
-    'default_locale' => Langs::EN->value,
+    'default_locale' => 'en',
 
     /*
      |--------------------------------------------------------------------------
