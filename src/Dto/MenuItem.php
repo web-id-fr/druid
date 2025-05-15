@@ -28,7 +28,7 @@ class MenuItem
         $attributes = [
             'id' => $menuItem->id,
             'label' => strval($menuItem->label ?? $menuItem->model?->getMenuLabel()),
-            'url' => $menuItem->custom_url ?? strval($menuItem->model?->fullUrlPath()),
+            'url' => $menuItem->custom_url ?? url($menuItem->model?->fullUrlPath()),
             'target' => $menuItem->target,
             'children' => $menuItem->children->map(fn (MenuItemModel $item) => self::fromMenuItem($item)),
         ];

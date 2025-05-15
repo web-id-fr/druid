@@ -21,9 +21,13 @@ class PageFactory extends Factory
             'status' => PageStatus::PUBLISHED->value,
             'content' => $this->fakeContent(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'indexation' => 1,
-            'follow' => 1,
+            'disable_indexation' => false,
             'lang' => 'en',
+            'meta_title' => $this->faker->text(30),
+            'meta_description' => $this->faker->text(50),
+            'meta_keywords' => $this->faker->word.','.$this->faker->word,
+            'opengraph_title' => $this->faker->text(30),
+            'opengraph_description' => $this->faker->text(30),
         ];
     }
 

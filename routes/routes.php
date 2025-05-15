@@ -8,12 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Http\Controllers\BlogController;
 use Webid\Druid\Http\Controllers\FallbackController;
-use Webid\Druid\Http\Controllers\LanguageSwitcherController;
 use Webid\Druid\Http\Middleware\RedirectionParentChild;
-
-if (Druid::isMultilingualEnabled()) {
-    Route::get('switch-lang/{locale}', LanguageSwitcherController::class)->name('switch_lang');
-}
 
 if (Druid::isBlogModuleEnabled()) {
     if (Druid::isBlogDefaultRoutesEnabled()) {

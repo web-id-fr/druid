@@ -83,7 +83,7 @@ test('a page can have translations', function () {
 
     $originPage = $this->createPageInEnglish();
 
-    expect($originPage->translations)->toBeEmpty();
+    expect($originPage->translations)->toHaveCount(1);
 
     $frenchTranslation = $this->createFrenchTranslationPage(fromPage: $originPage);
     $originPage->refresh();

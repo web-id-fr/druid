@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
@@ -29,8 +30,7 @@ use Webid\Druid\Models\Traits\IsTranslatable;
  * @property array<int, array<mixed>> $content
  * @property string|null $searchable_content
  * @property bool $is_top_article
- * @property bool $indexation
- * @property bool $follow
+ * @property bool $disable_indexation
  * @property int $translation_origin_model_id
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -68,8 +68,7 @@ class Post extends Model implements IsMenuable
         'lang',
         'excerpt',
         'content',
-        'indexation',
-        'follow',
+        'disable_indexation',
         'meta_title',
         'meta_description',
         'meta_keywords',
@@ -87,6 +86,7 @@ class Post extends Model implements IsMenuable
         'content' => 'array',
         'status' => PostStatus::class,
         'lang' => Langs::class,
+        'disable_indexation' => 'boolean',
     ];
 
     public function fullUrlPath(): string
@@ -108,6 +108,15 @@ class Post extends Model implements IsMenuable
     public function url(): string
     {
         return url($this->fullUrlPath());
+    }
+
+    public function excerpt(): string
+    {
+        if ($this->excerpt) {
+            return $this->excerpt;
+        }
+
+        return Str::words(strip_tags($this->searchable_content), 100);
     }
 
     public function categories(): BelongsToMany

@@ -4,16 +4,20 @@ namespace Webid\Druid\Services;
 
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Support\Str;
+use Webid\Druid\Enums\Langs;
+use Webid\Druid\Facades\Druid;
 use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Repositories\PostRepository;
+use Webmozart\Assert\Assert;
 
 class EnvironmentGuesserService
 {
     public function __construct(
         private readonly Repository $config,
         private readonly PostRepository $postRepository,
-        private readonly PageRepository $pageRepository
+        private readonly PageRepository $pageRepository,
     ) {}
 
     public function getEnvironment(string $path, string $locale): ?string
@@ -27,6 +31,42 @@ class EnvironmentGuesserService
         }
 
         return $this->getPageForLang($slug, $locale);
+    }
+
+    public function getCurrentUrlForLang(string $destinationLocale): string
+    {
+        /** @phpstan-ignore-next-line  $requestSegments */
+        $requestSegments = app()->request->segments();
+
+        Assert::isArray($requestSegments);
+        $currentLocale = head($requestSegments);
+        $currentSlug = last($requestSegments);
+        Assert::string($currentLocale);
+        Assert::string($currentSlug);
+
+        $blogPrefix = Druid::getBlogPrefix();
+
+        if (isset($requestSegments[1]) && $requestSegments[1] === $blogPrefix) {
+            if (count($requestSegments) === 2) {
+                return Druid::getBlogRootUrlForLang($destinationLocale);
+            }
+
+            try {
+                $currentPost = $this->postRepository->findOrFailBySlugAndLang($currentSlug, $currentLocale);
+
+                return $currentPost->url();
+            } catch (ModelNotFoundException $e) {
+                return Druid::getHomeUrlForLocal($destinationLocale);
+            }
+        }
+
+        try {
+            $page = $this->pageRepository->findOrFailBySlugAndLang($currentSlug, $currentLocale);
+
+            return $page->translationOrigin->translationForLang(Langs::from($destinationLocale))->url();
+        } catch (ModelNotFoundException|ItemNotFoundException) {
+            return Druid::getHomeUrlForLocal($destinationLocale);
+        }
     }
 
     private function getBlogPageForLang(string $slug, string $locale): ?string

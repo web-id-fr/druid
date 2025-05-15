@@ -58,4 +58,16 @@ class MenuItemFactory extends Factory
             ];
         });
     }
+
+    public function forCustomUrl(string $url, string $label): self
+    {
+        return $this->state(function () use ($url, $label) {
+            return [
+                'model_id' => null,
+                'model_type' => null,
+                'custom_url' => $url,
+                'label' => $label,
+            ];
+        });
+    }
 }

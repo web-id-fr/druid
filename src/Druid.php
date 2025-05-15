@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use ValueError;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
@@ -111,6 +112,19 @@ class Druid
         return config('cms.enable_blog_module') === true;
     }
 
+    public function getBlogPrefix(): string
+    {
+        /** @var string $prefix */
+        $prefix = config('cms.blog.prefix');
+
+        return $prefix;
+    }
+
+    public function getBlogRootUrlForLang(string $locale): string
+    {
+        return $this->isMultilingualEnabled() ? url(route('posts.multilingual.index', ['lang' => $locale])) : url(route('posts.index'));
+    }
+
     public function isBlogDefaultRoutesEnabled(): bool
     {
         return config('cms.enable_default_blog_routes') === true;
@@ -157,14 +171,25 @@ class Druid
     public function getCurrentLocale(): Langs
     {
         $defaultLocale = $this->getDefaultLocale();
-        $langParam = request()->lang;
-        if (! $langParam) {
+        $segments = request()->segments();
+        if (! isset($segments[0]) || ! is_string($segments[0])) {
+            return $defaultLocale;
+        }
+
+        try {
+            $langParam = Langs::from($segments[0]);
+        } catch (ValueError) {
             return $defaultLocale;
         }
 
         Assert::isInstanceOf($langParam, Langs::class);
 
         return $langParam;
+    }
+
+    public function getHomeUrlForLocal(string $locale): string
+    {
+        return '/'.$locale;
     }
 
     public function isMenuModuleEnabled(): bool

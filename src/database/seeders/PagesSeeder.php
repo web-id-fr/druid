@@ -98,7 +98,7 @@ class PagesSeeder extends Seeder
                 ],
                 'fr' => [
                     'title' => 'Nous contacter',
-                    'slug' => 'nous contacter',
+                    'slug' => 'nous-contacter',
                 ],
                 'de' => [
                     'title' => 'Kontaktiere uns',

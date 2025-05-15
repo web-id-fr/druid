@@ -32,12 +32,13 @@ class PostResource extends JsonResource
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,
             'lang' => $this->resource->lang,
+            'url' => $this->resource->url(),
             'content' => $componentDisplayContentExtractor->getContentFromBlocks($this->resource->content),
             'thumbnail' => MediaResource::make($this->whenLoaded('thumbnail')),
             'searchable_content' => $this->resource->searchable_content,
             'status' => $this->resource->status->value,
-            'indexation' => $this->getIndexationAndFollowValue($this->resource->indexation, $this->resource->follow),
-            'meta_title' => $this->resource->meta_title,
+            'indexation' => $this->getIndexationValue($this->resource->disable_indexation),
+            'meta_title' => $this->resource->meta_title ?? $this->resource->title,
             'meta_description' => $this->resource->meta_description,
             'meta_keywords' => $this->resource->meta_keywords,
             'opengraph_title' => $this->resource->opengraph_title,
@@ -58,20 +59,12 @@ class PostResource extends JsonResource
         return (object) $this->toArrayWithoutRequestContext();
     }
 
-    private function getIndexationAndFollowValue(int|bool $indexation, int|bool $follow): string
+    private function getIndexationValue(bool $disableIndexation): string
     {
-        if ($indexation) {
-            $indexationValue = 'index';
-        } else {
-            $indexationValue = 'noindex';
+        if (config('cms.disable_robots_follow') === true || $disableIndexation) {
+            return 'nofollow,noindex';
         }
 
-        if ($follow) {
-            $followValue = 'follow';
-        } else {
-            $followValue = 'nofollow';
-        }
-
-        return "$indexationValue,$followValue";
+        return 'index,follow';
     }
 }

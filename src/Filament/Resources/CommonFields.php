@@ -4,8 +4,8 @@ namespace Webid\Druid\Filament\Resources;
 
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 
@@ -21,18 +21,13 @@ class CommonFields
                 ->schema([
                     TextInput::make('meta_title')
                         ->label(__('Meta title')),
-                    RichEditor::make('meta_description')
+                    Textarea::make('meta_description')
                         ->label(__('Meta description')),
                     TextInput::make('meta_keywords')
                         ->label(__('Meta keywords')),
-                    Toggle::make('indexation')
-                        ->label(__('Indexation'))
-                        ->helperText(__('Allow search engines to index this page'))
-                        ->required(),
-                    Toggle::make('follow')
-                        ->label(__('Follow'))
-                        ->helperText(__('Allow search engines to follow links on this page'))
-                        ->required(),
+                    Toggle::make('disable_indexation')
+                        ->label(__('Disable indexation'))
+                        ->helperText(__('Disable search engines indexation for this page')),
                 ])
                 ->columns(1),
 
@@ -40,7 +35,7 @@ class CommonFields
                 ->schema([
                     TextInput::make('opengraph_title')
                         ->label(__('Opengraph title')),
-                    RichEditor::make('opengraph_description')
+                    Textarea::make('opengraph_description')
                         ->label(__('Opengraph description')),
                     CuratorPicker::make('opengraph_picture')
                         ->label(__('Opengraph picture'))

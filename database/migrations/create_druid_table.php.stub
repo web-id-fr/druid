@@ -57,8 +57,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             // SEO
-            $table->boolean('indexation')->default(0);
-            $table->boolean('follow')->default(1);
+            $table->boolean('disable_indexation')->default(0);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();
@@ -107,8 +106,7 @@ return new class extends Migration
             $table->longText('searchable_content')->nullable();
             $table->boolean('is_top_article')->default(false);
 
-            $table->boolean('indexation')->default(false);
-            $table->boolean('follow')->default(true);
+            $table->boolean('disable_indexation')->default(false);
             $table->longText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_keywords')->nullable();

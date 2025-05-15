@@ -52,15 +52,13 @@ class PageRepository
      */
     public function findOrFailBySlugAndLang(string $slug, string $langCode): Page
     {
-        /** @var Page $model */
-        $model = $this->model->newQuery()
+        /** @var Page */
+        return $this->model->newQuery()
             ->where([
                 'slug' => $slug,
                 'lang' => $langCode,
             ])
             ->firstOrFail();
-
-        return $model;
     }
 
     public function countAll(): int

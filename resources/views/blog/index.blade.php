@@ -1,47 +1,73 @@
 @extends('druid::layouts.app')
 
+@section('title', __('Blog') . ' - ' . config('app.name', 'Laravel') )
+
 @section('content')
-    <div class="flex flex-col gap-12">
-        <div class="flex flex-row">
-            @foreach($categories as $category)
-                @if(\Webid\Druid\Facades\Druid::isMultilingualEnabled())
-                    <a href="{{ route('posts.multilingual.indexByCategory', [
-                    'category' => $category->slug,
-                    'lang' => \Webid\Druid\Facades\Druid::getCurrentLocale()
-                ]) }}" class="font-bold text-gray-700 text-2xl">
-                        {{ $category->name }}
-                    </a>
-                @else
-                    <a href="{{ route('posts.indexByCategory', [
-                    'category' => $category->slug,
-                ]) }}" class="font-bold text-gray-700 text-2xl">
-                        {{ $category->name }}
-                    </a>
-                @endif
-            @endforeach
-        </div>
-        @foreach($posts as $post)
-            <div class="flex flex-col">
-                @if(\Webid\Druid\Facades\Druid::isMultilingualEnabled())
-                    <a href="{{ route('posts.multilingual.show', [
-                'post' => $post->slug,
-                'category' => $post->categories->first()->slug,
-                'lang' => \Webid\Druid\Facades\Druid::getCurrentLocale()
-            ]) }}" class="font-bold text-gray-700 text-2xl">
-                        {{ $post->title }} - @foreach($post->categories as $category) {{ $category->name }} @endforeach
-                    </a>
-                @else
-                    <a href="{{ route('posts.show', [
-                'post' => $post->slug,
-                'category' => $post->categories->first()->slug
-            ]) }}" class="font-bold text-gray-700 text-2xl">
-                        {{ $post->title }} - @foreach($post->categories as $category) {{ $category->name }} @endforeach
-                    </a>
-                @endif
+    <section class="section">
+        <div class="container">
+
+            <div class="columns">
+                <div class="column is-four-fifths">
+                    @foreach($posts as $post)
+                        <div class="card mb-3">
+                            <div class="card-content">
+
+                                <div class="media">
+                                    <div class="media-content">
+                                        @if ($post->thumbnail)
+                                            <div class="w-64 aspect-video" style="max-height: 400px; overflow: hidden;">
+                                                <a href="{{ $post->url()  }}">
+                                                    <x-curator-glider
+                                                        class="object-cover w-auto"
+                                                        :media="$post->thumbnail_id"
+                                                    />
+                                                </a>
+                                            </div>
+                                        @endif
+                                        <div class="is-size-7 has-text-grey">
+                                            <p>{{ $post->created_at->translatedFormat('j F Y') }}</p>
+                                        </div>
+                                        <p>
+                                            @foreach($post->categories as $category)
+                                                <a href="{{ $category->url() }}"><span class="tag is-primary">{{ $category->name }}</span></a>
+                                            @endforeach
+                                        </p>
+                                        <p class="title is-4"><a href="{{ $post->url()  }}">{{ $post->title }}</a></p>
+                                    </div>
+                                </div>
+
+                                <div class="content">
+                                    <p>{{ $post->excerpt() }}</p>
+                                    <p><a href="{{ $post->url() }}">{{ __('Read more') }}</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    {{ $posts->links('druid::includes.pagination') }}
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <p class="title is-4">{{__('Categories')}}</p>
+                            </div>
+
+                            <div class="content">
+                                <ul>
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a href="{{ $category->url() }}">
+                                                {{ $category->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        @endforeach
-
-        {{ $posts->links() }}
-    </div>
-
+        </div>
+    </section>
 @endsection

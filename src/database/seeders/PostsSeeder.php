@@ -76,7 +76,7 @@ class PostsSeeder extends Seeder
                 ],
                 'fr' => [
                     'name' => 'Actualités',
-                    'slug' => 'actualités',
+                    'slug' => 'actualites',
                 ],
                 'de' => [
                     'name' => 'Nachricht',
