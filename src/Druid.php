@@ -208,7 +208,6 @@ class Druid
         return $navigationMenuManager->getBySlugAndLang($slug, $lang);
     }
 
-
     public function isPageModuleEnabled(): bool
     {
         return config('cms.enable_page_module') === true;
