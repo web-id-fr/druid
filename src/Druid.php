@@ -24,7 +24,7 @@ class Druid
 {
     public function getModel(string $model): string
     {
-        if (!config("cms.models.$model")) {
+        if (! config("cms.models.$model")) {
             throw new \RuntimeException("Model $model not found in config file.");
         }
 
@@ -166,7 +166,7 @@ class Druid
     {
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
-        if (!isset($segments[0]) || !is_string($segments[0])) {
+        if (! isset($segments[0]) || ! is_string($segments[0])) {
             return $defaultLocale;
         }
 
@@ -178,14 +178,14 @@ class Druid
     public function getCurrentLocale(): Lang
     {
         $currentLocaleKey = $this->getCurrentLocaleKey();
-        $localeLabel = Config::string('cms.locales.' . $currentLocaleKey . '.label');
+        $localeLabel = Config::string('cms.locales.'.$currentLocaleKey.'.label');
 
         return Lang::make($currentLocaleKey, $localeLabel);
     }
 
     public function getHomeUrlForLocal(string $locale): string
     {
-        return '/' . $locale;
+        return '/'.$locale;
     }
 
     public function isMenuModuleEnabled(): bool
@@ -230,11 +230,11 @@ class Druid
         /** @var string $className */
         $className = config('cms.settings.settings_form');
 
-        if (!class_exists($className)) {
+        if (! class_exists($className)) {
             throw new \RuntimeException("$className does not exist.");
         }
 
-        if (!is_subclass_of($className, SettingsInterface::class)) {
+        if (! is_subclass_of($className, SettingsInterface::class)) {
             throw new \RuntimeException("$className needs to implement SettingsInterface.");
         }
 
@@ -264,6 +264,6 @@ class Druid
     {
         $path = ltrim($path, '/');
 
-        return __DIR__ . "/../../{$path}";
+        return __DIR__."/../../{$path}";
     }
 }
