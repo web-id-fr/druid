@@ -6,7 +6,6 @@ use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Support\Str;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Repositories\PostRepository;
@@ -63,7 +62,7 @@ class EnvironmentGuesserService
         try {
             $page = $this->pageRepository->findOrFailBySlugAndLang($currentSlug, $currentLocale);
 
-            return $page->translationOrigin->translationForLang(Langs::from($destinationLocale))->url();
+            return $page->translationOrigin->translationForLang($destinationLocale)->url();
         } catch (ModelNotFoundException|ItemNotFoundException) {
             return Druid::getHomeUrlForLocal($destinationLocale);
         }

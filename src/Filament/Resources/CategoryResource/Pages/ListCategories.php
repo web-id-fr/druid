@@ -6,7 +6,6 @@ use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\CategoryResource;
 use Webid\Druid\Repositories\CategoryRepository;
@@ -39,7 +38,7 @@ class ListCategories extends ListRecords
         foreach (Druid::getLocales() as $localeKey => $localeData) {
             $tabs[$localeKey] = Tab::make($localeData['label'])
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('lang', $localeKey))
-                ->badge($categoryRepository->countAllHavingLang(Langs::from($localeKey)));
+                ->badge($categoryRepository->countAllHavingLang($localeKey));
         }
 
         $noLangMenuCount = $categoryRepository->countAllWithoutLang();

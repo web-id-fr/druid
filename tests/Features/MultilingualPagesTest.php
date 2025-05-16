@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\UniqueConstraintViolationException;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 
 uses(\Webid\Druid\Tests\Helpers\ApiHelpers::class);
@@ -63,9 +62,9 @@ test('two pages can share the same slug if not in the same lang', function () {
         ->and($pageSlug)->toEqual($pageInFrench->slug);
 
     $this->get($pageInEnglish->url())->assertJsonFragment(['id' => $pageInEnglish->getKey()]);
-    $this->get($pageInEnglish->url())->assertJsonFragment(['lang' => Langs::EN->value]);
+    $this->get($pageInEnglish->url())->assertJsonFragment(['lang' => 'en']);
     $this->get($pageInFrench->url())->assertJsonFragment(['id' => $pageInFrench->getKey()]);
-    $this->get($pageInFrench->url())->assertJsonFragment(['lang' => Langs::FR->value]);
+    $this->get($pageInFrench->url())->assertJsonFragment(['lang' => 'fr']);
 });
 
 test('two pages cannot share the same slug and lang', function () {

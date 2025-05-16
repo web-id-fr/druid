@@ -4,7 +4,6 @@ namespace Webid\Druid\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\ReusableComponent;
 
@@ -53,7 +52,7 @@ class ReusableComponentsRepository
             ->get();
     }
 
-    public function allForLang(Langs $lang): Collection
+    public function allForLang(string $lang): Collection
     {
         return $this->model->newQuery()->where('lang', $lang)->get();
     }

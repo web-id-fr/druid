@@ -20,9 +20,9 @@ test('language switcher shows the list of locales in the same order as config fi
 
     $this->assertCount(2, $page->translations);
     expect($page->translation_origin_model_id)->toBe($page->id);
-    expect($page->translations->first()->lang)->toBe(\Webid\Druid\Enums\Langs::EN);
-    expect($page->translations->skip(1)->first()->lang)->toBe(\Webid\Druid\Enums\Langs::FR);
-    expect($page->translations->where('lang', \Webid\Druid\Enums\Langs::EN)->first()->status)->toBe(\Webid\Druid\Enums\PageStatus::PUBLISHED);
+    expect($page->translations->first()->lang)->toBe('en');
+    expect($page->translations->skip(1)->first()->lang)->toBe('fr');
+    expect($page->translations->where('lang', 'en')->first()->status)->toBe(\Webid\Druid\Enums\PageStatus::PUBLISHED);
 
     $this->get($page->url())
         ->assertViewHas('languageSwitcher.0.label', 'English')

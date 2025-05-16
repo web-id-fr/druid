@@ -37,7 +37,7 @@
                 @if (isset($languageSwitcher))
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a href="#" class="navbar-link">
-                            {{\Webid\Druid\Facades\Druid::getCurrentLocale()->getName()}}
+                            {{\Webid\Druid\Facades\Druid::getCurrentLocaleKey()}}
                         </a>
 
                         <div class="navbar-dropdown">

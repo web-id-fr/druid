@@ -12,7 +12,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Menu;
 use Webid\Druid\Repositories\MenuRepository;
@@ -53,7 +52,7 @@ class MenuResource extends Resource
                         )
                         ->live()
                         ->required()
-                        ->default(Druid::getDefaultLocaleKey())
+                        ->default(Druid::getDefaultLocale())
                         ->placeholder(__('Select a language')),
                     Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
@@ -62,7 +61,7 @@ class MenuResource extends Resource
                             $lang = $get('lang');
                             Assert::string($lang);
 
-                            $allDefaultLanguageMenus = $menuRepository->allFromDefaultLanguageWithoutTranslationForLang(Langs::from($lang))
+                            $allDefaultLanguageMenus = $menuRepository->allFromDefaultLanguageWithoutTranslationForLang($lang)
                                 // @phpstan-ignore-next-line
                                 ->mapWithKeys(fn (Menu $mapMenu) => [$mapMenu->getKey() => $mapMenu->title]);
 
@@ -77,7 +76,7 @@ class MenuResource extends Resource
                             return $allDefaultLanguageMenus;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
                 ]
             );

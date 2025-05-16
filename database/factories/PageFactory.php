@@ -5,7 +5,6 @@ namespace Webid\Druid\Database\Factories;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Models\Page;
 
@@ -52,7 +51,7 @@ class PageFactory extends Factory
         });
     }
 
-    public function asATranslationFrom(Page $page, Langs $lang): static
+    public function asATranslationFrom(Page $page, string $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $page) {
             return [

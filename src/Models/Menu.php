@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Traits\IsTranslatable;
 
@@ -31,10 +30,6 @@ class Menu extends Model
         'title',
         'slug',
         'lang',
-    ];
-
-    protected $casts = [
-        'lang' => Langs::class,
     ];
 
     public function items(): HasMany

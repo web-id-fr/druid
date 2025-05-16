@@ -55,7 +55,7 @@ class ReusableComponentResource extends Resource
                         )
                         ->live()
                         ->required()
-                        ->default(Druid::getDefaultLocaleKey())
+                        ->default(Druid::getDefaultLocale())
                         ->placeholder(__('Select a language')),
                     Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
@@ -79,7 +79,7 @@ class ReusableComponentResource extends Resource
                             return $allDefaultLanguageComponents;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
                 ]
             );

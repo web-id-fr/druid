@@ -3,7 +3,6 @@
 namespace Webid\Druid\Tests\Helpers;
 
 use Webid\Druid\Database\Factories\PageFactory;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\Page;
 
 trait PageCreator
@@ -29,7 +28,7 @@ trait PageCreator
     protected function createPageInEnglish(array $params = []): Page
     {
         /** @var Page $page */
-        $page = PageFactory::new()->create([...$params, 'lang' => Langs::EN->value]);
+        $page = PageFactory::new()->create([...$params, 'lang' => 'en']);
 
         return $page;
     }
@@ -41,7 +40,7 @@ trait PageCreator
         }
 
         /** @var Page $page */
-        $page = PageFactory::new()->create([...$params, 'lang' => Langs::FR->value]);
+        $page = PageFactory::new()->create([...$params, 'lang' => 'fr']);
 
         return $page;
     }
@@ -53,7 +52,7 @@ trait PageCreator
         }
 
         /** @var Page $page */
-        $page = PageFactory::new()->create([...$params, 'lang' => Langs::DE->value]);
+        $page = PageFactory::new()->create([...$params, 'lang' => 'de']);
 
         return $page;
     }

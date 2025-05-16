@@ -17,19 +17,19 @@ class MenusSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->getMenusStructure() as $menuStructureByLocale) {
-            if (! isset($menuStructureByLocale[Druid::getDefaultLocaleKey()])) {
+            if (! isset($menuStructureByLocale[Druid::getDefaultLocale()])) {
                 return;
             }
 
             /** @var Menu $menu */
             $menu = MenuFactory::new()->create([
-                ...$menuStructureByLocale[Druid::getDefaultLocaleKey()],
-                'lang' => Druid::getDefaultLocaleKey(),
+                ...$menuStructureByLocale[Druid::getDefaultLocale()],
+                'lang' => Druid::getDefaultLocale(),
             ]);
 
             $order = 1;
             Page::query()
-                ->where('lang', Druid::getDefaultLocaleKey())
+                ->where('lang', Druid::getDefaultLocale())
                 ->orderBy('id')
                 ->each(function (Page $page) use ($menu, &$order) {
                     /** @var Menu $menu */
@@ -43,7 +43,7 @@ class MenusSeeder extends Seeder
             /** @phpstan-ignore-next-line */
             $blogUrl = config('app.url').'/';
             if (Druid::isMultilingualEnabled()) {
-                $blogUrl .= Druid::getDefaultLocaleKey().'/';
+                $blogUrl .= Druid::getDefaultLocale().'/';
             }
             $blogUrl .= Druid::getBlogPrefix();
 
@@ -54,7 +54,7 @@ class MenusSeeder extends Seeder
 
             if (Druid::isMultilingualEnabled()) {
                 foreach ($menuStructureByLocale as $menuLocale => $menuData) {
-                    if ($menuLocale === Druid::getDefaultLocaleKey()) {
+                    if ($menuLocale === Druid::getDefaultLocale()) {
                         continue;
                     }
 

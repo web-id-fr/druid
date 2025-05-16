@@ -4,7 +4,6 @@ namespace Webid\Druid\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Models\Menu;
 
 class MenuFactory extends Factory
@@ -16,7 +15,7 @@ class MenuFactory extends Factory
         return [
             'title' => $this->faker->name,
             'slug' => $this->faker->slug,
-            'lang' => Langs::EN->value,
+            'lang' => 'en',
         ];
     }
 
@@ -32,7 +31,7 @@ class MenuFactory extends Factory
         });
     }
 
-    public function asATranslationFrom(Menu $menu, Langs $lang): static
+    public function asATranslationFrom(Menu $menu, string $lang): static
     {
         return $this->state(function (array $attributes) use ($lang, $menu) {
             return [

@@ -6,9 +6,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use ValueError;
+use Webid\Druid\Dto\Lang;
 use Webid\Druid\Dto\Menu;
-use Webid\Druid\Enums\Langs;
 use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\MenuItem;
@@ -143,17 +142,12 @@ class Druid
         return config('cms.enable_multilingual_feature') === true;
     }
 
-    public function getDefaultLocale(): Langs
+    public function getDefaultLocale(): string
     {
         $defaultLanguage = config('cms.default_locale');
         Assert::string($defaultLanguage);
 
-        return Langs::from($defaultLanguage);
-    }
-
-    public function getDefaultLocaleKey(): string
-    {
-        return $this->getDefaultLocale()->value;
+        return $defaultLanguage;
     }
 
     /**
@@ -168,7 +162,7 @@ class Druid
         return $locales;
     }
 
-    public function getCurrentLocale(): Langs
+    public function getCurrentLocaleKey(): string
     {
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
@@ -176,15 +170,17 @@ class Druid
             return $defaultLocale;
         }
 
-        try {
-            $langParam = Langs::from($segments[0]);
-        } catch (ValueError) {
-            return $defaultLocale;
-        }
+        Assert::string($segments[0]);
 
-        Assert::isInstanceOf($langParam, Langs::class);
+        return $segments[0];
+    }
 
-        return $langParam;
+    public function getCurrentLocale(): Lang
+    {
+        $currentLocaleKey = $this->getCurrentLocaleKey();
+        $localeLabel = Config::string('cms.locales.'.$currentLocaleKey.'.label');
+
+        return Lang::make($currentLocaleKey, $localeLabel);
     }
 
     public function getHomeUrlForLocal(string $locale): string
@@ -216,7 +212,7 @@ class Druid
         return $navigationMenuManager->getBySlug($slug);
     }
 
-    public function getNavigationMenuBySlugAndLang(string $slug, Langs $lang): Menu
+    public function getNavigationMenuBySlugAndLang(string $slug, string $lang): Menu
     {
         /** @var NavigationMenuManager $navigationMenuManager */
         $navigationMenuManager = app()->make(NavigationMenuManager::class);

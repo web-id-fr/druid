@@ -94,7 +94,7 @@ class PageRepository
         /** @var Page $page */
         $page = $this->model->newQuery()
             ->where('slug', $slug)
-            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocale()))
+            ->when(Druid::isMultilingualEnabled(), fn (Builder $query) => $query->where('lang', Druid::getCurrentLocaleKey()))
             ->firstOrFail();
 
         return $page;

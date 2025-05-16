@@ -85,7 +85,7 @@ class CategoryResource extends Resource
                             return $allDefaultLanguagePosts;
                         })
                         ->searchable()
-                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocaleKey())
+                        ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
                 ]
             );
