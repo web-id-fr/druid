@@ -7,7 +7,6 @@ use Webid\Druid\Components\ImageComponent;
 use Webid\Druid\Components\ReusableComponent;
 use Webid\Druid\Components\TextComponent;
 use Webid\Druid\Components\TextImageComponent;
-use Webid\Druid\Filament\Pages\SettingsPage\SettingsForm;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\Services\ContentRenderer\BladeRenderer;
 
@@ -26,7 +25,6 @@ return [
         'category' => \Webid\Druid\Models\Category::class,
         'menu' => \Webid\Druid\Models\Menu::class,
         'menu_item' => \Webid\Druid\Models\MenuItem::class,
-        'settings' => \Webid\Druid\Models\Settings::class,
         'reusable_component' => \Webid\Druid\Models\ReusableComponent::class,
     ],
 
@@ -120,15 +118,5 @@ return [
     'blog' => [
         'posts_per_page' => 10,
         'prefix' => 'blog',
-    ],
-
-    /*
-     |--------------------------------------------------------------------------
-     | Settings
-     |--------------------------------------------------------------------------
-     */
-    'settings' => [
-        'enable_settings_page' => true,
-        'settings_form' => SettingsForm::class,
     ],
 ];

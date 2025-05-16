@@ -3,19 +3,15 @@
 namespace Webid\Druid;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Webid\Druid\Dto\Lang;
 use Webid\Druid\Dto\Menu;
-use Webid\Druid\Filament\Pages\SettingsPage\SettingsInterface;
 use Webid\Druid\Models\Category;
 use Webid\Druid\Models\MenuItem;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Models\Post;
 use Webid\Druid\Models\ReusableComponent;
-use Webid\Druid\Models\Settings;
-use Webid\Druid\Repositories\SettingsRepository;
 use Webid\Druid\Services\LanguageSwitcher;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webmozart\Assert\Assert;
@@ -80,14 +76,6 @@ class Druid
         $menuItem = new (config('cms.models.menu_item'));
 
         return $menuItem;
-    }
-
-    public function Settings(): Settings
-    {
-        /** @var Settings $settings */
-        $settings = new (config('cms.models.settings'));
-
-        return $settings;
     }
 
     public function ReusableComponent(): ReusableComponent
@@ -218,41 +206,6 @@ class Druid
         $navigationMenuManager = app()->make(NavigationMenuManager::class);
 
         return $navigationMenuManager->getBySlugAndLang($slug, $lang);
-    }
-
-    public function isSettingsPageEnabled(): bool
-    {
-        return config('cms.settings.enable_settings_page') === true;
-    }
-
-    public function settingsPage(): SettingsInterface
-    {
-        /** @var string $className */
-        $className = config('cms.settings.settings_form');
-
-        if (! class_exists($className)) {
-            throw new \RuntimeException("$className does not exist.");
-        }
-
-        if (! is_subclass_of($className, SettingsInterface::class)) {
-            throw new \RuntimeException("$className needs to implement SettingsInterface.");
-        }
-
-        return new $className;
-    }
-
-    public function getSettingByKey(string $key): ?Model
-    {
-        $settingsRepository = app(SettingsRepository::class);
-
-        return $settingsRepository->findSettingByKeyName($key);
-    }
-
-    public function getSettings(): Collection
-    {
-        $settingsRepository = app(SettingsRepository::class);
-
-        return $settingsRepository->all();
     }
 
     public function isPageModuleEnabled(): bool

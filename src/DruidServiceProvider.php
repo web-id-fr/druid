@@ -37,7 +37,6 @@ class DruidServiceProvider extends PackageServiceProvider
                 '06_create_post_user_table',
                 '07_create_menus_table',
                 '08_create_menu_items_table',
-                '09_create_settings_table',
             ])
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
