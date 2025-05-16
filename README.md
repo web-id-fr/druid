@@ -17,7 +17,6 @@ Essentially out of the box you'll get a Filament based admin panel where you can
 - Posts
 - Navigation menus
 - Reusable blocks
-- Settings
 
 You'll also find helpers and services to manage multilingual and navigation menu features in your codebase.
 
@@ -102,12 +101,6 @@ and use it multiple times wherever you like afterward. This is what we call a re
 You can manually group and nest your contents inside navigation menus in the admin panel. You can choose between internal content
 (page and posts) and external URLs. You can nest your menu items up to 3 levels for advanced menus usage.
 
-### Settings
-
-You can define some settings in the admin panel that you can use in your codebase using the `Settings` helper.
-It's possible to build your own settings form page using the `SettingsInterface` class. When you're done, you have to
-add the class to the `config/cms.php` file `settings.settings_form`.
-
 ## Configuration
 
 The `config/cms.php` file contains all the configuration options for the Dru^ID package.
@@ -133,15 +126,6 @@ It is possible to disable some modules or features if you don't need them.
 |---------------------------------------------------------------------------|--------------------------------------------------------|
 | `Druid::getNavigationMenuBySlug(string $slug): Menu`                      | Returns a `Menu` DTO with all the nested links details |
 | `Druid::getNavigationMenuBySlugAndLang(string $slug, Langs $lang) : Menu` | Same as preview but with a given language              |
-
-### Settings helpers
-
-| Function                                     | Description                                                     |
-|----------------------------------------------|-----------------------------------------------------------------|
-| `Druid::getSettingByKey(string $key): mixed` | Returns the value of a setting defined in the admin panel       |
-| `Druid::getSettings(): Collection`           | Returns a collection of all settings defined in the admin panel |
-| `Druid::isSettingsPageEnabled(): bool`       | Returns `true` if the settings page is enabled                  |
-| `Druid::settingsPage(): SettingsInterface`   | Returns the settings page class used to build the form          |
 
 ## Services
 
@@ -233,15 +217,15 @@ $fieldsBuilder->addField(
 We decide to not provide a default homepage route in the package because we think that it's better to let the developer choose the way to define it.
 Here is a simple way to define a default homepage route in your `routes/web.php` file.
 
-You can use the `Settings` model to store the homepage id and retrieve it in your controller.
+You can use a custom env based config to store the homepage id and retrieve it in your controller.
 
 ```php
     HomepageController.php
 
     public function index(): View
     {
-        /** @var Settings|null $page */
-        $page = Druid::getSettingByKey('homepage_id');
+        /** @var int|null $page */
+        $page = config('app.homepage_id');
 
         if (is_null($page)) {
             abort(404);
