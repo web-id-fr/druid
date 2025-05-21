@@ -152,6 +152,10 @@ class Druid
 
     public function getCurrentLocaleKey(): string
     {
+        if (! self::isMultilingualEnabled()) {
+            return self::getDefaultLocale();
+        }
+
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
         if (! isset($segments[0]) || ! is_string($segments[0])) {
