@@ -20,6 +20,7 @@ class MenuItemFactory extends Factory
             'order' => $this->faker->numberBetween(0, 30),
             'parent_item_id' => null,
             'target' => MenuItemTarget::SELF->value,
+            'type' => 'page',
         ];
     }
 
@@ -33,7 +34,7 @@ class MenuItemFactory extends Factory
     }
 
     /**
-     * @param  array<string, mixed>  $params
+     * @param array<string, mixed> $params
      */
     public function withPageItem(array $params = []): self
     {
@@ -44,6 +45,7 @@ class MenuItemFactory extends Factory
             return [
                 'model_id' => $page->getKey(),
                 'model_type' => $page->getMorphClass(),
+                'type' => 'page',
             ];
         });
     }
@@ -55,6 +57,7 @@ class MenuItemFactory extends Factory
                 'model_id' => $page->getKey(),
                 'model_type' => $page->getMorphClass(),
                 'label' => null,
+                'type' => 'page',
             ];
         });
     }
@@ -67,6 +70,7 @@ class MenuItemFactory extends Factory
                 'model_type' => null,
                 'custom_url' => $url,
                 'label' => $label,
+                'type' => 'custom',
             ];
         });
     }
