@@ -20,7 +20,7 @@ class Druid
 {
     public function getModel(string $model): string
     {
-        if (! config("cms.models.$model")) {
+        if (!config("cms.models.$model")) {
             throw new \RuntimeException("Model $model not found in config file.");
         }
 
@@ -152,9 +152,13 @@ class Druid
 
     public function getCurrentLocaleKey(): string
     {
+        if (!self::isMultilingualEnabled()) {
+            return self::getDefaultLocale();
+        }
+
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
-        if (! isset($segments[0]) || ! is_string($segments[0])) {
+        if (!isset($segments[0]) || !is_string($segments[0])) {
             return $defaultLocale;
         }
 
@@ -166,14 +170,14 @@ class Druid
     public function getCurrentLocale(): Lang
     {
         $currentLocaleKey = $this->getCurrentLocaleKey();
-        $localeLabel = Config::string('cms.locales.'.$currentLocaleKey.'.label');
+        $localeLabel = Config::string('cms.locales.' . $currentLocaleKey . '.label');
 
         return Lang::make($currentLocaleKey, $localeLabel);
     }
 
     public function getHomeUrlForLocal(string $locale): string
     {
-        return '/'.$locale;
+        return '/' . $locale;
     }
 
     public function isMenuModuleEnabled(): bool
@@ -217,6 +221,6 @@ class Druid
     {
         $path = ltrim($path, '/');
 
-        return __DIR__."/../../{$path}";
+        return __DIR__ . "/../../{$path}";
     }
 }
