@@ -30,7 +30,9 @@ class BladeRenderer implements ContentRenderer
                 foreach ($loadedMenus as $menuSlug) {
                     Assert::string($menuSlug);
                     try {
-                        $context['menus'][$menuSlug] = Druid::getNavigationMenuBySlug($menuSlug);
+                        $context['menus'][$menuSlug] = Druid::isMultilingualEnabled() ?
+                            Druid::getNavigationMenuBySlugAndLang($menuSlug, Druid::getCurrentLocaleKey()) :
+                            Druid::getNavigationMenuBySlug($menuSlug);
                     } catch (\Exception) {
                     }
                 }

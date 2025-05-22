@@ -5,11 +5,22 @@ use Webid\Druid\Dto\Menu;
 use Webid\Druid\Services\NavigationMenuManager;
 
 uses(\Webid\Druid\Tests\Helpers\MenuCreator::class);
+uses(\Webid\Druid\Tests\Helpers\MultilingualHelpers::class);
 
 beforeEach(function () {
     /** @var NavigationMenuManager $navigationMenuManager */
     $navigationMenuManager = app(NavigationMenuManager::class);
     $this->navigationMenuManager = $navigationMenuManager;
+});
+
+test('we can get a menu with its slug', function () {
+    $this->disableMultilingualFeature();
+    $this->createMenuWithSlug('my-menu');
+
+    $menuResource = $this->navigationMenuManager->getBySlug('my-menu');
+
+    expect($menuResource)->not->toBeEmpty()
+        ->and($menuResource)->toBeInstanceOf(Menu::class);
 });
 
 test('a wrong menu slug throws an exception', function () {
