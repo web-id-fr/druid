@@ -44,6 +44,20 @@ class MenuRepository
         return $model;
     }
 
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function findOrFailBySlug(string $slug): Menu
+    {
+        /** @var Menu $model */
+        $model = $this->model->newQuery()
+            ->with($this->defaultRelationsToLoad())
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return $model;
+    }
+
     public function all(): Collection
     {
         return $this->model->newQuery()
