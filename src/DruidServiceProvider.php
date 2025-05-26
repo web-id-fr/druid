@@ -12,7 +12,6 @@ use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
 use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
-use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentSettingsFieldsBuilder;
 use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 use Webid\Druid\Services\DefaultFilamentFieldsProvider;
 use Webmozart\Assert\Assert;
