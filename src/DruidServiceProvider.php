@@ -77,13 +77,6 @@ class DruidServiceProvider extends PackageServiceProvider
         /** @var DefaultFilamentFieldsProvider $defaultFieldsProvider */
         $defaultFieldsProvider = $this->app->make(DefaultFilamentFieldsProvider::class);
 
-        $this->app->singleton(FilamentSettingsFieldsBuilder::class, function () use ($defaultFieldsProvider) {
-            $builder = new FilamentSettingsFieldsBuilder;
-            $builder->updateFields($defaultFieldsProvider->getDefaultSettingsFields());
-
-            return $builder;
-        });
-
         $this->app->singleton(FilamentPageFieldsBuilder::class, function () use ($defaultFieldsProvider) {
             $builder = new FilamentPageFieldsBuilder;
             $builder->updateFields($defaultFieldsProvider->getDefaultPagesFields());
