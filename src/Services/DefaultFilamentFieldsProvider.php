@@ -15,7 +15,6 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Enums\PostStatus;
