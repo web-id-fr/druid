@@ -34,36 +34,6 @@ class DefaultFilamentFieldsProvider
     /**
      * @return array<string, Component>
      */
-    public function getDefaultSettingsFields(): array
-    {
-        return [
-            'tabs' => Tabs::make('Tabs')
-                ->tabs([
-                    'general' => Tabs\Tab::make(__('General'))
-                        ->schema([
-                            'site_name' => TextInput::make('site_name')
-                                ->label(__('Name of the site'))
-                                ->required(),
-                            'site_description' => TextInput::make('site_description')
-                                ->label(__('Description of the site'))
-                                ->required(),
-                            'site_email' => TextInput::make('site_email')
-                                ->label(__('Email of the site'))
-                                ->required(),
-                        ]),
-                    'application' => Tabs\Tab::make('Application')
-                        ->schema([
-                            'app_version' => TextInput::make('app_version')
-                                ->label(__('Version of the application'))
-                                ->required(),
-                        ]),
-                ]),
-        ];
-    }
-
-    /**
-     * @return array<string, Component>
-     */
     public function getDefaultPagesFields(): array
     {
         /** @var FilamentComponentsService $filamentComponentService */
