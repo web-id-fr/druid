@@ -190,8 +190,8 @@ class DefaultFilamentFieldsProvider
                 ->preload(),
             'users' => Select::make('users')
                 ->multiple()
-                ->default([Auth::user()?->getKey()])
-                ->relationship('users', 'name'),
+                ->relationship('users', 'name')
+                ->preload(),
         ];
 
         if (Druid::isMultilingualEnabled()) {
