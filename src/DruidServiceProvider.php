@@ -12,7 +12,6 @@ use Webid\Druid\Http\Middleware\MultilingualFeatureForbidden;
 use Webid\Druid\Http\Middleware\MultilingualFeatureRequired;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPageFieldsBuilder;
 use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentPostFieldsBuilder;
-use Webid\Druid\Services\Admin\FilamentFieldsBuilders\FilamentSettingsFieldsBuilder;
 use Webid\Druid\Services\ContentRenderer\ContentRenderer;
 use Webid\Druid\Services\DefaultFilamentFieldsProvider;
 use Webmozart\Assert\Assert;
@@ -76,13 +75,6 @@ class DruidServiceProvider extends PackageServiceProvider
     {
         /** @var DefaultFilamentFieldsProvider $defaultFieldsProvider */
         $defaultFieldsProvider = $this->app->make(DefaultFilamentFieldsProvider::class);
-
-        $this->app->singleton(FilamentSettingsFieldsBuilder::class, function () use ($defaultFieldsProvider) {
-            $builder = new FilamentSettingsFieldsBuilder;
-            $builder->updateFields($defaultFieldsProvider->getDefaultSettingsFields());
-
-            return $builder;
-        });
 
         $this->app->singleton(FilamentPageFieldsBuilder::class, function () use ($defaultFieldsProvider) {
             $builder = new FilamentPageFieldsBuilder;
