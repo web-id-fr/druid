@@ -23,7 +23,10 @@ use Webmozart\Assert\Assert;
 
 class CategoryResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    public static function getModel(): string
+    {
+        return Druid::getModel('category');
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
