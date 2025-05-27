@@ -5,7 +5,7 @@ namespace Webid\Druid\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Webid\Druid\Enums\PostStatus;
-use Webid\Druid\Models\Post;
+use Webid\Druid\Facades\Druid;
 
 class CheckIfPostNeedsToBePublished extends Command
 {
@@ -17,7 +17,9 @@ class CheckIfPostNeedsToBePublished extends Command
     {
         $this->info('Checking if post needs to be published');
 
-        $posts = Post::query()
+        $postModel = Druid::Post();
+
+        $posts = $postModel::query()
             ->where('status', PostStatus::SCHEDULED_PUBLISH)
             ->where('published_at', '<=', Carbon::now()->format('Y-m-d H:i:s'))
             ->get();
