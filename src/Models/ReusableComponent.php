@@ -22,11 +22,8 @@ class ReusableComponent extends Model
     use HasFactory;
     use IsTranslatable;
 
-    protected $fillable = [
-        'title',
-        'content',
-        'searchable_content',
-        'lang',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
