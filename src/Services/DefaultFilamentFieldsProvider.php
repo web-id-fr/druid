@@ -15,7 +15,6 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Enums\PostStatus;
@@ -31,36 +30,6 @@ use Webmozart\Assert\Assert;
 
 class DefaultFilamentFieldsProvider
 {
-    /**
-     * @return array<string, Component>
-     */
-    public function getDefaultSettingsFields(): array
-    {
-        return [
-            'tabs' => Tabs::make('Tabs')
-                ->tabs([
-                    'general' => Tabs\Tab::make(__('General'))
-                        ->schema([
-                            'site_name' => TextInput::make('site_name')
-                                ->label(__('Name of the site'))
-                                ->required(),
-                            'site_description' => TextInput::make('site_description')
-                                ->label(__('Description of the site'))
-                                ->required(),
-                            'site_email' => TextInput::make('site_email')
-                                ->label(__('Email of the site'))
-                                ->required(),
-                        ]),
-                    'application' => Tabs\Tab::make('Application')
-                        ->schema([
-                            'app_version' => TextInput::make('app_version')
-                                ->label(__('Version of the application'))
-                                ->required(),
-                        ]),
-                ]),
-        ];
-    }
-
     /**
      * @return array<string, Component>
      */
@@ -220,8 +189,8 @@ class DefaultFilamentFieldsProvider
                 ->preload(),
             'users' => Select::make('users')
                 ->multiple()
-                ->default([Auth::user()?->getKey()])
-                ->relationship('users', 'name'),
+                ->relationship('users', 'name')
+                ->preload(),
         ];
 
         if (Druid::isMultilingualEnabled()) {
