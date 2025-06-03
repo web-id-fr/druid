@@ -9,13 +9,12 @@ use Webid\Druid\Facades\Druid;
 use Webid\Druid\Http\Controllers\BlogController;
 use Webid\Druid\Http\Controllers\FallbackController;
 use Webid\Druid\Http\Controllers\PageController;
-use Webid\Druid\Http\Middleware\FrontPageRedirect;
 use Webid\Druid\Http\Middleware\RedirectionParentChild;
 
 if (Druid::isBlogModuleEnabled()) {
     if (Druid::isBlogDefaultRoutesEnabled()) {
         if (Druid::isMultilingualEnabled()) {
-            Route::prefix('{lang}/'.Config::string('cms.blog.prefix'))
+            Route::prefix('{lang}/' . Config::string('cms.blog.prefix'))
                 ->name('posts.multilingual.')
                 ->middleware(['multilingual-required', 'language-is-valid', 'web'])
                 ->group(function () {
@@ -54,15 +53,17 @@ if (Druid::isBlogModuleEnabled()) {
 if (Druid::isPageDefaultRoutesEnabled()) {
     $frontPage = Druid::getFrontPage();
     if ($frontPage) {
+        /** @var PageController $pageController */
+        $pageController = app()->make(PageController::class);
         if (Druid::isMultilingualEnabled()) {
-            Route::get('/{lang}', fn ($lang) => app()->make(PageController::class)->show($frontPage->translationForLang($lang)))->name('frontpage');
+            Route::get('/{lang}', fn (string $lang) => $pageController->show($frontPage->translationForLang($lang)))->name('frontpage');
         }
 
-        Route::get('/', fn () => app()->make(PageController::class)->show($frontPage))->name('frontpage');
+        Route::get('/', fn () => $pageController->show($frontPage))->name('frontpage');
 
     }
 
-    Route::middleware(['web', RedirectionParentChild::class, FrontPageRedirect::class])->group(function () {
+    Route::middleware(['web', RedirectionParentChild::class])->group(function () {
         Route::fallback([FallbackController::class, 'show']);
     });
 }

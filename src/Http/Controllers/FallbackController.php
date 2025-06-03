@@ -14,7 +14,8 @@ class FallbackController extends Controller
     public function __construct(
         private readonly PageRepository $pageRepository,
         private readonly PageController $pageController,
-    ) {}
+    ) {
+    }
 
     public function show(Request $request): mixed
     {
