@@ -225,7 +225,7 @@ If you need to EXTEND the existing models note that:
 - Your Post model needs to extend the Webid\Druid\Models\Post model
 - Your ReusableComponent model needs to extend the Webid\Druid\Models\ReusableComponent model
 
-For Curator Media model, we need to follow the curator instruction : https://filamentphp.com/plugins/awcodes-curator#custom-model
+For Curator Media model, we need to follow the curator instruction : https://filamentphp.com/plugins/awcodes-curator#custom-model and change the `config/cms.php` file with your model.
 
 
 ## Tips to define a default homepage

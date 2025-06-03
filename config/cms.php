@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Awcodes\Curator\Models\Media;
 use Webid\Druid\Components\HintComponent;
 use Webid\Druid\Components\ImageComponent;
 use Webid\Druid\Components\ReusableComponent;
@@ -24,6 +25,7 @@ return [
 
     'models' => [
         'user' => \App\Models\User::class,
+        'media' => Media::class,
         'page' => Page::class,
         'post' => Post::class,
         'category' => Category::class,
