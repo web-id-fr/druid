@@ -87,11 +87,9 @@ class ReusableComponent implements ComponentInterface
     {
         $componentID = $data['reusable_component'];
         Assert::string($componentID);
+        $reusableComponentModel = Druid::ReusableComponent();
 
-        /** @var ReusableComponentModel $reusableComponent */
-        $reusableComponent = ReusableComponentModel::query()->findOrFail(intval($componentID));
-
-        return $reusableComponent;
+        return $reusableComponentModel::query()->findOrFail(intval($componentID));
     }
 
     public static function imagePreview(): string

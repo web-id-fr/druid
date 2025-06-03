@@ -21,6 +21,8 @@ class MenusSeeder extends Seeder
                 return;
             }
 
+            $pageModel = Druid::Page();
+
             /** @var Menu $menu */
             $menu = MenuFactory::new()->create([
                 ...$menuStructureByLocale[Druid::getDefaultLocale()],
@@ -28,7 +30,7 @@ class MenusSeeder extends Seeder
             ]);
 
             $order = 1;
-            Page::query()
+            $pageModel::query()
                 ->where('lang', Druid::getDefaultLocale())
                 ->orderBy('id')
                 ->each(function (Page $page) use ($menu, &$order) {
@@ -65,7 +67,7 @@ class MenusSeeder extends Seeder
                     ]);
 
                     $order = 1;
-                    Page::query()->where('lang', $menuLocale)
+                    $pageModel::query()->where('lang', $menuLocale)
                         ->each(function (Page $page) use ($menu, &$order) {
                             /** @var Menu $menu */
                             MenuItemFactory::new()->forExistingPage($page)->forMenu($menu)->create(['order' => $order]);

@@ -62,9 +62,9 @@ class Druid
         return $category;
     }
 
-    public function Menu(): \Webid\Druid\Models\Menu
+    public function Menu(): Models\Menu
     {
-        /** @var \Webid\Druid\Models\Menu $menu */
+        /** @var Models\Menu $menu */
         $menu = new (config('cms.models.menu'));
 
         return $menu;
