@@ -117,6 +117,7 @@ return new class extends Migration
 
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['lang', 'slug']);
         });
@@ -161,6 +162,7 @@ return new class extends Migration
                 ->constrained('menus')
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['lang', 'slug']);
         });
@@ -180,6 +182,7 @@ return new class extends Migration
             $table->nullableMorphs('model');
             $table->string('target');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->nullableMorphs('model');
             $table->string('target');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

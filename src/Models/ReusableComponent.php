@@ -5,6 +5,7 @@ namespace Webid\Druid\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webid\Druid\Models\Traits\IsTranslatable;
 
 /**
@@ -21,6 +22,7 @@ class ReusableComponent extends Model
 {
     use HasFactory;
     use IsTranslatable;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
