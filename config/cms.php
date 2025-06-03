@@ -48,7 +48,7 @@ return [
         'loaded_menus' => [
             'main-menu',
             'footer-menu',
-        ]
+        ],
     ],
 
     /*
