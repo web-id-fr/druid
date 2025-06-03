@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webid\Druid\Enums\PostStatus;
@@ -55,6 +56,7 @@ class Post extends Model implements IsMenuable
     use CanRenderContent;
     use HasFactory;
     use IsTranslatable;
+    use SoftDeletes;
 
     protected $table = 'posts';
 

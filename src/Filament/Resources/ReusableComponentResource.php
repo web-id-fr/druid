@@ -10,6 +10,8 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\ReusableComponentResource\Pages\CreateReusableComponent;
 use Webid\Druid\Filament\Resources\ReusableComponentResource\Pages\EditReusableComponent;
@@ -117,6 +119,9 @@ class ReusableComponentResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -124,6 +129,8 @@ class ReusableComponentResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->striped();
@@ -142,5 +149,13 @@ class ReusableComponentResource extends Resource
     public static function canAccess(): bool
     {
         return Druid::isPageModuleEnabled();
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

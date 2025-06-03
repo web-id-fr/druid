@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Webid\Druid\Enums\MenuItemTarget;
 use Webid\Druid\Facades\Druid;
@@ -25,6 +26,7 @@ use Webid\Druid\Models\Contracts\IsMenuable;
 class MenuItem extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $casts = [
         'target' => MenuItemTarget::class,

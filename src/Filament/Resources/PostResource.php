@@ -7,6 +7,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Post;
@@ -79,9 +81,14 @@ class PostResource extends Resource
         return $table
             ->columns($columns)
             ->defaultSort('published_at', 'desc')
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
                 Action::make('replicate')
                     ->label(__('Replicate'))
                     ->icon('heroicon-o-document-duplicate')
@@ -91,6 +98,8 @@ class PostResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->selectCurrentPageOnly()
@@ -111,5 +120,13 @@ class PostResource extends Resource
     public static function canAccess(): bool
     {
         return Druid::isBlogModuleEnabled();
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

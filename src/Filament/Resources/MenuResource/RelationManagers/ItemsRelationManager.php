@@ -11,6 +11,8 @@ use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Webid\Druid\Enums\MenuItemTarget;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Models\Post;
@@ -90,6 +92,9 @@ class ItemsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('label'),
             ])
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
@@ -100,7 +105,17 @@ class ItemsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
             ]);
     }
 }
