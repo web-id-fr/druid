@@ -26,8 +26,10 @@ class Menu extends Model
 
     protected $table = 'menus';
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'title',
+        'slug',
+        'lang',
     ];
 
     public function items(): HasMany
