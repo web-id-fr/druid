@@ -212,6 +212,22 @@ $fieldsBuilder->addField(
 
 ```
 
+## Extending models
+
+If you are extending the differents models, you will need to specify your new models in this `config/cms.php` file.
+
+If you need to EXTEND the existing models note that:
+
+- Your Category model needs to extend the Webid\Druid\Models\Category model
+- Your Menu model needs to extend the Webid\Druid\Models\Menu model
+- Your MenuItem model needs to extend the Webid\Druid\Models\MenuItem model
+- Your Page model needs to extend the Webid\Druid\Models\Page model
+- Your Post model needs to extend the Webid\Druid\Models\Post model
+- Your ReusableComponent model needs to extend the Webid\Druid\Models\ReusableComponent model
+
+For Curator Media model, we need to follow the curator instruction : https://filamentphp.com/plugins/awcodes-curator#custom-model
+
+
 ## Tips to define a default homepage
 
 We decide to not provide a default homepage route in the package because we think that it's better to let the developer choose the way to define it.
