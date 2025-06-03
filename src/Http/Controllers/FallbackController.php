@@ -14,7 +14,8 @@ class FallbackController extends Controller
     public function __construct(
         private readonly PageRepository $pageRepository,
         private readonly PageController $pageController,
-    ) {}
+    ) {
+    }
 
     public function show(Request $request): mixed
     {
@@ -32,6 +33,10 @@ class FallbackController extends Controller
             }
         } catch (ModelNotFoundException $e) {
             abort(404);
+        }
+
+        if ($page->getKey() === Druid::getFrontPage()?->getKey()) {
+            return redirect('/');
         }
 
         Gate::authorize('view', $page);

@@ -5,6 +5,7 @@ namespace Webid\Druid;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use InvalidArgumentException;
 use Webid\Druid\Dto\Lang;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Models\Category;
@@ -12,6 +13,7 @@ use Webid\Druid\Models\MenuItem;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Models\Post;
 use Webid\Druid\Models\ReusableComponent;
+use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Services\LanguageSwitcher;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webmozart\Assert\Assert;
@@ -20,7 +22,7 @@ class Druid
 {
     public function getModel(string $model): string
     {
-        if (! config("cms.models.$model")) {
+        if (!config("cms.models.$model")) {
             throw new \RuntimeException("Model $model not found in config file.");
         }
 
@@ -152,13 +154,13 @@ class Druid
 
     public function getCurrentLocaleKey(): string
     {
-        if (! self::isMultilingualEnabled()) {
+        if (!self::isMultilingualEnabled()) {
             return self::getDefaultLocale();
         }
 
         $defaultLocale = $this->getDefaultLocale();
         $segments = request()->segments();
-        if (! isset($segments[0]) || ! is_string($segments[0])) {
+        if (!isset($segments[0]) || !is_string($segments[0])) {
             return $defaultLocale;
         }
 
@@ -170,14 +172,22 @@ class Druid
     public function getCurrentLocale(): Lang
     {
         $currentLocaleKey = $this->getCurrentLocaleKey();
-        $localeLabel = Config::string('cms.locales.'.$currentLocaleKey.'.label');
+        $localeLabel = Config::string('cms.locales.' . $currentLocaleKey . '.label');
 
         return Lang::make($currentLocaleKey, $localeLabel);
     }
 
-    public function getHomeUrlForLocal(string $locale): string
+    public function getFrontPageUrl(?string $locale = null): string
     {
-        return '/'.$locale;
+        if (empty($locale)) {
+            return $this->getFrontPageUrl($this->getCurrentLocaleKey());
+        }
+
+        if ($locale === Facades\Druid::getDefaultLocale()) {
+            return '/';
+        }
+
+        return '/' . $locale;
     }
 
     public function isMenuModuleEnabled(): bool
@@ -217,10 +227,29 @@ class Druid
         return config('cms.enable_page_module') === true;
     }
 
+    public function isPageDefaultRoutesEnabled(): bool
+    {
+        return config('cms.enable_default_page_routes') === true;
+    }
+
+    public function getFrontPage(): ?Page
+    {
+        try {
+            $frontPageId = config()->integer('cms.front_page_id');
+        } catch (InvalidArgumentException) {
+            return null;
+        }
+
+        /** @var PageRepository $pageRepository */
+        $pageRepository = app()->make(PageRepository::class);
+
+        return $pageRepository->findOrFail($frontPageId);
+    }
+
     public function package_base_path(string $path = ''): string
     {
         $path = ltrim($path, '/');
 
-        return __DIR__."/../../{$path}";
+        return __DIR__ . "/../../{$path}";
     }
 }

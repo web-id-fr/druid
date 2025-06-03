@@ -103,20 +103,28 @@ class Page extends Model implements IsMenuable
 
     public function fullUrlPath(): string
     {
+        if ($this->isFrontPage()) {
+            return '/';
+        }
+
+        if ($this->isFrontPageTranslation()) {
+            return '/' . $this->lang;
+        }
+
         $path = '';
 
         $parent = $this->parent;
         $parentsPath = '';
         while ($parent) {
             if ($parent->slug != 'index') {
-                $parentsPath = $parent->slug.'/'.$parentsPath;
+                $parentsPath = $parent->slug . '/' . $parentsPath;
             }
 
             $parent = $parent->parent;
         }
 
         if (Druid::isMultilingualEnabled() && $this->slug !== 'index') {
-            $path .= $this->lang ? $this->lang.'/' : '';
+            $path .= $this->lang ? $this->lang . '/' : '';
         }
 
         $path .= $parentsPath;
@@ -143,6 +151,16 @@ class Page extends Model implements IsMenuable
             $this->where('slug', $value)->firstOrFail();
     }
 
+    public function isFrontPage(): bool
+    {
+        return Druid::getFrontPage()?->is($this) === true;
+    }
+
+    public function isFrontPageTranslation(): bool
+    {
+        return Druid::getFrontPage()?->is($this->translationOrigin) === true;
+    }
+
     protected static function boot(): void
     {
         parent::boot();
@@ -162,7 +180,7 @@ class Page extends Model implements IsMenuable
         while (static::where('slug', $slug)->when(Druid::isMultilingualEnabled(), function ($query) use ($lang) {
             $query->where('lang', $lang);
         })->exists()) {
-            $slug = "{$original}-".$count++;
+            $slug = "{$original}-" . $count++;
         }
 
         return $slug;

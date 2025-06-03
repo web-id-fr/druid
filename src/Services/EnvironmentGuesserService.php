@@ -11,13 +11,14 @@ use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Repositories\PostRepository;
 use Webmozart\Assert\Assert;
 
-class EnvironmentGuesserService
+readonly class EnvironmentGuesserService
 {
     public function __construct(
-        private readonly Repository $config,
-        private readonly PostRepository $postRepository,
-        private readonly PageRepository $pageRepository,
-    ) {}
+        private Repository $config,
+        private PostRepository $postRepository,
+        private PageRepository $pageRepository,
+    ) {
+    }
 
     public function getEnvironment(string $path, string $locale): ?string
     {
@@ -38,6 +39,10 @@ class EnvironmentGuesserService
         $requestSegments = app()->request->segments();
 
         Assert::isArray($requestSegments);
+        if (empty($requestSegments)) {
+            return Druid::getFrontPage()?->translationOrigin->translationForLang($destinationLocale)->url();
+        }
+
         $currentLocale = head($requestSegments);
         $currentSlug = last($requestSegments);
         Assert::string($currentLocale);
@@ -55,16 +60,15 @@ class EnvironmentGuesserService
 
                 return $currentPost->url();
             } catch (ModelNotFoundException $e) {
-                return Druid::getHomeUrlForLocal($destinationLocale);
+                return Druid::getFrontPageUrl($destinationLocale);
             }
         }
 
         try {
             $page = $this->pageRepository->findOrFailBySlugAndLang($currentSlug, $currentLocale);
-
             return $page->translationOrigin->translationForLang($destinationLocale)->url();
         } catch (ModelNotFoundException|ItemNotFoundException) {
-            return Druid::getHomeUrlForLocal($destinationLocale);
+            return Druid::getFrontPageUrl($destinationLocale);
         }
     }
 
