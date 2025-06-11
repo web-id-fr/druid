@@ -45,6 +45,7 @@ return new class extends Migration
 
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['lang', 'slug']);
         });

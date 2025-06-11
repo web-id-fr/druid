@@ -18,6 +18,7 @@ return new class extends Migration
                 ->constrained('menus')
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['lang', 'slug']);
         });

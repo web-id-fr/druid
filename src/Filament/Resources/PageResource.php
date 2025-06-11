@@ -7,6 +7,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Webid\Druid\Enums\PageStatus;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Filament\Resources\PageResource\Pages;
@@ -76,9 +78,14 @@ class PageResource extends Resource
             ->query(fn () => Page::query()->with('parent'))
             ->columns($columns)
             ->defaultSort('published_at', 'desc')
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
                 Action::make('replicate')
                     ->label(__('Replicate'))
                     ->icon('heroicon-o-document-duplicate')
@@ -88,6 +95,8 @@ class PageResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->selectCurrentPageOnly()
@@ -108,5 +117,13 @@ class PageResource extends Resource
     public static function canAccess(): bool
     {
         return Druid::isPageModuleEnabled();
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
