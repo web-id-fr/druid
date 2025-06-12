@@ -246,7 +246,7 @@ class Druid
         return $pageRepository->findOrFail($frontPageId);
     }
 
-    public function package_base_path(string $path = ''): string
+    public function packageBasePath(string $path = ''): string
     {
         $path = ltrim($path, '/');
 
