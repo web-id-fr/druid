@@ -14,7 +14,7 @@ use Webid\Druid\Http\Middleware\RedirectionParentChild;
 if (Druid::isBlogModuleEnabled()) {
     if (Druid::isBlogDefaultRoutesEnabled()) {
         if (Druid::isMultilingualEnabled()) {
-            Route::prefix('{lang}/' . Config::string('cms.blog.prefix'))
+            Route::prefix('{lang}/'.Config::string('cms.blog.prefix'))
                 ->name('posts.multilingual.')
                 ->middleware(['multilingual-required', 'language-is-valid', 'web'])
                 ->group(function () {

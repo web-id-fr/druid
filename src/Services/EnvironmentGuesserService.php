@@ -17,8 +17,7 @@ readonly class EnvironmentGuesserService
         private Repository $config,
         private PostRepository $postRepository,
         private PageRepository $pageRepository,
-    ) {
-    }
+    ) {}
 
     public function getEnvironment(string $path, string $locale): ?string
     {
@@ -42,7 +41,7 @@ readonly class EnvironmentGuesserService
         if (empty($requestSegments)) {
             $frontPage = Druid::getFrontPage();
 
-            return !$frontPage ? route('/') : $frontPage->translationOrigin->translationForLang($destinationLocale)->url();
+            return ! $frontPage ? route('/') : $frontPage->translationOrigin->translationForLang($destinationLocale)->url();
         }
 
         $currentLocale = head($requestSegments);
@@ -68,6 +67,7 @@ readonly class EnvironmentGuesserService
 
         try {
             $page = $this->pageRepository->findOrFailBySlugAndLang($currentSlug, $currentLocale);
+
             return $page->translationOrigin->translationForLang($destinationLocale)->url();
         } catch (ModelNotFoundException|ItemNotFoundException) {
             return Druid::getFrontPageUrl($destinationLocale);

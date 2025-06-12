@@ -57,7 +57,8 @@ trait PageCreator
         return $page;
     }
 
-    protected function setPageAsFrontPage(Page $page) :void {
+    protected function setPageAsFrontPage(Page $page): void
+    {
         config()->set('cms.front_page_id', $page->getKey());
     }
 }
