@@ -24,7 +24,10 @@ use Webmozart\Assert\Assert;
 
 class ReusableComponentResource extends Resource
 {
-    protected static ?string $model = ReusableComponent::class;
+    public static function getModel(): string
+    {
+        return Druid::getModel('reusable_component');
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 

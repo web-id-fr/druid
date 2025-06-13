@@ -60,26 +60,8 @@ class Post extends Model implements IsMenuable
 
     protected $table = 'posts';
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'thumbnail_id',
-        'thumbnail_alt',
-        'status',
-        'lang',
-        'excerpt',
-        'content',
-        'disable_indexation',
-        'meta_title',
-        'meta_description',
-        'meta_keywords',
-        'opengraph_title',
-        'opengraph_description',
-        'opengraph_picture',
-        'opengraph_picture_alt',
-        'published_at',
-        'is_top_article',
-        'translation_origin_model_id',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [

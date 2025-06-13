@@ -26,11 +26,8 @@ class Category extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'lang',
-        'translation_origin_model_id',
+    protected $guarded = [
+        'id',
     ];
 
     public function posts(): BelongsToMany

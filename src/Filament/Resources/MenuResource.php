@@ -21,7 +21,10 @@ use Webmozart\Assert\Assert;
 
 class MenuResource extends Resource
 {
-    protected static ?string $model = Menu::class;
+    public static function getModel(): string
+    {
+        return Druid::getModel('menu');
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

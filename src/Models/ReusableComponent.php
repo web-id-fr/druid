@@ -24,11 +24,8 @@ class ReusableComponent extends Model
     use IsTranslatable;
     use SoftDeletes;
 
-    protected $fillable = [
-        'title',
-        'content',
-        'searchable_content',
-        'lang',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
