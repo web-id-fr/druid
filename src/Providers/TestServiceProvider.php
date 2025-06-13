@@ -13,7 +13,7 @@ class TestServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->loadMigrationsFrom(Druid::package_base_path('vendor/orchestra/testbench-core/laravel/migrations'));
-        $this->loadMigrationsFrom(Druid::package_base_path('tests/Database/Migrations'));
+        $this->loadMigrationsFrom(Druid::packageBasePath('vendor/orchestra/testbench-core/laravel/migrations'));
+        $this->loadMigrationsFrom(Druid::packageBasePath('tests/Database/Migrations'));
     }
 }
