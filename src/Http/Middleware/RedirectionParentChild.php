@@ -7,7 +7,6 @@ use Illuminate\Routing\Redirector;
 use Symfony\Component\HttpFoundation\Response;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Repositories\PageRepository;
-use Webmozart\Assert\Assert;
 
 class RedirectionParentChild
 {
