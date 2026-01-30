@@ -190,6 +190,7 @@ class DefaultFilamentFieldsProvider
             'users' => Select::make('users')
                 ->multiple()
                 ->relationship('users', 'name')
+                ->default([])
                 ->preload(),
         ];
 

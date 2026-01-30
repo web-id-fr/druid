@@ -22,9 +22,6 @@ class RedirectionParentChild
         $lastSegment = end($slugs);
         $lang = reset($slugs);
 
-        Assert::string($lastSegment);
-        Assert::string($lang);
-
         $page = $this->pageRepository->findOrFailBySlug($lastSegment);
 
         if (Druid::isMultilingualEnabled()) {
