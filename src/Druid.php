@@ -5,6 +5,7 @@ namespace Webid\Druid;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use InvalidArgumentException;
 use Webid\Druid\Dto\Lang;
 use Webid\Druid\Dto\Menu;
 use Webid\Druid\Models\Category;
@@ -12,6 +13,7 @@ use Webid\Druid\Models\MenuItem;
 use Webid\Druid\Models\Page;
 use Webid\Druid\Models\Post;
 use Webid\Druid\Models\ReusableComponent;
+use Webid\Druid\Repositories\PageRepository;
 use Webid\Druid\Services\LanguageSwitcher;
 use Webid\Druid\Services\NavigationMenuManager;
 use Webmozart\Assert\Assert;
@@ -172,8 +174,16 @@ class Druid
         return Lang::make($currentLocaleKey, $localeLabel);
     }
 
-    public function getHomeUrlForLocal(string $locale): string
+    public function getFrontPageUrl(?string $locale = null): string
     {
+        if (empty($locale)) {
+            return $this->getFrontPageUrl($this->getCurrentLocaleKey());
+        }
+
+        if ($locale === Facades\Druid::getDefaultLocale()) {
+            return '/';
+        }
+
         return '/'.$locale;
     }
 
@@ -214,7 +224,26 @@ class Druid
         return config('cms.enable_page_module') === true;
     }
 
-    public function package_base_path(string $path = ''): string
+    public function isPageDefaultRoutesEnabled(): bool
+    {
+        return config('cms.enable_default_page_routes') === true;
+    }
+
+    public function getFrontPage(): ?Page
+    {
+        try {
+            $frontPageId = config()->integer('cms.front_page_id');
+        } catch (InvalidArgumentException) {
+            return null;
+        }
+
+        /** @var PageRepository $pageRepository */
+        $pageRepository = app()->make(PageRepository::class);
+
+        return $pageRepository->findOrFail($frontPageId);
+    }
+
+    public function packageBasePath(string $path = ''): string
     {
         $path = ltrim($path, '/');
 

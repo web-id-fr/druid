@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Http\Controllers\BlogController;
 use Webid\Druid\Http\Controllers\FallbackController;
+use Webid\Druid\Http\Controllers\PageController;
 use Webid\Druid\Http\Middleware\RedirectionParentChild;
 
 if (Druid::isBlogModuleEnabled()) {
@@ -49,7 +50,19 @@ if (Druid::isBlogModuleEnabled()) {
     }
 }
 
-if (Druid::isPageModuleEnabled()) {
+if (Druid::isPageDefaultRoutesEnabled()) {
+    $frontPage = Druid::getFrontPage();
+    if ($frontPage) {
+        /** @var PageController $pageController */
+        $pageController = app()->make(PageController::class);
+        if (Druid::isMultilingualEnabled()) {
+            Route::get('/{lang}', fn (string $lang) => $pageController->show($frontPage->translationForLang($lang)))->name('frontpage');
+        }
+
+        Route::get('/', fn () => $pageController->show($frontPage))->name('frontpage');
+
+    }
+
     Route::middleware(['web', RedirectionParentChild::class])->group(function () {
         Route::fallback([FallbackController::class, 'show']);
     });

@@ -29,9 +29,35 @@ You'll also find helpers and services to manage multilingual and navigation menu
 * [Laravel Filament 3.x](https://filamentphp.com/docs/3.x/panels/installation)
 * [Filament Curator](https://v2.filamentphp.com/plugins/curator)
 
-## Installation
+## Automatic Installation
 
-:warning:  In order to install Dru^ID CMS, you first need to have a Laravel Filament running installation with the Filament Curator admin.
+Simply run `npx github:web-id-fr/druid-cli new` at your workspace root and follow the instructions.
+
+At the end of the process, you'll be able to log the the Dru^ID admin interface at [http://druid-container.localhost/admin](http://druid-container.localhost/admin)
+
+### Starting / Stopping a project
+
+Once your project has been setup using the `npx github:web-id-fr/druid-cli new`, you can `cd` to the project directory using your terminal and run
+
+`make stop`: To stop all the docker containers
+
+`make start`: To start again the project
+
+`make restart`: Stop + Start
+
+`make fresh`: Reset the database
+
+`seed_demo`: Run the demo seeders
+
+`make destroy`: To delete all the containers
+
+For more information about the `druid-cli` tool please visit [https://github.com/web-id-fr/druid-cli](https://github.com/web-id-fr/druid-cli)
+
+## Manual installation
+
+If you already have a Laravel project, you can setup Dru^ID CMS on top of if.
+
+:warning: You first need to have a Laravel Filament running installation with the Filament Curator admin.
 
 Please follow the installation process
 
@@ -71,7 +97,7 @@ return $panel
 Customize the `config/cms.php` file specially if you need to enable the multilingual feature.
 It's better to choose the default language before writing content.
 
-## Load the demo dataset
+### Load the demo dataset
 
 If you want to seed a demo dataset, simply run the following command in a fresh installation
 
