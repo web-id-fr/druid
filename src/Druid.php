@@ -143,11 +143,8 @@ class Druid
      */
     public function getLocales(): array
     {
-        $locales = Config::array('cms.locales');
-        Assert::isArray($locales);
-
         // @phpstan-ignore-next-line
-        return $locales;
+        return Config::array('cms.locales');
     }
 
     public function getCurrentLocaleKey(): string
