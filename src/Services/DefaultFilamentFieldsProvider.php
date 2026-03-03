@@ -41,6 +41,9 @@ class DefaultFilamentFieldsProvider
         /** @var PageRepository $pageRepository */
         $pageRepository = app(PageRepository::class);
 
+        /** @var string|null $defaultTitle */
+        $defaultTitle = request()->input('title');
+
         $contentTab = [
             'title' => TextInput::make('title')
                 ->label(__('Title'))
@@ -49,13 +52,15 @@ class DefaultFilamentFieldsProvider
                     fn (string $operation, string $state, Set $set) => $operation === 'create'
                         ? $set('slug', Str::slug($state)) : null
                 )
+                ->default($defaultTitle ? $defaultTitle : null)
                 ->required(),
             $filamentComponentService->getFlexibleContentFieldsForModel(Page::class),
         ];
 
         $parametersTab = [
             'slug' => TextInput::make('slug')
-                ->label(__('Slug')),
+                ->label(__('Slug'))
+                ->default($defaultTitle ? Str::slug($defaultTitle) : null),
             'parent_page_id' => Select::make('parent_page_id')
                 ->label(__('Parent page'))
                 ->placeholder(__('Select a parent page'))
@@ -86,6 +91,7 @@ class DefaultFilamentFieldsProvider
                         )
                         ->required()
                         ->live()
+                        ->default(request()->input('lang') ? request()->input('lang') : null)
                         ->placeholder(__('Select a language')),
                     'translation_origin_model_id' => Select::make('translation_origin_model_id')
                         ->label(__('Translation origin model'))
@@ -108,6 +114,7 @@ class DefaultFilamentFieldsProvider
 
                             return $allDefaultLanguagePages;
                         })
+                        ->default(request()->input('translation_origin_model_id') ? request()->input('translation_origin_model_id') : null)
                         ->searchable()
                         ->hidden(fn (Get $get): bool => ! $get('lang') || $get('lang') === Druid::getDefaultLocale())
                         ->live(),
