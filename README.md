@@ -22,7 +22,7 @@ You'll also find helpers and services to manage multilingual and navigation menu
 
 ## Requirements
 
-* PHP >= 8.2
+* PHP >= 8.4
 * Laravel >= 11
 * Composer 2
 * MariaDB / MySQL

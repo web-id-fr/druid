@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "awcodes/filament-curator": "^3.5",
         "awcodes/filament-tiptap-editor": "^3.5",
         "filament/forms": "^3.2",

@@ -9,9 +9,9 @@ use Webid\Druid\Models\MenuItem as MenuItemModel;
 class Menu
 {
     private function __construct(
-        readonly public string $title,
-        readonly public string $slug,
-        readonly public Collection $items,
+        public readonly string $title,
+        public readonly string $slug,
+        public readonly Collection $items,
     ) {}
 
     public static function fromMenu(MenuModel $menu): self
