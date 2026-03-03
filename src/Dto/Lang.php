@@ -5,8 +5,8 @@ namespace Webid\Druid\Dto;
 class Lang
 {
     private function __construct(
-        readonly public string $key,
-        readonly public string $label,
+        public readonly string $key,
+        public readonly string $label,
     ) {}
 
     public static function make(string $key, string $label): self

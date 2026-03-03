@@ -11,9 +11,9 @@ class ComponentConfiguration
      * @param  array<int, string>  $disabledFor
      */
     private function __construct(
-        readonly public string $type,
-        readonly public string $class,
-        readonly public array $disabledFor,
+        public readonly string $type,
+        public readonly string $class,
+        public readonly array $disabledFor,
     ) {}
 
     /**
