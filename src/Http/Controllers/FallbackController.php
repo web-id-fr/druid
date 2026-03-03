@@ -34,6 +34,10 @@ class FallbackController extends Controller
             abort(404);
         }
 
+        if ($page->getKey() === Druid::getFrontPage()?->getKey()) {
+            return redirect('/');
+        }
+
         Gate::authorize('view', $page);
 
         return $this->pageController->show($page);

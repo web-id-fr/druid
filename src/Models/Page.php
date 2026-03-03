@@ -103,6 +103,14 @@ class Page extends Model implements IsMenuable
 
     public function fullUrlPath(): string
     {
+        if ($this->isFrontPage()) {
+            return '/';
+        }
+
+        if ($this->isFrontPageTranslation()) {
+            return '/'.$this->lang;
+        }
+
         $path = '';
 
         $parent = $this->parent;
@@ -141,6 +149,16 @@ class Page extends Model implements IsMenuable
     {
         return Druid::isMultilingualEnabled() ? $this->where('slug', $value)->where('lang', Druid::getCurrentLocaleKey())->firstOrFail() :
             $this->where('slug', $value)->firstOrFail();
+    }
+
+    public function isFrontPage(): bool
+    {
+        return Druid::getFrontPage()?->is($this) === true;
+    }
+
+    public function isFrontPageTranslation(): bool
+    {
+        return Druid::getFrontPage()?->is($this->translationOrigin) === true;
     }
 
     protected static function boot(): void

@@ -26,8 +26,8 @@ class TestCase extends Orchestra
 
     protected function defineEnvironment($app): void
     {
-        View::addLocation(Druid::package_base_path('resources/views'));
-        $app->instance('path.public', Druid::package_base_path());
+        View::addLocation(Druid::packageBasePath('resources/views'));
+        $app->instance('path.public', Druid::packageBasePath());
 
         if (Druid::isMultilingualEnabled()) {
             View::share('languageSwitcher', $this->getLanguageSwitcher());
