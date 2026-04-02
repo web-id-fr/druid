@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
-use Intervention\Image\ImageServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Webid\Druid\Components\ReusableComponent;
 use Webid\Druid\Components\TextComponent;
@@ -15,6 +14,7 @@ use Webid\Druid\DruidServiceProvider;
 use Webid\Druid\Dto\LangLink;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\Dummy\DummyUser;
+use Webid\Druid\Models\Media;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
 use Webid\Druid\Services\LanguageSwitcher;
 
@@ -51,7 +51,6 @@ class TestCase extends Orchestra
     {
         return [
             DruidServiceProvider::class,
-            ImageServiceProvider::class,
         ];
     }
 
@@ -89,8 +88,9 @@ class TestCase extends Orchestra
                 'label' => 'German',
             ],
         ]);
-        $app['config']->set('curator.directory', 'media');
-        $app['config']->set('curator.disk', env('FILAMENT_FILESYSTEM_DISK', 'public'));
+        $app['config']->set('curator.model', Media::class);
+        $app['config']->set('curator.default_directory', 'media');
+        $app['config']->set('curator.default_disk', env('FILAMENT_FILESYSTEM_DISK', 'public'));
         $app['config']->set('curator.accepted_file_types', [
             'image/jpeg',
             'image/png',

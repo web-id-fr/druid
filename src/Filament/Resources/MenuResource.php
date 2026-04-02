@@ -2,12 +2,12 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,11 +26,11 @@ class MenuResource extends Resource
         return Druid::getModel('menu');
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Menus';
+    protected static string|\UnitEnum|null $navigationGroup = 'Menus';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var MenuRepository $menuRepository */
         $menuRepository = app(MenuRepository::class);
@@ -87,7 +87,7 @@ class MenuResource extends Resource
             );
         }
 
-        return $form
+        return $schema
             ->schema([
                 Section::make(__('Menu'))
                     ->columns(1)
@@ -112,13 +112,13 @@ class MenuResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\ForceDeleteBulkAction::make(),
+                    \Filament\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

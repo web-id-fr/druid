@@ -23,11 +23,11 @@ class DruidPlugin implements Plugin
         $panel
             ->discoverResources(
                 in: base_path('vendor/webid/druid/src/Filament/Resources'),
-                for: 'Webid\\Druid\\Filament\\Resources'
+                for: 'Webid\\Druid\Filament\\Resources'
             )
             ->discoverPages(
                 in: base_path('vendor/webid/druid/src/Filament/Pages'),
-                for: 'Webid\\Druid\\Filament\\Pages'
+                for: 'Webid\\Druid\Filament\\Pages'
             );
     }
 

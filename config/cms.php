@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-use Awcodes\Curator\Models\Media;
+use App\Models\User;
 use Webid\Druid\Components\HintComponent;
 use Webid\Druid\Components\ImageComponent;
 use Webid\Druid\Components\ReusableComponent;
 use Webid\Druid\Components\TextComponent;
 use Webid\Druid\Components\TextImageComponent;
+use Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager;
 use Webid\Druid\Models\Category;
+use Webid\Druid\Models\Media;
 use Webid\Druid\Models\Menu;
 use Webid\Druid\Models\MenuItem;
 use Webid\Druid\Models\Page;
@@ -24,7 +26,7 @@ return [
      */
 
     'models' => [
-        'user' => \App\Models\User::class,
+        'user' => User::class,
         'media' => Media::class,
         'page' => Page::class,
         'post' => Post::class,
@@ -42,7 +44,7 @@ return [
 
     'enable_menu_module' => true,
     'menu' => [
-        'menu_items_relation_manager' => \Webid\Druid\Filament\Resources\MenuResource\RelationManagers\ItemsRelationManager::class,
+        'menu_items_relation_manager' => ItemsRelationManager::class,
     ],
 
     /*

@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
+use \Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,16 +25,16 @@ class PageResource extends Resource
 
     protected static ?string $modelLabel = 'Page';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Pages';
+    protected static string|\UnitEnum|null $navigationGroup = 'Pages';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var FilamentPageFieldsBuilder $fieldsBuilder */
         $fieldsBuilder = app()->make(FilamentPageFieldsBuilder::class);
 
-        return $form->schema(components: $fieldsBuilder->getFields());
+        return $schema->schema(components: $fieldsBuilder->getFields());
     }
 
     public static function table(Table $table): Table
@@ -82,10 +82,10 @@ class PageResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                \Filament\Actions\EditAction::make()->button()->outlined()->icon(''),
+                \Filament\Actions\DeleteAction::make(),
+                \Filament\Actions\ForceDeleteAction::make(),
+                \Filament\Actions\RestoreAction::make(),
                 Action::make('replicate')
                     ->label(__('Replicate'))
                     ->icon('heroicon-o-document-duplicate')
@@ -93,10 +93,10 @@ class PageResource extends Resource
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\ForceDeleteBulkAction::make(),
+                    \Filament\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->selectCurrentPageOnly()

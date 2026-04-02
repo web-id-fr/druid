@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\Database\Factories;
 
-use Awcodes\Curator\Models\Media;
+use Webid\Druid\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\Enums\PageStatus;

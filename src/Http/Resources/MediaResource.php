@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\Http\Resources;
 
-use Awcodes\Curator\Models\Media;
+use Webid\Druid\Models\Media;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MediaResource extends JsonResource

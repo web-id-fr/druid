@@ -3,7 +3,7 @@
 namespace Webid\Druid\Components;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Contracts\View\View;
 use Webid\Druid\Facades\Druid;
 use Webid\Druid\Models\ReusableComponent as ReusableComponentModel;
