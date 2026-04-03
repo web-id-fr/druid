@@ -3,8 +3,8 @@
 namespace Webid\Druid\Filament\Resources\CategoryResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 

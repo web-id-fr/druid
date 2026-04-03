@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Schemas\Schema;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
-use \Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,7 +30,7 @@ class PostResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Blog';
 
-    protected static int|null $navigationSort = 0;
+    protected static ?int $navigationSort = 0;
 
     public static function form(Schema $schema): Schema
     {

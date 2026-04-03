@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Schemas\Schema;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
-use \Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;

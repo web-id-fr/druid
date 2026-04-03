@@ -2,7 +2,6 @@
 
 namespace Webid\Druid\Models;
 
-use Webid\Druid\Models\Media;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

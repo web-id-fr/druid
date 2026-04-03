@@ -2,12 +2,12 @@
 
 namespace Webid\Druid\Database\Factories;
 
-use Webid\Druid\Models\Media;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Webid\Druid\Enums\PostStatus;
 use Webid\Druid\Models\Category;
+use Webid\Druid\Models\Media;
 use Webid\Druid\Models\Post;
 
 class PostFactory extends Factory

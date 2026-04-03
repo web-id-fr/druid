@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\Services\Admin\FilamentFieldsBuilders;
 
-use Filament\Forms\Components\Component;
+use Filament\Schemas\Components\Component;
 
 class FilamentFieldsBuilder
 {
