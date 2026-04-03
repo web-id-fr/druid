@@ -3,11 +3,11 @@
 namespace Webid\Druid\Filament\Resources;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,11 +29,11 @@ class ReusableComponentResource extends Resource
         return Druid::getModel('reusable_component');
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-duplicate';
 
-    protected static ?string $navigationGroup = 'Pages';
+    protected static string|\UnitEnum|null $navigationGroup = 'Pages';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var FilamentComponentsService $filamentComponentService */
         $filamentComponentService = app(FilamentComponentsService::class);
@@ -98,8 +98,8 @@ class ReusableComponentResource extends Resource
             $tabs[] = Tabs\Tab::make(__('Parameters'))->schema($parametersTab)->columns(2);
         }
 
-        return $form
-            ->schema(components: [
+        return $schema
+            ->components(components: [
                 Tabs::make('Tabs')
                     ->tabs($tabs)
                     ->activeTab(1)
@@ -126,14 +126,14 @@ class ReusableComponentResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\ViewAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\ForceDeleteBulkAction::make(),
+                    \Filament\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->striped();

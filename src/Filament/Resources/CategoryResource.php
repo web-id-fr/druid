@@ -2,13 +2,16 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Forms\Components\Section;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -28,20 +31,20 @@ class CategoryResource extends Resource
         return Druid::getModel('category');
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationGroup = 'Blog';
+    protected static string|\UnitEnum|null $navigationGroup = 'Blog';
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var CategoryRepository $categoryRepository */
         $categoryRepository = app(CategoryRepository::class);
 
-        $schema = [
+        $components = [
             TextInput::make('name')
                 ->label(__('Title'))
                 ->live(onBlur: true)
@@ -56,8 +59,8 @@ class CategoryResource extends Resource
         ];
 
         if (Druid::isMultilingualEnabled()) {
-            $schema = array_merge(
-                $schema,
+            $components = array_merge(
+                $components,
                 [
                     'lang' => Select::make('lang')
                         ->label(__('Language'))
@@ -94,10 +97,10 @@ class CategoryResource extends Resource
             );
         }
 
-        return $form
+        return $schema
             ->schema([
                 Section::make(__('Parameters'))
-                    ->schema($schema)
+                    ->schema($components)
                     ->columns(2),
             ]);
     }
@@ -109,11 +112,11 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->striped();

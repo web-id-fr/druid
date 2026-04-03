@@ -17,17 +17,17 @@
     ],
     "require": {
         "php": "^8.4",
-        "awcodes/filament-curator": "^3.5",
-        "awcodes/filament-tiptap-editor": "^3.5",
-        "filament/forms": "^3.2",
+        "awcodes/filament-curator": "^5.0",
+        "filament/forms": "^5.0",
         "illuminate/contracts": "^11.0||^12.0",
         "spatie/laravel-package-tools": "^1.16",
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
+        "filament/upgrade": "^5.0",
+        "larastan/larastan": "^2.9|^3.0",
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.1.1|^7.10.0",
-        "larastan/larastan": "^2.9|^3.0",
         "orchestra/testbench": "^9.0.0|^10.0.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-arch": "^3.0",

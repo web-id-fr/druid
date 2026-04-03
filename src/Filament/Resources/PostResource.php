@@ -2,10 +2,10 @@
 
 namespace Webid\Druid\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -24,20 +24,20 @@ class PostResource extends Resource
 
     protected static ?string $modelLabel = 'Post';
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $navigationGroup = 'Blog';
+    protected static string|\UnitEnum|null $navigationGroup = 'Blog';
 
     protected static ?int $navigationSort = 0;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var FilamentPostFieldsBuilder $fieldsBuilder */
         $fieldsBuilder = app()->make(FilamentPostFieldsBuilder::class);
 
-        return $form->schema(components: $fieldsBuilder->getFields());
+        return $schema->schema(components: $fieldsBuilder->getFields());
     }
 
     public static function table(Table $table): Table
@@ -85,10 +85,10 @@ class PostResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->button()->outlined()->icon(''),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                \Filament\Actions\EditAction::make()->button()->outlined()->icon(''),
+                \Filament\Actions\DeleteAction::make(),
+                \Filament\Actions\ForceDeleteAction::make(),
+                \Filament\Actions\RestoreAction::make(),
                 Action::make('replicate')
                     ->label(__('Replicate'))
                     ->icon('heroicon-o-document-duplicate')
@@ -96,10 +96,10 @@ class PostResource extends Resource
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\ForceDeleteBulkAction::make(),
+                    \Filament\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->selectCurrentPageOnly()

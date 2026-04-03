@@ -3,12 +3,12 @@
 namespace Webid\Druid\Filament\Resources\MenuResource\RelationManagers;
 
 use Filament\Forms\Components\MorphToSelect;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +22,7 @@ class ItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'items';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         /** @var MenuItemRepository $menuItemRepository */
         $menuItemRepository = app()->make(MenuItemRepository::class);
@@ -35,7 +35,7 @@ class ItemsRelationManager extends RelationManager
         /** @var int $menuId */
         $menuId = $this->ownerRecord->getKey();
 
-        return $form
+        return $schema
             ->schema([
                 Select::make('parent_item_id')
                     ->label(__('Parent'))
@@ -96,17 +96,17 @@ class ItemsRelationManager extends RelationManager
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                \Filament\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\ForceDeleteBulkAction::make(),
+                    \Filament\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

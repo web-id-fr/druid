@@ -2,7 +2,7 @@
 
 namespace Webid\Druid\Repositories;
 
-use Awcodes\Curator\Models\Media;
+use Webid\Druid\Models\Media;
 
 class MediaRepository
 {

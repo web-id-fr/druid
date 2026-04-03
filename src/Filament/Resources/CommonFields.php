@@ -4,10 +4,10 @@ namespace Webid\Druid\Filament\Resources;
 
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 
 class CommonFields
 {
